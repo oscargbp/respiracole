@@ -88,6 +88,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 @keyframes latido{50%{opacity:.25}}
 @media (prefers-reduced-motion:reduce){.vivo{animation:none}}
 .lamp.sm.na{background:none;border:1.5px dashed var(--ink-3);color:var(--ink-3)}
+.seg button:disabled{opacity:.5;cursor:not-allowed;font-style:italic}
 .zoomctl[hidden]{display:none}
 .zoomctl{position:absolute;right:10px;top:10px;display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
 .zoomctl button{width:36px;height:36px;border:0;background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer}
@@ -658,7 +659,7 @@ function vistaHoy() {
         <div class="count c-bad"><b>${tPred.bad.toLocaleString("es-ES")}</b><span>interior</span></div></div></div>
     </div>
     <div class="row" style="margin-top:12px"><span class="muted">Ver en el mapa:</span><div class="seg" role="group" aria-label="Capa del mapa">
-      <button data-capa="hoy" aria-pressed="${st.capa === "hoy"}">${dia.vivo ? "Ahora" : "Hoy"}</button><button data-capa="pred" aria-pressed="${st.capa === "pred"}" ${dia.vivo && !dia.hayPrev ? "disabled" : ""}>Mañana previsto</button><button data-capa="real" aria-pressed="${st.capa === "real"}">${dia.vivo ? "Previsto ayer para hoy" : "Lo que pasó"}</button></div></div>
+      <button data-capa="hoy" aria-pressed="${st.capa === "hoy"}">${dia.vivo ? "Ahora" : "Hoy"}</button><button data-capa="pred" aria-pressed="${st.capa === "pred"}" ${dia.vivo && !dia.hayPrev ? `disabled title="La previsión de mañana se publica a las ${dia.horaPrev}:00, al acabar el horario escolar"` : ""}>${dia.vivo && !dia.hayPrev ? `Mañana previsto · sale a las ${dia.horaPrev}:00` : "Mañana previsto"}</button><button data-capa="real" aria-pressed="${st.capa === "real"}">${dia.vivo ? "Previsto ayer para hoy" : "Lo que pasó"}</button></div></div>
   </div>
   <div class="card school">
     ${cabeceraCentro(c)}
