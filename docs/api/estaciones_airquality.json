@@ -1,0 +1,1378 @@
+[
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28005002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.377949,
+    40.479328
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Alcalá de Henares"
+  },
+  "name": "Alcalá de Henares",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 24.0,
+  "o3": 63.0,
+  "pm10": 23.7,
+  "pm25": 6.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28006004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.645253,
+    40.540351
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Alcobendas"
+  },
+  "name": "Alcobendas",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 50.0,
+  "o3": 63.0,
+  "pm10": 15.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28007004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.835735,
+    40.341909
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Alcorcón"
+  },
+  "name": "Alcorcón",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 40.0,
+  "o3": 56.0,
+  "pm25": 15.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28009001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.503286,
+    40.599819
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Algete"
+  },
+  "name": "Algete",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 40.0,
+  "o3": 68.0,
+  "pm25": 9.9,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28013002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.591411,
+    40.033272
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Aranjuez"
+  },
+  "name": "Aranjuez",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 39.0,
+  "o3": 61.0,
+  "pm10": 12.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28014002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.458831,
+    40.300694
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Arganda del Rey"
+  },
+  "name": "Arganda del Rey",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 19.0,
+  "o3": 58.0,
+  "pm10": 12.7,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28047002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -4.01425,
+    40.633089
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Collado-Villalba"
+  },
+  "name": "Collado-Villalba",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 58.0,
+  "o3": 63.0,
+  "pm25": 20.5,
+  "airQualityIndex": 3,
+  "airQualityLevel": "regular"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28045002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.773865,
+    40.664649
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Colmenar Viejo"
+  },
+  "name": "Colmenar Viejo",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 27.0,
+  "o3": 63.0,
+  "pm10": 17.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28049003:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.542461,
+    40.43066
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Coslada"
+  },
+  "name": "Coslada",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 39.0,
+  "o3": 59.0,
+  "pm10": 23.8,
+  "pm25": 13.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28016001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.467903,
+    40.909019
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "El Atazar"
+  },
+  "name": "El Atazar",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 29.0,
+  "o3": 71.0,
+  "pm10": 3.9,
+  "pm25": 4.4,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28058004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.800946,
+    40.281505
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Fuenlabrada"
+  },
+  "name": "Fuenlabrada",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 33.0,
+  "o3": 59.0,
+  "pm10": 26.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28065014:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.716879,
+    40.314577
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Getafe"
+  },
+  "name": "Getafe",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 45.0,
+  "o3": 63.0,
+  "pm10": 25.7,
+  "pm25": 9.6,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28067001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.702147,
+    40.780633
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Guadalix de la Sierra"
+  },
+  "name": "Guadalix de la Sierra",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 21.0,
+  "o3": 67.0,
+  "pm10": 14.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28127004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.885583,
+    40.500639
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Las Rozas"
+  },
+  "name": "Las Rozas",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 28.0,
+  "o3": 68.0,
+  "pm10": 14.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28074007:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.754508,
+    40.339762
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Leganés"
+  },
+  "name": "Leganés",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 59.0,
+  "o3": 55.0,
+  "pm10": 27.1,
+  "pm25": 13.1,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28080003:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.868994,
+    40.446103
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Majadahonda"
+  },
+  "name": "Majadahonda",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 27.0,
+  "o3": 68.0,
+  "pm10": 14.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28092005:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.876772,
+    40.324225
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Móstoles"
+  },
+  "name": "Móstoles",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 39.0,
+  "o3": 60.0,
+  "pm10": 19.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28102001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.221094,
+    40.287556
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Orusco del Tajuña"
+  },
+  "name": "Orusco del Tajuña",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 2.0,
+  "o3": 75.0,
+  "pm10": 3.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28106001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.771389,
+    40.245917
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Parla"
+  },
+  "name": "Parla",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 40.0,
+  "o3": 59.0,
+  "pm25": 18.3,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28115003:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.808,
+    40.446611
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Pozuelo de Alarcón"
+  },
+  "name": "Pozuelo de Alarcón",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 30.0,
+  "o3": 62.0,
+  "pm25": 11.4,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28120001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.9612,
+    40.8251
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Rascafría"
+  },
+  "name": "Rascafría",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 3.0,
+  "o3": 86.0,
+  "pm10": 2.2,
+  "pm25": 5.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28123002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.542903,
+    40.359706
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Rivas Vaciamadrid"
+  },
+  "name": "Rivas Vaciamadrid",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 28.0,
+  "o3": 78.0,
+  "pm10": 23.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28133002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -4.398117,
+    40.367758
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "San Martín de Valdeiglesias"
+  },
+  "name": "San Martín de Valdeiglesias",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 9.0,
+  "o3": 69.0,
+  "pm10": 9.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28134002:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.635667,
+    40.569722
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "San Sebastián de los Reyes"
+  },
+  "name": "San Sebastián de los Reyes",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 32.0,
+  "o3": 61.0,
+  "pm10": 11.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28148004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.477645,
+    40.449541
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Torrejón de Ardoz"
+  },
+  "name": "Torrejón de Ardoz",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 29.0,
+  "o3": 76.0,
+  "pm10": 21.9,
+  "pm25": 10.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28161001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.680265,
+    40.185241
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Valdemoro"
+  },
+  "name": "Valdemoro",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 28.0,
+  "o3": 67.0,
+  "pm25": 20.6,
+  "airQualityIndex": 3,
+  "airQualityLevel": "regular"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28171001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -4.27515,
+    40.247937
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Villa del Prado"
+  },
+  "name": "Villa del Prado",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 12.0,
+  "o3": 67.0,
+  "pm10": 6.5,
+  "pm25": 6.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28180001:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.276569,
+    40.167228
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Villarejo de Salvanés"
+  },
+  "name": "Villarejo de Salvanés",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.comunidad.madrid",
+  "dataProvider": "RespiraCole",
+  "no2": 15.0,
+  "o3": 80.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079004:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.712257,
+    40.423882
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Plaza de España (Plaza de España)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 33.0,
+  "pm10": 19.1,
+  "pm25": 12.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079008:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.682316,
+    40.421553
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Escuelas Aguirre (Entre C/ Alcalá y C/ O’ Donell)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 47.0,
+  "o3": 66.0,
+  "pm10": 22.2,
+  "pm25": 12.7,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079011:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.677349,
+    40.451473
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Ramón y Cajal (Avda. Ramón y Cajal  esq. C/ Príncipe de Vergara)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 50.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079016:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.639242,
+    40.440046
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Arturo Soria (C/ Arturo Soria  esq. C/  Vizconde de los Asilos)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 43.0,
+  "o3": 63.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079017:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.713317,
+    40.347147
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Villaverde (C/ Juan Peñalver)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 53.0,
+  "o3": 63.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079018:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.731836,
+    40.394782
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Farolillo (C/ Farolillo - C/ Ervigio)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 42.0,
+  "o3": 65.0,
+  "pm10": 26.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079024:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.747345,
+    40.419358
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Casa de Campo (Casa de Campo  (Terminal del Teleférico))",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 36.0,
+  "o3": 65.0,
+  "pm10": 18.5,
+  "pm25": 14.3,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079027:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.580026,
+    40.476918
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Barajas Pueblo (C/ Júpiter, 21)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 73.0,
+  "o3": 62.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079035:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.703166,
+    40.419209
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Plaza del Carmen (Plaza del Carmen esq. Tres Cruces)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 47.0,
+  "o3": 65.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079036:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.64531,
+    40.407952
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Moratalaz (Avda. Moratalaz  esq. Camino de los Vinateros)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 45.0,
+  "pm10": 19.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079038:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.70713,
+    40.445544
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Cuatro Caminos (Avda. Pablo Iglesias esq. C/ Marqués de Lema)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 61.0,
+  "pm10": 21.7,
+  "pm25": 14.7,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079039:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.711536,
+    40.478232
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Barrio del Pilar (Avda. Betanzos esq. C/  Monforte de Lemos)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 46.0,
+  "o3": 57.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079040:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.651529,
+    40.388148
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Vallecas (C/ Arroyo del Olivar  esq. C/  Río Grande.)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 56.0,
+  "pm10": 20.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079047:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.686814,
+    40.398099
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Méndez Álvaro (C/ Juan de Mariana / Plaza Amanecer Méndez Álvaro)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 55.0,
+  "pm10": 22.2,
+  "pm25": 15.2,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079048:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.690373,
+    40.43989
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Castellana (C/ José Gutiérrez Abascal)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 52.0,
+  "pm10": 19.8,
+  "pm25": 13.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079049:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.6825,
+    40.414444
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Parque del Retiro (Paseo Venezuela- Palacio de Velázquez)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 54.0,
+  "o3": 67.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079050:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.688745,
+    40.465584
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Plaza Castilla (Plaza Castilla (Canal))",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 38.0,
+  "pm10": 21.8,
+  "pm25": 14.5,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079054:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.612139,
+    40.373012
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Ensanche de Vallecas (Avda. La Gavia / Avda. Las Suertes)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 44.0,
+  "o3": 72.0,
+  "pm10": 23.5,
+  "pm25": 14.4,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079056:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.718768,
+    40.385034
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Plaza Elíptica (Plaza Elíptica - Avda. Oporto)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 45.0,
+  "pm10": 23.3,
+  "pm25": 14.3,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079057:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.660517,
+    40.494201
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Sanchinarro (C/ Princesa de Éboli esq. C/ María Tudor)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 51.0,
+  "pm10": 17.7,
+  "pm25": 12.3,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079058:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.77461,
+    40.51807
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "El Pardo (Avda. La Guardia)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 31.0,
+  "o3": 69.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079059:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.609031,
+    40.465144
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Juan Carlos I (Parque Juan Carlos I (frente oficinas mantenimiento))",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 59.0,
+  "o3": 71.0,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ },
+ {
+  "id": "urn:ngsi-ld:AirQualityObserved:RespiraCole:28079060:2025-12-31",
+  "type": "AirQualityObserved",
+  "dateObserved": "2025-12-31T00:00:00+01:00",
+  "location": {
+   "type": "Point",
+   "coordinates": [
+    -3.689731,
+    40.500548
+   ]
+  },
+  "address": {
+   "addressCountry": "ES",
+   "addressRegion": "Comunidad de Madrid",
+   "addressLocality": "Madrid"
+  },
+  "name": "Tres Olivos (Plaza Tres Olivos)",
+  "description": "Métrica del semáforo RespiraCole: NO2 y O3, máximo horario de 9:00 a 17:00; PM10 y PM2,5, media diaria. µg/m³.",
+  "typeofLocation": "outdoor",
+  "source": "https://datos.madrid.es",
+  "dataProvider": "RespiraCole",
+  "no2": 48.0,
+  "o3": 66.0,
+  "pm10": 18.5,
+  "pm25": 13.8,
+  "airQualityIndex": 2,
+  "airQualityLevel": "razonablemente buena"
+ }
+]

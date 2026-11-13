@@ -1,0 +1,35 @@
+name: Tiempo real (cada hora)
+
+on:
+  schedule:
+    - cron: "25 * * * *"   # cada hora, al minuto 25 (las redes publican la hora anterior con algo de retraso)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-vivo.txt
+      - run: pip install -r requirements-vivo.txt
+      - name: Semáforo de ahora y previsión de mañana
+        run: python tiempo_real.py
+      - name: Guardar los datos nuevos
+        run: |
+          git config user.name "respiracole-bot"
+          git config user.email "respiracole-bot@users.noreply.github.com"
+          git add datos/tiempo_real.json datos/ultimos_dias.parquet demo/demo_vivo.js docs/demo_vivo.js
+          git diff --cached --quiet || git commit -m "Datos de la última hora"
+          git pull --rebase
+          git push

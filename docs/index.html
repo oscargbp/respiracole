@@ -1,0 +1,1994 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="RespiraCole: la calidad del aire en el entorno de cada centro escolar de la Comunidad de Madrid, con datos abiertos.">
+</head>
+<body>
+<title>RespiraCole</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: barra de app fija arriba (marca, buscador, pestañas); debajo, mapa a la izquierda y panel de lectura a la derecha; en móvil, mapa arriba y panel debajo. */
+:root{
+  --bg:#f3f6f7; --surface:#ffffff; --surface-2:#e9eef0; --ink:#13232b; --ink-2:#4a5d66; --ink-3:#6f8189;
+  --line:#d4dde1; --accent:#1f5f8b; --accent-soft:#dbe8f1; --on-accent:#ffffff;
+  --ok:#2e8b57; --ok-soft:#dcefe3; --warn:#b97d0c; --warn-soft:#f6ead0; --bad:#c2410c; --bad-soft:#f7e0d4;
+  --sim:#6b4fa0; --sim-soft:#ece6f5;
+  --map-bg:#e4ebee; --dot-dim:#b7c6cc;
+  --gm-bg:#e9ecef; --gm-via:#ffffff; --gm-borde:#c9ced6; --gm-ppal:#fde58a; --gm-ppal-borde:#e3b23c; --gm-parque:#cbe8d0; --gm-senda:#6fae82; --gm-rotulo:#4d545c; --gm-halo:#ffffff;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e171c; --surface:#15222a; --surface-2:#1c2c35; --ink:#e4edf0; --ink-2:#a7b8bf; --ink-3:#8496a0;
+  --line:#2a3c46; --accent:#6fb1df; --accent-soft:#1d3546; --on-accent:#0e171c;
+  --ok:#4cb87c; --ok-soft:#173527; --warn:#e2a93a; --warn-soft:#3a2f17; --bad:#f07a45; --bad-soft:#41261a;
+  --sim:#b59ae6; --sim-soft:#2b2440;
+  --map-bg:#122028; --dot-dim:#34464f; --gm-bg:#1f2a36; --gm-via:#3b4654; --gm-borde:#18212b; --gm-ppal:#7c6a45; --gm-ppal-borde:#18212b; --gm-parque:#22403a; --gm-senda:#4f8f6c; --gm-rotulo:#aab4c0; --gm-halo:#1f2a36; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e171c; --surface:#15222a; --surface-2:#1c2c35; --ink:#e4edf0; --ink-2:#a7b8bf; --ink-3:#8496a0;
+  --line:#2a3c46; --accent:#6fb1df; --accent-soft:#1d3546; --on-accent:#0e171c;
+  --ok:#4cb87c; --ok-soft:#173527; --warn:#e2a93a; --warn-soft:#3a2f17; --bad:#f07a45; --bad-soft:#41261a;
+  --sim:#b59ae6; --sim-soft:#2b2440;
+  --map-bg:#122028; --dot-dim:#34464f; --gm-bg:#1f2a36; --gm-via:#3b4654; --gm-borde:#18212b; --gm-ppal:#7c6a45; --gm-ppal-borde:#18212b; --gm-parque:#22403a; --gm-senda:#4f8f6c; --gm-rotulo:#aab4c0; --gm-halo:#1f2a36; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 20px;align-items:center;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand h1{font-size:24px;letter-spacing:-.01em}
+.brand h1 b{color:var(--accent)}
+.badge-demo{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;padding:2px 8px}
+.search{position:relative;min-width:0}
+.search input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.results{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 24px rgb(0 0 0 / .14);overflow:hidden;z-index:6}
+.results button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 12px;cursor:pointer}
+.results button:hover,.results button[aria-selected="true"]{background:var(--accent-soft)}
+.results small{display:block;color:var(--ink-3);font-size:12px}
+.tabs{grid-column:1/-1;display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;overflow-x:auto;justify-self:start;max-width:100%}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:9px;cursor:pointer;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+.tabs .aud{font-size:11px;font-weight:500;color:var(--ink-3);display:block;line-height:1.1}
+@media (max-width:640px){.top{grid-template-columns:1fr}}
+
+.main{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;padding-top:18px;align-items:start}
+@media (max-width:980px){.main{grid-template-columns:1fr}}
+.mapwrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + 132px);background:var(--map-bg);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+@media (max-width:980px){.mapwrap{position:relative;top:0}}
+.maphead{display:flex;flex-wrap:wrap;gap:8px 12px;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
+.maphead .ttl{font-weight:600;font-size:13px;color:var(--ink-2)}
+.dias5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.dias5 button{display:grid;justify-items:center;gap:3px;padding:8px 4px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;color:var(--ink);font:inherit;min-width:0}
+.dias5 button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);background:var(--accent-soft)}
+.d5d{font-size:12px;font-weight:600;text-transform:capitalize;color:var(--ink-2)}
+.d5i{font-size:24px;line-height:1.1}
+.d5t{font-size:13px;white-space:nowrap}.d5t b{font-size:15px}
+.d5l{font-size:12px;color:var(--ink-2);white-space:nowrap}
+.d5f{font-size:11px;color:var(--ink-3)}
+.lamp.xs{width:14px;height:14px;min-width:0;padding:0;border-radius:50%;font-size:0}
+.lamp.xs.ok{background:var(--ok)}.lamp.xs.warn{background:var(--warn)}.lamp.xs.bad{background:var(--bad)}.lamp.xs.na{background:none;border:1.5px dashed var(--ink-3)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.vivo{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-right:6px;animation:latido 1.6s ease-in-out infinite}
+@keyframes latido{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.vivo{animation:none}}
+.lamp.sm.na{background:none;border:1.5px dashed var(--ink-3);color:var(--ink-3)}
+.zoomctl[hidden]{display:none}
+.zoomctl{position:absolute;right:10px;top:10px;display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.zoomctl button{width:36px;height:36px;border:0;background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer}
+.zoomctl button+button{border-top:1px solid var(--line)}
+.zoomctl button:hover{background:var(--accent-soft)}
+.legend i.tri{width:0;height:0;border-radius:0;background:none!important;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid}
+ol.crit,ol.pasos{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px}
+ol.crit button,ol.pasos button{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:none;padding:8px;border-radius:9px;cursor:pointer;color:var(--ink);font:inherit}
+ol.crit button:hover,ol.pasos button:hover,ol.pasos button[aria-current]{background:var(--accent-soft)}
+ol.pasos li+li{border-top:1px solid var(--line)}
+.pico{flex:0 0 28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--surface-2,var(--accent-soft));font-size:16px;font-weight:700}
+.ptxt{display:grid;gap:3px}
+.cnum{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border-radius:6px;color:#fff;font-size:11px;font-weight:700;background:var(--bad)}
+.cnum.cruce{background:var(--warn)}
+.pcrit{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-2)}
+.seg[hidden]{display:none}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:5px 10px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+canvas#mapa{display:block;width:100%;aspect-ratio:1/1;cursor:crosshair;max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 12px;background:var(--surface);border-top:1px solid var(--line);font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.legend .sq{border-radius:2px;transform:rotate(45deg) scale(.85)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:5px 8px;border-radius:6px;max-width:240px;transform:translate(-50%,calc(-100% - 10px))}
+
+.panel{display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.card.sim{border-color:var(--sim);border-style:dashed}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--ink-3);margin:0}
+.lead{color:var(--ink-2);max-width:65ch}
+.muted{color:var(--ink-3);font-size:13px}
+.h3{font-size:17px;margin:4px 0 6px}
+.tag-sim{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sim);background:var(--sim-soft);border-radius:99px;padding:2px 8px;vertical-align:2px}
+.counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.count{border-radius:10px;padding:10px 12px}
+.count b{font-family:var(--f-mono);font-size:22px;display:block;line-height:1.1}
+.count span{font-size:12px;font-weight:600}
+.c-ok{background:var(--ok-soft);color:var(--ok)} .c-warn{background:var(--warn-soft);color:var(--warn)} .c-bad{background:var(--bad-soft);color:var(--bad)}
+.counts.small b{font-size:17px}
+
+.school h2{font-size:22px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 9px;color:var(--ink-2);background:var(--surface)}
+.light{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;margin-top:14px;padding:14px;border-radius:12px}
+.lamp{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-family:var(--f-display);font-size:13px;text-align:center;line-height:1.1}
+.lamp.sm{width:38px;height:38px;font-size:11px}
+.light h3{font-size:19px}
+.L-ok{background:var(--ok-soft)} .L-ok .lamp,.lamp.ok{background:var(--ok)}
+.L-warn{background:var(--warn-soft)} .L-warn .lamp,.lamp.warn{background:var(--warn)}
+.L-bad{background:var(--bad-soft)} .L-bad .lamp,.lamp.bad{background:var(--bad)}
+.tomorrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.tomorrow>div{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px}
+.polls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+@media (max-width:480px){.polls{grid-template-columns:repeat(2,minmax(0,1fr))}.tomorrow{grid-template-columns:1fr}}
+.poll{border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.poll .k{font-size:12px;color:var(--ink-3);font-weight:600}
+.poll .v{font-family:var(--f-mono);font-size:17px}
+.poll .q{font-size:11.5px;font-weight:600}
+.recs{margin:10px 0 0;padding-left:20px;display:grid;gap:6px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:9px;padding:8px 14px;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn[disabled]{opacity:.55;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font-size:14px;line-height:1.55;resize:vertical}
+select,input[type="number"]{padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--surface);max-width:100%}
+label.f{display:grid;gap:4px;font-size:13px;color:var(--ink-2);font-weight:600;min-width:0}
+
+.bars{display:grid;gap:14px;margin-top:10px}
+.bar .lab{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;font-size:13px}
+.bar .lab b{font-family:var(--f-mono)}
+.track{position:relative;height:12px;background:var(--surface-2);border-radius:6px;margin-top:6px}
+.fill{position:absolute;inset:0 auto 0 0;border-radius:6px}
+.tick{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.tick.ue{background:var(--ink-3)}
+.ticklab{position:absolute;top:16px;font-size:10.5px;color:var(--ink-2);transform:translateX(-50%);white-space:nowrap}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+@media (max-width:480px){.grid2,.grid3{grid-template-columns:1fr}}
+.kv{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.kv .k{font-size:12px;color:var(--ink-3)} .kv .v{font-weight:600}
+.kv .v.big{font-family:var(--f-mono);font-size:22px}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+svg.chart text{fill:var(--ink-2);font-size:11px;font-family:var(--f-body)}
+.callout{border-left:3px solid var(--accent);padding:4px 0 4px 12px;margin-top:10px;color:var(--ink-2);font-size:14px}
+.headline{font-family:var(--f-display);font-size:21px;line-height:1.25;max-width:42ch;margin:8px 0 0}
+.find{display:grid;gap:10px;margin:12px 0 0;padding:0;list-style:none}
+.find li{padding-left:16px;position:relative}
+.find li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+.tablewrap{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;max-height:420px}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{position:sticky;top:0;background:var(--surface-2);font-size:12px;color:var(--ink-2);cursor:pointer;user-select:none}
+th[aria-sort]::after{content:" ▾";color:var(--accent)}
+td.n{text-align:right;font-family:var(--f-mono)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--accent-soft)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+td .nm{max-width:240px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:bottom}
+.star{border:0;background:none;cursor:pointer;font-size:16px;line-height:1;color:var(--ink-3);padding:0 2px}
+.star[aria-pressed="true"]{color:var(--warn)}
+
+.slider{display:grid;grid-template-columns:minmax(0,1fr) 120px 28px;gap:10px;align-items:center;font-size:13px}
+.slider input{width:100%}
+.inbox{display:grid;gap:8px;margin-top:10px}
+.msg{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:4px}
+.msg .when{font-size:12px;color:var(--ink-3)}
+.msg b.ok{color:var(--ok)} .msg b.warn{color:var(--warn)} .msg b.bad{color:var(--bad)}
+
+.chat{display:grid;gap:10px;margin-top:10px}
+.bub{padding:10px 12px;border-radius:12px;max-width:92%;white-space:pre-wrap;line-height:1.5;font-size:14.5px}
+.bub.u{justify-self:end;background:var(--accent);color:var(--on-accent);border-bottom-right-radius:4px}
+.bub.a{justify-self:start;background:var(--surface-2);border-bottom-left-radius:4px}
+.bub.a.wait{color:var(--ink-3);font-style:italic}
+.chatbox{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:12px}
+.chatbox input{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);min-width:0}
+.sugs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sugs button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--ink-2);text-align:left}
+.sugs button:hover{border-color:var(--accent);color:var(--accent)}
+.toolnote{font-size:12px;color:var(--ink-3);font-family:var(--f-mono)}
+pre.code{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;font-family:var(--f-mono);font-size:12.5px;line-height:1.5;margin:8px 0 0;max-height:320px;white-space:pre}
+.ep{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;margin-top:8px;font-size:13px}
+.ep code{font-family:var(--f-mono);font-size:12.5px;word-break:break-all}
+.method{font-family:var(--f-mono);font-size:11px;font-weight:600;background:var(--ok-soft);color:var(--ok);border-radius:5px;padding:2px 6px;align-self:start}
+.foot{margin-top:24px;font-size:12px;color:var(--ink-3);max-width:90ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="brand"><h1>Respira<b>Cole</b></h1><span class="badge-demo">Demo</span></div>
+  <div class="search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="buscar" type="search" placeholder="Busca un centro por nombre, municipio o distrito" autocomplete="off" aria-label="Buscar centro" aria-controls="resultados">
+    <div class="results" id="resultados" hidden role="listbox"></div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Vistas">
+    <button role="tab" id="tab-hoy" data-vista="hoy">Hoy y mañana<span class="aud">Familias y centros</span></button>
+    <button role="tab" id="tab-ruta" data-vista="ruta">Camino al cole<span class="aud">Ruta a pie o en bici</span></button>
+    <button role="tab" id="tab-centro" data-vista="centro">Mi centro<span class="aud">Ficha e informe</span></button>
+    <button role="tab" id="tab-red" data-vista="red">Mi red<span class="aud">Redes y alertas</span></button>
+    <button role="tab" id="tab-equidad" data-vista="equidad">Equidad<span class="aud">Administración</span></button>
+    <button role="tab" id="tab-asistente" data-vista="asistente">Asistente<span class="aud">Pregunta con IA</span></button>
+    <button role="tab" id="tab-api" data-vista="api">API<span class="aud">Integraciones</span></button>
+  </nav>
+</header>
+
+<main class="main">
+  <section class="mapwrap" aria-label="Mapa de centros">
+    <div class="maphead">
+      <span class="ttl" id="mapTitulo">Semáforo del día por centro</span>
+      <div class="seg" role="group" aria-label="Encuadre del mapa">
+        <button id="zoomCM" aria-pressed="true">Comunidad</button>
+        <button id="zoomCap" aria-pressed="false">Madrid capital</button>
+      </div>
+    </div>
+    <div style="position:relative">
+      <canvas id="mapa" aria-label="Mapa con los centros escolares"></canvas>
+      <div class="tip" id="tip" hidden></div>
+      <div class="zoomctl" id="zoomRuta" hidden>
+        <button id="zMas" aria-label="Acercar">+</button><button id="zMenos" aria-label="Alejar">−</button><button id="zAjustar" aria-label="Volver al encuadre inicial" title="Volver al encuadre inicial">⤢</button>
+      </div>
+    </div>
+    <div class="legend" id="leyenda"></div>
+  </section>
+  <section class="panel" id="panel"></section>
+</main>
+
+<p class="foot">Demo de concepto de RespiraCole para DATAMAD 2026. Datos abiertos de la Comunidad de Madrid (centros educativos, Red de Calidad del Aire y meteorología, renta, padrón, densidad y parque de vehículos) y del Ayuntamiento de Madrid (red municipal de calidad del aire, indicadores de distrito, aforos de tráfico y accidentes). La exposición de cada centro es una estimación a partir de la estación más cercana que mide cada contaminante. Las alertas y el sensor del patio son simulaciones.</p>
+
+<script src="demo_datos.js"></script>
+<script src="demo_pronostico.js"></script>
+<script src="demo_vivo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(() => {
+const D = window.RC_DATOS;
+const centros = D.centros.map(r => Object.fromEntries(D.campos.map((c, i) => [c, r[i]])));
+const porCodigo = new Map(centros.map(c => [c.codigo, c]));
+const est = D.estaciones;
+const OMS = {NO2: 10, PM10: 15, PM25: 5};
+const UE = {NO2: 40, PM10: 40, PM25: 25};
+const NOMBRE = {NO2: "NO₂", PM10: "PM10", PM25: "PM2,5", O3: "Ozono"};
+const ICA = ["Buena", "Razonablemente buena", "Regular", "Desfavorable", "Muy desfavorable", "Extremadamente desfavorable"];
+const COLOR_TXT = {ok: "Verde", warn: "Ámbar", bad: "Rojo"};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d = 1) => v == null || Number.isNaN(v) ? "—" : Number(v).toLocaleString("es-ES", {minimumFractionDigits: d, maximumFractionDigits: d});
+const norm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const fechaLarga = f => new Date(f + "T12:00").toLocaleDateString("es-ES", {weekday: "long", day: "numeric", month: "long", year: "numeric"});
+const fechaCorta = f => new Date(f + "T12:00").toLocaleDateString("es-ES", {weekday: "long", day: "numeric", month: "long"});
+const store = {
+  get(k, def) { try { const v = localStorage.getItem("rc_" + k); return v == null ? def : JSON.parse(v); } catch (e) { return def; } },
+  set(k, v) { try { localStorage.setItem("rc_" + k, JSON.stringify(v)); } catch (e) {} },
+};
+
+/* ---------- Estado ---------- */
+const st = {vista: "hoy", dia: 1, centro: null, zoom: "cm", capa: "hoy", pdia: 1,
+  red: {modo: "mis", zona: "", etapa: "", tit: "", orden: "no2"},
+  prio: {zona: "", w: {no2: 3, renta: 2, rojo: 2, trafico: 1, atrop: 1}}};
+st.vista = store.get("vista", "hoy");
+if (["hoy", "ruta", "centro", "red", "equidad", "asistente", "api"].includes(location.hash.slice(1))) st.vista = location.hash.slice(1);
+// Día en directo (tiempo_real.py): va el primero y es el que se abre por defecto
+const diaVivo = V => ({id: "vivo", vivo: true, fecha: V.fecha, nombre: "Hoy, en directo", valores: V.ahora, horas: V.horas, hora: V.hora_dato,
+  manana: {fecha: V.manana, pred: V.previsto_manana || {}, real: V.previsto_hoy}, hayPrev: !!V.previsto_manana, horaPrev: V.hora_prevision, redes: V.redes, generado: V.generado});
+if (window.RC_VIVO) { D.dias.unshift(diaVivo(window.RC_VIVO)); st.dia = 0; }
+st.centro = centros.filter(c => c.distrito === "Usera" && c.categoria === "Infantil y Primaria" && c.titularidad === "PÚBLICO")
+  .sort((a, b) => b.no2 - a.no2)[0] || centros[0];
+let misCentros = store.get("mis", null);
+if (!Array.isArray(misCentros)) misCentros = [st.centro.codigo, ...centros.filter(c => c.distrito === "Usera" && c.titularidad === "PÚBLICO" && c.categoria !== "Escuela infantil (0-3)").slice(0, 4).map(c => c.codigo)];
+misCentros = [...new Set(misCentros.filter(c => porCodigo.has(c)))];
+const alertCfg = Object.assign({canal: "correo", cuando: "vispera", umbral: "ambar"}, store.get("alertas", {}));
+const guardarMis = () => store.set("mis", misCentros);
+const esMio = c => misCentros.includes(c.codigo);
+function alternarMio(c) {
+  misCentros = esMio(c) ? misCentros.filter(x => x !== c.codigo) : [...misCentros, c.codigo];
+  guardarMis(); render(); dibujar();
+}
+
+/* ---------- Semáforo ---------- */
+function nivel(cont, v) {
+  if (v == null) return null;
+  const b = D.bandas[cont]; let i = 0;
+  while (i < b.length && v > b[i]) i++;
+  return i + 1;
+}
+const colorDeNivel = n => n <= 2 ? "ok" : n === 3 ? "warn" : "bad";
+function dist(lat1, lon1, lat2, lon2) {
+  const k = Math.PI / 180, x = (lon2 - lon1) * k * Math.cos((lat1 + lat2) / 2 * k), y = (lat2 - lat1) * k;
+  return Math.hypot(x, y) * 6371;
+}
+const fuentes = di => ({hoy: D.dias[di].valores, pred: D.dias[di].manana.pred, real: D.dias[di].manana.real});
+const cacheSem = new Map();
+function semaforo(c, di, tipo = "hoy") {
+  const key = c.codigo + "|" + di + "|" + tipo;
+  if (cacheSem.has(key)) return cacheSem.get(key);
+  const valores = /^p\d$/.test(tipo) ? pronValores(+tipo.slice(1)) : fuentes(di)[tipo], out = {conts: {}, peor: 0, dom: null};
+  for (const cont of ["NO2", "PM10", "PM25", "O3"]) {
+    const vals = valores[cont] || {};
+    let best = null, bd = Infinity;
+    for (const k in vals) { const e = est[k]; const d = dist(c.lat, c.lon, e.lat, e.lon); if (d < bd) { bd = d; best = +k; } }
+    if (best == null) continue;
+    const v = vals[best], n = nivel(cont, v);
+    out.conts[cont] = {v, n, est: best, d: bd};
+    if (n > out.peor) { out.peor = n; out.dom = cont; }
+  }
+  out.color = out.peor ? colorDeNivel(out.peor) : "ok";
+  cacheSem.set(key, out);
+  return out;
+}
+function recuento(lista, di, tipo) {
+  const t = {ok: 0, warn: 0, bad: 0};
+  for (const c of lista) t[semaforo(c, di, tipo).color]++;
+  return t;
+}
+
+/* ---------- Mapa ---------- */
+const cv = document.getElementById("mapa"), ctx = cv.getContext("2d"), tip = document.getElementById("tip");
+const EXT = {cm: [-4.58, -3.03, 39.88, 41.17], cap: [-3.84, -3.52, 40.31, 40.52]};
+const rampaQ = ["#7a3e9d", "#a073bd", "#b9b0c2", "#7fb0c9", "#2f7fa8"];
+let proj = null, invProj = null, puntos = [];
+const zk = () => st.zoom;
+function setProj() {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const [x0, x1, y0, y1] = EXT[zk()], kx = Math.cos(40.4 * Math.PI / 180);
+  const w = r.width, h = r.height, pad = 14;
+  const s = Math.min((w - 2 * pad) / ((x1 - x0) * kx), (h - 2 * pad) / (y1 - y0));
+  const ox = (w - (x1 - x0) * kx * s) / 2, oy = (h - (y1 - y0) * s) / 2;
+  // zoom y desplazamiento del usuario sobre el encuadre base; se reinicia al cambiar de encuadre
+  const clave = zk();
+  if (clave !== mv.clave) { mv.k = 1; mv.dx = 0; mv.dy = 0; mv.clave = clave; }
+  proj = (lon, lat) => [(ox + (lon - x0) * kx * s) * mv.k + mv.dx, (oy + (y1 - lat) * s) * mv.k + mv.dy];
+  invProj = (px, py) => [x0 + ((px - mv.dx) / mv.k - ox) / (kx * s), y1 - ((py - mv.dy) / mv.k - oy) / s];
+}
+const mv = {k: 1, dx: 0, dy: 0, clave: ""};
+function zoomMapa(f, px, py) {
+  const w = cv.clientWidth, h = cv.clientHeight; px ??= w / 2; py ??= h / 2;
+  const k2 = Math.min(60, Math.max(.6, mv.k * f)), g = k2 / mv.k;
+  mv.dx = px - (px - mv.dx) * g; mv.dy = py - (py - mv.dy) * g; mv.k = k2;
+  dibujar();
+}
+function moverMapa(dx, dy) { mv.dx += dx; mv.dy += dy; dibujar(); }
+function vistaUtm() {
+  // centro y radio (m) de lo que se ve en el mapa general, en UTM
+  const w = cv.clientWidth, h = cv.clientHeight, [lon, lat] = invProj(w / 2, h / 2), [lon2, lat2] = invProj(0, 0);
+  const [x, y] = utmDe({lat, lon}), [x2, y2] = utmDe({lat: lat2, lon: lon2});
+  return {x, y, R: Math.hypot(x2 - x, y2 - y)};
+}
+function rampa(v, lo, hi) {
+  if (v == null) return css("--dot-dim");
+  const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+  const a = [46, 139, 87], b = [214, 160, 40], c = [176, 42, 52];
+  const m = t < .5 ? a.map((x, i) => x + (b[i] - x) * t * 2) : b.map((x, i) => x + (c[i] - x) * (t - .5) * 2);
+  return `rgb(${m.map(Math.round).join(",")})`;
+}
+let redActual = [];
+function estiloCentro(c) {
+  // devuelve [color, prioridad de dibujo]
+  const v = st.vista;
+  if (v === "centro") return [rampa(c.no2, 5, 36), c.no2 || 0];
+  if (v === "equidad") {
+    if (prioTop.has(c.codigo)) return [css("--ink"), 100];
+    return [c.quintil ? rampaQ[c.quintil - 1] : css("--dot-dim"), 0];
+  }
+  if (v === "red") {
+    if (!redSet.has(c.codigo)) return [css("--dot-dim"), -1];
+    const col = semaforo(c, st.dia, "hoy").color;
+    return [css("--" + col), {ok: 1, warn: 2, bad: 3}[col]];
+  }
+  const tipo = v === "hoy" ? st.capa : "hoy";
+  const col = semaforo(c, st.dia, tipo).color;
+  return [css("--" + col), {ok: 0, warn: 1, bad: 2}[col]];
+}
+let redSet = new Set(), prioTop = new Set();
+function dibujar() {
+  if (st.vista === "ruta") return dibujarRuta();
+  setProj();
+  const w = cv.clientWidth, h = cv.clientHeight;
+  ctx.clearRect(0, 0, w, h);
+  ctx.strokeStyle = css("--line"); ctx.lineWidth = 1; ctx.globalAlpha = .6;
+  const [x0, x1, y0, y1] = EXT[zk()], paso = zk() === "cm" ? .25 : zk() === "cap" ? .05 : .01;
+  for (let lon = Math.ceil(x0 / paso) * paso; lon < x1; lon += paso) { const [a] = proj(lon, y0); ctx.beginPath(); ctx.moveTo(a, 0); ctx.lineTo(a, h); ctx.stroke(); }
+  for (let lat = Math.ceil(y0 / paso) * paso; lat < y1; lat += paso) { const [, b] = proj(x0, lat); ctx.beginPath(); ctx.moveTo(0, b); ctx.lineTo(w, b); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  const r = (zk() === "cm" ? 2.3 : zk() === "cap" ? 3.4 : 4.5) * Math.min(2.6, Math.max(1, Math.sqrt(mv.k)));
+  puntos = [];
+  const orden = centros.map(c => [c, ...estiloCentro(c)]).sort((a, b) => a[2] - b[2]);
+  for (const [c, col, pr] of orden) {
+    const [x, y] = proj(c.lon, c.lat);
+    if (x < -5 || y < -5 || x > w + 5 || y > h + 5) continue;
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, pr === 100 ? r + 1.6 : r, 0, 7); ctx.fill();
+    puntos.push([x, y, c]);
+  }
+  ctx.lineWidth = 1.5;
+  for (const e of est) {
+    const [x, y] = proj(e.lon, e.lat);
+    if (x < 0 || y < 0 || x > w || y > h) continue;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4);
+    ctx.fillStyle = css("--surface"); ctx.strokeStyle = css("--ink");
+    ctx.fillRect(-4, -4, 8, 8); ctx.strokeRect(-4, -4, 8, 8); ctx.restore();
+  }
+  if (st.centro) {
+    const [x, y] = proj(st.centro.lon, st.centro.lat);
+    ctx.strokeStyle = css("--ink"); ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, 9, 0, 7); ctx.stroke();
+    ctx.strokeStyle = css("--surface"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, 11.5, 0, 7); ctx.stroke();
+  }
+  ctx.fillStyle = css("--ink-2"); ctx.font = "600 12px " + css("--f-body");
+  if (mv.k > 1.5 && puntos.length <= 45) {
+    ctx.font = "600 11px " + css("--f-body"); ctx.lineWidth = 3; ctx.strokeStyle = css("--map-bg") || css("--surface"); ctx.fillStyle = css("--ink");
+    const puestos = [];
+    for (const [x, y, c] of puntos) { const t = c.nombre.length > 28 ? c.nombre.slice(0, 27) + "…" : c.nombre, an = ctx.measureText(t).width;
+      if (puestos.some(q => x + 8 < q[0] + q[2] && x + 8 + an > q[0] && Math.abs(y - q[1]) < 13)) continue;
+      puestos.push([x + 8, y, an]); ctx.strokeText(t, x + 8, y + 4); ctx.fillText(t, x + 8, y + 4); }
+  }
+  const ref = st.zoom === "cm"
+    ? [["Madrid", -3.66, 40.47], ["Alcalá de Henares", -3.36, 40.49], ["Aranjuez", -3.60, 40.03], ["Collado Villalba", -4.00, 40.64], ["Buitrago", -3.64, 40.99], ["S. Martín de Valdeiglesias", -4.40, 40.36]]
+    : [["Centro", -3.705, 40.418], ["Usera", -3.71, 40.384], ["Villaverde", -3.70, 40.345], ["Chamartín", -3.677, 40.462], ["Moncloa", -3.74, 40.44], ["Vallecas", -3.63, 40.37], ["Hortaleza", -3.64, 40.475]];
+  for (const [t, lon, lat] of ref) { const [x, y] = proj(lon, lat); ctx.fillText(t, x + 8, y - 8); }
+}
+function cercano(ev) {
+  const r = cv.getBoundingClientRect(), mx = ev.clientX - r.left, my = ev.clientY - r.top;
+  let best = null, bd = 144;
+  for (const [x, y, c] of puntos) { const d = (x - mx) ** 2 + (y - my) ** 2; if (d < bd) { bd = d; best = [x, y, c]; } }
+  return best;
+}
+cv.addEventListener("mousemove", ev => {
+  if (gesto.ptr.size) { tip.hidden = true; return; }
+  if (st.vista === "ruta") { const rc = cv.getBoundingClientRect(); return tipRuta(ev.clientX - rc.left, ev.clientY - rc.top); }
+  const p = cercano(ev);
+  if (!p) { tip.hidden = true; return; }
+  tip.hidden = false; tip.style.left = p[0] + "px"; tip.style.top = p[1] + "px";
+  tip.innerHTML = `<b>${esc(p[2].nombre)}</b><br>${esc(p[2].municipio)}${p[2].distrito ? " · " + esc(p[2].distrito) : ""}`;
+});
+cv.addEventListener("mouseleave", () => tip.hidden = true);
+cv.addEventListener("click", ev => {
+  if (st.vista === "ruta" || gesto.movido) return;
+  const p = cercano(ev); if (p) elegir(p[2]);
+});
+document.getElementById("zoomCM").onclick = () => setZoom("cm");
+document.getElementById("zoomCap").onclick = () => setZoom("cap");
+function setZoom(z) {
+  st.zoom = z;
+  document.getElementById("zoomCM").setAttribute("aria-pressed", z === "cm");
+  document.getElementById("zoomCap").setAttribute("aria-pressed", z === "cap");
+  dibujar();
+}
+new ResizeObserver(() => dibujar()).observe(cv);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { dibujar(); render(); });
+
+function leyenda() {
+  const L = document.getElementById("leyenda"), T = document.getElementById("mapTitulo");
+  const rombo = `<span><i class="sq" style="background:var(--surface);border:1.5px solid var(--ink)"></i>Estación de medida</span>`;
+  const sem = `<span><i style="background:var(--ok)"></i>Actividad normal</span><span><i style="background:var(--warn)"></i>Precaución</span><span><i style="background:var(--bad)"></i>Actividad en interior</span>`;
+  const v = st.vista;
+  document.querySelector(".maphead .seg").hidden = v === "ruta";
+  document.getElementById("zoomRuta").hidden = false;
+  // en el mapa general, un dedo en vertical sigue desplazando la página salvo que se haya acercado el mapa
+  cv.style.touchAction = v === "ruta" || mv.k !== 1 ? "none" : "pan-y";
+  cv.style.cursor = v === "ruta" ? (ruta.marcar ? "crosshair" : "grab") : "grab";
+  if (v === "ruta") {
+    T.textContent = "Camino al colegio";
+    L.innerHTML = `<span><i style="background:var(--ok)"></i>Ruta más saludable</span><span><i style="background:var(--ink-3)"></i>Ruta más corta</span><span><i style="background:var(--gm-parque);outline:1px solid var(--gm-senda)"></i>Parques y sendas</span><span><i style="background:var(--gm-ppal);outline:1px solid var(--gm-ppal-borde)"></i>Calles con mucho tráfico</span><span><i style="background:var(--bad)"></i>Atropello (más grande: con menores)</span><span><i class="tri" style="border-bottom-color:var(--bad)"></i>Punto crítico</span><span class="muted">Pasa el ratón (o toca) sobre un punto o una calle para ver qué es. Rueda o pellizco para acercar.</span>`;
+    return;
+  }
+  if (v === "centro") {
+    T.textContent = "NO₂ medio 2021-2025 en el entorno de cada centro";
+    L.innerHTML = `<span><i style="background:${rampa(8, 5, 36)}"></i>≤ 10 µg/m³ (guía OMS)</span><span><i style="background:${rampa(20, 5, 36)}"></i>20</span><span><i style="background:${rampa(30, 5, 36)}"></i>30</span><span><i style="background:${rampa(36, 5, 36)}"></i>≥ 35</span>${rombo}`;
+  } else if (v === "equidad") {
+    T.textContent = "Renta de la zona (quintiles) y centros prioritarios";
+    L.innerHTML = rampaQ.map((c, i) => `<span><i style="background:${c}"></i>${i === 0 ? "Q1 renta más baja" : i === 4 ? "Q5 más alta" : "Q" + (i + 1)}</span>`).join("") + `<span><i style="background:var(--ink)"></i>Prioritario</span>`;
+  } else if (v === "red") {
+    T.textContent = "Centros de la red seleccionada, semáforo del día";
+    L.innerHTML = sem + `<span><i style="background:var(--dot-dim)"></i>Fuera de la red</span>`;
+  } else {
+    const dv = D.dias[st.dia].vivo;
+    T.textContent = v === "hoy" && /^p\d$/.test(st.capa) && PRON ? `Semáforo previsto (Copernicus) · ${fechaCorta(PRON.dias[+st.capa.slice(1)])}` : v === "hoy" && st.capa !== "hoy" ? (st.capa === "pred" ? "Semáforo previsto para mañana" : dv ? "Lo que RespiraCole previó ayer para hoy" : "Semáforo que hubo al día siguiente") : dv ? `Semáforo de ahora · datos hasta las ${D.dias[st.dia].hora}:00` : "Semáforo del día por centro";
+    L.innerHTML = sem + rombo;
+  }
+}
+
+/* ---------- Buscador ---------- */
+const inp = document.getElementById("buscar"), res = document.getElementById("resultados");
+const idxBusca = centros.map(c => [norm(c.nombre + " " + c.municipio + " " + c.distrito), c]);
+let sel = -1, lista = [];
+function buscar(q, n = 8) {
+  const ts = norm(q).trim().split(/\s+/).filter(Boolean);
+  if (!ts.length) return [];
+  return idxBusca.filter(([t]) => ts.every(x => t.includes(x))).slice(0, n).map(x => x[1]);
+}
+inp.addEventListener("input", () => {
+  if (norm(inp.value).trim().length < 2) { res.hidden = true; return; }
+  lista = buscar(inp.value); sel = -1;
+  res.innerHTML = lista.length ? lista.map((c, i) => `<button role="option" data-i="${i}" aria-selected="false">${esc(c.nombre)}<small>${esc(c.categoria)} · ${esc(c.municipio)}${c.distrito ? " · " + esc(c.distrito) : ""}</small></button>`).join("")
+    : `<div class="muted" style="padding:10px 12px">No hay centros con ese nombre. Prueba con el municipio.</div>`;
+  res.hidden = false;
+});
+inp.addEventListener("keydown", e => {
+  if (res.hidden || !lista.length) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault(); sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + lista.length) % lista.length;
+    [...res.children].forEach((b, i) => b.setAttribute("aria-selected", i === sel));
+  } else if (e.key === "Enter") { e.preventDefault(); elegir(lista[Math.max(sel, 0)]); }
+  else if (e.key === "Escape") res.hidden = true;
+});
+res.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (b) elegir(lista[+b.dataset.i]); });
+document.addEventListener("click", e => { if (!e.target.closest(".search")) res.hidden = true; });
+function elegir(c) {
+  st.centro = c; res.hidden = true; inp.value = "";
+  if (st.vista === "ruta") { ruta.res = null; ruta.vista = null; render(); dibujar(); return; }
+  if (["equidad", "api", "red"].includes(st.vista)) setVista("centro"); else { render(); dibujar(); }
+  if (st.vista === "centro" || st.vista === "hoy") panel.scrollIntoView({behavior: "smooth", block: "start"});
+}
+
+/* ---------- Pestañas ---------- */
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => setVista(b.dataset.vista));
+function setVista(v) {
+  st.vista = v; store.set("vista", v);
+  document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.vista === v));
+  render(); dibujar();
+}
+
+/* ---------- Gráficos ---------- */
+function grafHoras(series, opts) {
+  const W = 560, H = 190, l = 38, r = 12, t = 14, b = 28;
+  const max = Math.max(opts.umbral || 0, ...series.flatMap(s => s.vals.filter(v => v != null))) * 1.12 || 10;
+  const x = h => l + (W - l - r) * h / 23, y = v => t + (H - t - b) * (1 - v / max);
+  const paso = max > 300 ? 100 : max > 120 ? 50 : max > 60 ? 20 : 10;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.aria)}">`;
+  s += `<rect x="${x(9)}" y="${t}" width="${x(17) - x(9)}" height="${H - t - b}" fill="var(--accent-soft)"/>`;
+  s += `<text x="${(x(9) + x(17)) / 2}" y="${t + 12}" text-anchor="middle" style="font-weight:600">Horario lectivo</text>`;
+  for (let v = 0; v <= max; v += paso) s += `<line x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  for (const h of [0, 6, 9, 12, 15, 17, 21]) s += `<text x="${x(h)}" y="${H - 8}" text-anchor="middle">${h}:00</text>`;
+  if (opts.umbral) s += `<line x1="${l}" x2="${W - r}" y1="${y(opts.umbral)}" y2="${y(opts.umbral)}" stroke="var(--ink-2)" stroke-dasharray="4 4"/><text x="${W - r}" y="${y(opts.umbral) - 5}" text-anchor="end">${esc(opts.umbralTxt)}</text>`;
+  for (const se of series) {
+    let d = "", pen = false;
+    se.vals.forEach((v, h) => { if (v == null) { pen = false; return; } d += (pen ? "L" : "M") + x(h).toFixed(1) + " " + y(v).toFixed(1); pen = true; });
+    s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2.5" stroke-linejoin="round" ${se.dash ? 'stroke-dasharray="5 4"' : ""}/>`;
+    if (se.pico !== false) {
+      const vs = se.vals.map((v, h) => [v, h]).filter(a => a[0] != null), pk = vs.reduce((a, c) => c[0] > a[0] ? c : a, [-1, 0]);
+      if (pk[0] >= 0) s += `<circle cx="${x(pk[1])}" cy="${y(pk[0])}" r="4" fill="${se.color}"/><text x="${Math.min(x(pk[1]), W - 60)}" y="${y(pk[0]) - 8}" style="font-weight:600;fill:${se.color}">${Math.round(pk[0])}</text>`;
+    }
+  }
+  s += `<text x="${l - 6}" y="${t - 3}" text-anchor="end">µg/m³</text></svg>`;
+  return s;
+}
+function grafMeses(vals, color) {
+  const W = 560, H = 120, l = 30, r = 8, t = 10, b = 22, M = "EFMAMJJASOND";
+  const max = Math.max(...vals.filter(v => v != null)) * 1.15, bw = (W - l - r) / 12;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="NO₂ medio por mes">`;
+  vals.forEach((v, i) => {
+    if (v == null) return;
+    const hgt = (H - t - b) * v / max, xx = l + i * bw + 3;
+    s += `<rect x="${xx}" y="${H - b - hgt}" width="${bw - 6}" height="${hgt}" rx="3" fill="${color}" opacity="${[6, 7].includes(i) ? .45 : 1}"/><text x="${xx + (bw - 6) / 2}" y="${H - 7}" text-anchor="middle">${M[i]}</text>`;
+  });
+  return s + `</svg>`;
+}
+function grafEpisodios(ep) {
+  const W = 560, H = 170, l = 34, r = 10, t = 16, b = 28;
+  const max = Math.max(10, ...ep.map(e => e ? e[0] + e[1] : 0)) * 1.15, bw = (W - l - r) / D.cursos.length;
+  const y = v => t + (H - t - b) * (1 - v / max);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Días lectivos en ámbar y rojo por curso">`;
+  const paso = max > 80 ? 20 : 10;
+  for (let v = 0; v <= max; v += paso) s += `<line x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  ep.forEach((e, i) => {
+    if (!e) return;
+    const x = l + i * bw + bw * .22, w = bw * .56;
+    s += `<rect x="${x}" y="${y(e[1])}" width="${w}" height="${y(0) - y(e[1])}" fill="var(--bad)"/>`;
+    s += `<rect x="${x}" y="${y(e[0] + e[1])}" width="${w}" height="${y(e[1]) - y(e[0] + e[1])}" fill="var(--warn)"/>`;
+    s += `<text x="${x + w / 2}" y="${y(e[0] + e[1]) - 5}" text-anchor="middle" style="font-weight:600">${e[0] + e[1]}</text>`;
+    s += `<text x="${x + w / 2}" y="${H - 8}" text-anchor="middle">${D.cursos[i]}</text>`;
+  });
+  return s + `</svg>`;
+}
+
+/* ---------- Textos compartidos ---------- */
+const panel = document.getElementById("panel");
+function cabeceraCentro(c, extra = "") {
+  return `<p class="eyebrow">${esc(c.categoria)}</p><h2>${esc(c.nombre)}</h2>
+    <div class="meta"><span class="chip">${esc(c.titularidad.charAt(0) + c.titularidad.slice(1).toLowerCase())}</span><span class="chip">${esc(c.municipio)}${c.distrito ? " · " + esc(c.distrito) : ""}</span><span class="chip">Código ${esc(c.codigo)}</span>${extra}</div>`;
+}
+const RECS = {
+  ok: ["Recreo y Educación Física al aire libre con normalidad.", "Buen momento para salidas y actividades en el exterior."],
+  warn: ["Recreo normal, pero evita la actividad física intensa y prolongada al aire libre.", "Atención al alumnado con asma u otros problemas respiratorios: que tenga a mano su medicación.", "Si hay salidas, mejor a primera hora de la mañana."],
+  bad: ["Traslada la Educación Física y la actividad física intensa al interior.", "Recreos más cortos o en espacios interiores para el alumnado sensible.", "Pospón las salidas y excursiones al aire libre.", "Ventila en las horas de menor contaminación y mantén las ventanas cerradas en las de mayor."],
+};
+const EXTRA = {
+  PM10: "Episodio de partículas, probablemente por polvo en suspensión: afecta a todo el día, no solo a las horas punta.",
+  PM25: "Partículas finas elevadas: afectan más al alumnado sensible y a los más pequeños.",
+  NO2: "El NO₂ procede sobre todo del tráfico: suele ser peor en la entrada al colegio y a última hora de la tarde.",
+  O3: "El ozono sube en las horas centrales de días soleados: concentra la actividad exterior por la mañana.",
+};
+const botonMio = c => `<button class="btn ghost" data-mio="${esc(c.codigo)}" aria-pressed="${esMio(c)}">${esMio(c) ? "★ En mis centros" : "☆ Avisarme de este centro"}</button>`;
+
+/* ---------- Vista: Hoy y mañana ---------- */
+function vistaHoy() {
+  const c = st.centro, dia = D.dias[st.dia], s = semaforo(c, st.dia, "hoy");
+  const tHoy = recuento(centros, st.dia, "hoy"), tPred = recuento(centros, st.dia, dia.vivo && !dia.hayPrev ? "real" : "pred");
+  const dom = s.dom, sd = s.conts[dom];
+  const recs = [...RECS[s.color]];
+  if (s.color !== "ok" && dom) recs.push(EXTRA[dom]);
+  const sp = semaforo(c, st.dia, "pred"), sr = semaforo(c, st.dia, "real");
+  const acierto = dia.vivo ? s.color === sr.color : sp.color === sr.color;
+  const e = est[s.conts.NO2?.est ?? s.conts.PM10?.est];
+  const hNO2 = dia.horas.NO2?.[s.conts.NO2?.est], hPM = dia.horas.PM10?.[s.conts.PM10?.est], hO3 = dia.horas.O3?.[s.conts.O3?.est];
+  const serie = [];
+  if (hNO2) serie.push({vals: hNO2, color: "var(--accent)"});
+  if (hPM && (dom === "PM10" || dom === "PM25")) serie.push({vals: hPM, color: "var(--bad)"});
+  if (hO3 && dom === "O3") serie.push({vals: hO3, color: "var(--warn)"});
+  const ev = D.evaluacion;
+  return `
+  <div class="card">
+    <p class="eyebrow">${dia.vivo ? `<span class="vivo"></span>En directo · datos hasta las ${dia.hora}:00 del ${fechaCorta(dia.fecha)}` : "Simulación con mañanas reales"}</p>
+    <div class="row" style="margin-top:8px"><div class="seg" role="group" aria-label="Día">${D.dias.map((d, i) => `<button data-dia="${i}" aria-pressed="${i === st.dia}">${esc(d.nombre)}</button>`).join("")}</div></div>
+    <p class="lead" style="margin:10px 0 0">${dia.vivo
+      ? `Datos provisionales de la Red de Calidad del Aire de la Comunidad de Madrid${dia.redes.ayuntamiento ? " y de la red del Ayuntamiento de Madrid" : ""}, que se publican cada hora${dia.directo ? " (recién consultados)" : ""}. ${dia.redes.ayuntamiento ? "" : "<b>La red del Ayuntamiento no está conectada ahora:</b> los centros de Madrid capital usan la estación de la Comunidad más cercana, que puede estar lejos."} Los otros botones reviven días pasados.`
+      : `Así habría amanecido RespiraCole el <b>${fechaLarga(dia.fecha)}</b>.`}</p>
+    <div class="grid2" style="margin-top:6px">
+      <div><p class="eyebrow" style="margin-top:8px">${dia.vivo ? "Ahora" : "Hoy"}</p><div class="counts small">
+        <div class="count c-ok"><b>${tHoy.ok.toLocaleString("es-ES")}</b><span>normal</span></div>
+        <div class="count c-warn"><b>${tHoy.warn.toLocaleString("es-ES")}</b><span>precaución</span></div>
+        <div class="count c-bad"><b>${tHoy.bad.toLocaleString("es-ES")}</b><span>interior</span></div></div></div>
+      <div><p class="eyebrow" style="margin-top:8px">${dia.vivo && !dia.hayPrev ? "Hoy, lo que se previó ayer" : "Mañana, previsto"}</p><div class="counts small">
+        <div class="count c-ok"><b>${tPred.ok.toLocaleString("es-ES")}</b><span>normal</span></div>
+        <div class="count c-warn"><b>${tPred.warn.toLocaleString("es-ES")}</b><span>precaución</span></div>
+        <div class="count c-bad"><b>${tPred.bad.toLocaleString("es-ES")}</b><span>interior</span></div></div></div>
+    </div>
+    <div class="row" style="margin-top:12px"><span class="muted">Ver en el mapa:</span><div class="seg" role="group" aria-label="Capa del mapa">
+      <button data-capa="hoy" aria-pressed="${st.capa === "hoy"}">${dia.vivo ? "Ahora" : "Hoy"}</button><button data-capa="pred" aria-pressed="${st.capa === "pred"}" ${dia.vivo && !dia.hayPrev ? "disabled" : ""}>Mañana previsto</button><button data-capa="real" aria-pressed="${st.capa === "real"}">${dia.vivo ? "Previsto ayer para hoy" : "Lo que pasó"}</button></div></div>
+  </div>
+  <div class="card school">
+    ${cabeceraCentro(c)}
+    <div class="light L-${s.color}">
+      <div class="lamp">${COLOR_TXT[s.color]}</div>
+      <div><h3>${{ok: "Actividad normal", warn: "Precaución", bad: "Actividad en interior"}[s.color]}</h3><div class="muted">${dom ? `Lo determina el ${NOMBRE[dom]}: ${fmt(sd.v, 0)} µg/m³, calidad «${ICA[sd.n - 1].toLowerCase()}» según el Índice de Calidad del Aire.` : "Sin datos para este día."}</div></div>
+    </div>
+    <div class="polls">${["NO2", "PM10", "PM25", "O3"].map(k => { const x = s.conts[k]; if (!x) return ""; const col = colorDeNivel(x.n);
+      return `<div class="poll"><div class="k">${NOMBRE[k]}</div><div class="v">${fmt(x.v, 0)}</div><div class="q" style="color:var(--${col})">${ICA[x.n - 1]}</div></div>`; }).join("")}</div>
+    <p class="muted" style="margin:8px 0 0">${dia.vivo ? `NO₂ y ozono: valor horario más alto ${dia.hora > 9 ? "desde las 9:00 hasta ahora" : "de la última hora (el horario escolar aún no ha empezado)"}. Partículas: media de las últimas 24 horas. Estación a ${fmt(sd?.d ?? 0, 1)} km.` : "NO₂ y ozono: valor horario más alto entre las 9:00 y las 17:00. Partículas: media del día."}</p>
+    <h3 class="h3" style="margin-top:16px">Mañana, ${fechaCorta(dia.manana.fecha)}</h3>
+    ${dia.vivo ? `<div class="tomorrow">
+      <div>${dia.hayPrev ? `<span class="lamp sm ${sp.color}">${COLOR_TXT[sp.color]}</span><div><b>Previsión para mañana</b><div class="muted">Calculada hoy con el modelo de RespiraCole${sp.dom ? ` · por ${NOMBRE[sp.dom]}` : ""}</div></div>`
+        : `<span class="lamp sm na">…</span><div><b>Previsión para mañana</b><div class="muted">Se publica a las ${dia.horaPrev}:00, al acabar el horario escolar</div></div>`}</div>
+      <div><span class="lamp sm ${sr.color}">${COLOR_TXT[sr.color]}</span><div><b>Lo que se previó ayer para hoy</b><div class="muted">${acierto ? "Por ahora, coincide" : {ok: 0, warn: 1, bad: 2}[s.color] < {ok: 0, warn: 1, bad: 2}[sr.color] ? "Por ahora, el día va mejor de lo previsto" : "Por ahora, el día va peor de lo previsto"}</div></div></div>
+    </div>` : `<div class="tomorrow">
+      <div><span class="lamp sm ${sp.color}">${COLOR_TXT[sp.color]}</span><div><b>Previsión</b><div class="muted">Publicada la víspera${sp.dom ? ` · por ${NOMBRE[sp.dom]}` : ""}</div></div></div>
+      <div><span class="lamp sm ${sr.color}">${COLOR_TXT[sr.color]}</span><div><b>Lo que pasó</b><div class="muted">${acierto ? "La previsión acertó" : "La previsión falló"}</div></div></div>
+    </div>`}
+    <h3 class="h3" style="margin-top:16px">Recomendaciones para hoy</h3>
+    <ul class="recs">${recs.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+    <div class="row" style="margin-top:14px"><button class="btn" id="btnAviso">Preparar aviso para familias</button>${botonMio(c)}</div>
+    <div id="avisoBox" hidden>
+      <textarea id="aviso" aria-label="Aviso para familias" style="min-height:180px;margin-top:10px"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn ghost" id="btnCopiar">Copiar texto</button><button class="btn ghost" id="btnAvisoIA" hidden>Reescribir con IA</button><span class="muted" id="copiado" aria-live="polite"></span></div>
+    </div>
+  </div>
+  ${vistaPronostico(c)}
+  <div class="card">
+    <p class="eyebrow">Evolución del día</p>
+    <h3 class="h3">Estación ${esc(e?.n || "")} <span class="muted">· a ${fmt(s.conts.NO2?.d ?? s.conts.PM10?.d, 1)} km</span></h3>
+    ${serie.length ? grafHoras(serie, {umbral: dom === "PM10" ? 50 : dom === "O3" ? 130 : 120, umbralTxt: "Umbral «desfavorable»", aria: "Concentración por horas"}) : `<p class="muted">Sin datos horarios.</p>`}
+    <div class="row muted" style="gap:14px;margin-top:4px"><span style="color:var(--accent);font-weight:600">— NO₂</span>${serie.length > 1 ? `<span style="color:${serie[1].color};font-weight:600">— ${dom === "O3" ? "Ozono" : "PM10"}</span>` : ""}</div>
+  </div>
+  <div class="card">
+    <p class="eyebrow">¿Cuánto acierta la previsión?</p>
+    <p class="lead" style="margin:6px 0 0">Evaluada con todo 2025, que el modelo no vio al entrenarse (${ev.n.toLocaleString("es-ES")} días lectivos de 52 estaciones).</p>
+    <div class="grid3">
+      <div class="kv"><div class="k">Días ámbar o rojo avisados</div><div class="v big">${fmt(ev.modelo[1], 0)} %</div><div class="muted">${fmt(ev.persistencia[1], 0)} % suponiendo que mañana será como hoy</div></div>
+      <div class="kv"><div class="k">Días rojos avisados</div><div class="v big">${fmt(ev.modelo[3], 0)} %</div><div class="muted">${fmt(ev.persistencia[3], 0)} % sin modelo</div></div>
+      <div class="kv"><div class="k">Avisos que acertaron</div><div class="v big">${fmt(ev.modelo[2], 0)} %</div><div class="muted">Usa calidad del aire y meteorología de la Comunidad</div></div>
+    </div>
+    <p class="muted" style="margin:10px 0 0">Una calima que llega de golpe no se puede anticipar con estos datos. En producción se añadirían las predicciones de AEMET y de polvo sahariano de Copernicus.</p>
+  </div>`;
+}
+function textoAviso(c, s) {
+  const dia = D.dias[st.dia], peq = /infantil/i.test(c.categoria);
+  const cuerpo = {
+    ok: `Hoy la calidad del aire en el entorno del centro es buena. Las actividades al aire libre se desarrollarán con normalidad.`,
+    warn: `Hoy la calidad del aire en el entorno del centro es regular, por el ${NOMBRE[s.dom]}. Mantendremos el recreo, pero reduciremos la actividad física intensa al aire libre.${peq ? " Prestaremos especial atención a los más pequeños." : ""} Si vuestro hijo o hija tiene asma u otra enfermedad respiratoria, aseguraos de que lleva su medicación.`,
+    bad: `Hoy la calidad del aire en el entorno del centro es desfavorable, por ${s.dom === "PM10" || s.dom === "PM25" ? "la alta concentración de partículas en suspensión" : "el " + NOMBRE[s.dom]}. Como medida de precaución, la Educación Física y la actividad física intensa se harán en el interior, y el alumnado más sensible pasará el recreo en espacios cubiertos. Si vuestro hijo o hija tiene asma u otra enfermedad respiratoria, aseguraos de que lleva su medicación y contactad con el centro ante cualquier síntoma.`,
+  }[s.color];
+  return `Estimadas familias:\n\nOs informamos de la situación de la calidad del aire para hoy, ${fechaCorta(dia.fecha)}.\n\n${cuerpo}\n\nSeguiremos la evolución durante la jornada y os avisaremos si hay cambios.\n\nUn saludo,\nEquipo directivo de ${c.nombre}`;
+}
+
+/* ---------- Vista: Mi centro ---------- */
+function sensorSimulado(c) {
+  // Simulación: la estación más cercana, ajustada por el tráfico de la calle más próxima y con ruido estable por centro
+  const dia = D.dias[st.dia], s = semaforo(c, st.dia, "hoy"), base = dia.horas.NO2?.[s.conts.NO2?.est];
+  if (!base) return null;
+  let seed = [...c.codigo].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 2147483647, 7);
+  const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  const factor = 1 + Math.min(1, (c.trafico || 4000) / 40000) * .35;
+  const sensor = base.map((v, h) => v == null ? null : Math.round(v * factor * (h >= 8 && h <= 9 || h >= 16 && h <= 17 ? 1.12 : 1) * (0.9 + rnd() * .2)));
+  return {base, sensor, factor};
+}
+function vistaCentro() {
+  const c = st.centro, e = c.est.NO2 ? est[c.est.NO2[0]] : null;
+  const barra = (k, v) => {
+    const max = 45, p = v => Math.min(100, v / max * 100);
+    return `<div class="bar"><div class="lab"><span>${NOMBRE[k]}</span><span><b>${fmt(v)}</b> µg/m³ · ${fmt(v / OMS[k], 1)} veces la guía OMS</span></div>
+      <div class="track"><div class="fill" style="width:${p(v)}%;background:${rampa(v / OMS[k], 1, 3.5)}"></div>
+      <div class="tick" style="left:${p(OMS[k])}%"></div><span class="ticklab" style="left:${p(OMS[k])}%">OMS ${OMS[k]}</span>
+      <div class="tick ue" style="left:${p(UE[k])}%"></div><span class="ticklab" style="left:${p(UE[k])}%">UE ${UE[k]}</span></div></div>`;
+  };
+  const ph = e?.ph?.NO2, pm = e?.pm?.NO2;
+  let picoTxt = "";
+  if (ph) {
+    const lect = ph.slice(7, 18).map((v, i) => [v, i + 7]).sort((a, b) => b[0] - a[0])[0];
+    picoTxt = `En esta zona, el NO₂ alcanza su máximo del horario escolar hacia las <b>${lect[1]}:00</b> (${Math.round(lect[0])} µg/m³ de media), coincidiendo con la entrada al colegio.`;
+  }
+  const fiab = {alta: "alta (estación a menos de 3 km)", media: "media (estación a 3-8 km)", baja: "baja (estación a más de 8 km)"}[c.fiabilidad] || c.fiabilidad;
+  const ctxCells = [
+    ["Densidad de población", c.dens_distrito != null ? `${fmt(c.dens_distrito, 0)} hab/ha en el distrito` : c.dens_muni != null ? `${fmt(c.dens_muni, 0)} hab/km² en el municipio` : "—"],
+    c.verde != null ? ["Zonas verdes del distrito", `${fmt(c.verde, 1)} ha por cada 10.000 habitantes`] : ["Vehículos del municipio", c.veh_1000 != null ? `${fmt(c.veh_1000, 0)} por cada 1.000 hab. · ${fmt(c.pct_sin_dist, 0)} % sin distintivo` : "Sin dato fiable (flotas domiciliadas)"],
+    c.trafico != null ? ["Calle con más tráfico a menos de 200 m", `${esc(c.calle.replace(/^[-\s]+/, ""))}: ${fmt(c.trafico, 0)} vehículos/día a ${fmt(c.trafico_dist, 0)} m`] : ["Calle con más tráfico cercana", c.municipio === "Madrid" ? "Ningún punto de aforo a menos de 200 m" : "Dato disponible solo en Madrid capital"],
+    ["Renta de la zona", c.renta != null ? `Índice ${fmt(c.renta, 0)} (media regional = 100)` : "—"],
+  ];
+  const ult = c.ep?.[3];
+  const sen = sensorSimulado(c);
+  return `
+  <div class="card school">${cabeceraCentro(c)}
+    <div class="row" style="margin-top:12px">${botonMio(c)}<button class="btn" id="btnInforme">Descargar informe anual (PDF)</button><span class="muted" id="informeMsg" aria-live="polite"></span></div>
+    <p class="lead" style="margin:14px 0 0">Aire que respira el alumnado de este centro, de media entre 2021 y 2025.</p>
+    <div class="bars">${barra("NO2", c.no2)}${barra("PM10", c.pm10)}${barra("PM25", c.pm25)}</div>
+    <p class="muted" style="margin:24px 0 0">La línea negra marca la guía de salud de la OMS y la gris, el límite legal de la UE. Ningún centro de la Comunidad supera el límite legal, pero casi todos superan la guía de la OMS.</p>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Días con el semáforo en ámbar o rojo</p>
+    <h3 class="h3">Días lectivos por curso${ult ? ` · ${ult[1]} días rojos en 2024-25` : ""}</h3>
+    ${c.ep ? grafEpisodios(c.ep) : `<p class="muted">Sin datos suficientes.</p>`}
+    <div class="row muted" style="gap:14px"><span style="color:var(--warn);font-weight:600">■ Ámbar</span><span style="color:var(--bad);font-weight:600">■ Rojo</span></div>
+    <p class="callout">En toda la Comunidad, la mayoría de los días rojos se deben al ozono en mayo, junio y septiembre, a mediodía. En esos meses, la actividad física al aire libre es mejor a primera hora.</p>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Cuándo es peor el aire</p>
+    <h3 class="h3">NO₂ medio por hora del día</h3>
+    ${ph ? grafHoras([{vals: ph, color: "var(--accent)"}], {umbral: OMS.NO2, umbralTxt: "Guía anual OMS", aria: "NO₂ medio por hora"}) : `<p class="muted">Sin perfil horario.</p>`}
+    ${picoTxt ? `<p class="callout">${picoTxt} Programar Educación Física y recreos lejos de esa hora reduce la exposición.</p>` : ""}
+    ${pm ? `<h3 style="font-size:15px;margin:16px 0 4px">Por mes</h3>${grafMeses(pm, "var(--accent)")}<p class="muted" style="margin:4px 0 0">El NO₂ se concentra en invierno. Julio y agosto, en tono claro, quedan fuera del curso.</p>` : ""}
+  </div>
+  ${tarjetaCamino(c)}
+  <div class="card">
+    <p class="eyebrow">Entorno del centro</p>
+    <div class="grid2">${ctxCells.map(([k, v]) => `<div class="kv"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}</div>
+    <p class="muted" style="margin:12px 0 0">Estimación a partir de la estación ${esc(e?.n || "")} (${esc(e?.red === "ayuntamiento" ? "red del Ayuntamiento de Madrid" : "red de la Comunidad de Madrid")}), a ${fmt(c.est.NO2?.[1], 1)} km. Fiabilidad ${fiab}.</p>
+  </div>
+  <div class="card sim">
+    <p class="eyebrow">Sensor en el patio <span class="tag-sim">Simulación</span></p>
+    <h3 class="h3">Medir el aire en el propio centro</h3>
+    <p class="lead" style="margin:4px 0 0">Con un sensor en el patio, RespiraCole dejaría de estimar con la estación más cercana y mediría el aire real del centro, hora a hora. Así se vería el ${fechaCorta(D.dias[st.dia].fecha)}:</p>
+    ${sen ? grafHoras([{vals: sen.base, color: "var(--ink-3)", dash: true, pico: false}, {vals: sen.sensor, color: "var(--sim)", pico: false}], {aria: "Estimación frente a sensor simulado"}) : `<p class="muted">Sin datos horarios para este día.</p>`}
+    <div class="row muted" style="gap:14px;margin-top:4px"><span style="font-weight:600">- - Estimación por estación</span><span style="color:var(--sim);font-weight:600">— Sensor del patio (simulado)</span></div>
+    <ul class="find">
+      <li>Mide NO₂, PM10 y PM2,5 cada pocos minutos y envía los datos en el modelo estándar AirQualityObserved.</li>
+      <li>El centro decide con quién comparte sus mediciones y en qué condiciones, como en un espacio de datos.</li>
+      <li>Los datos de esta tarjeta son inventados para ilustrar la función: no hay sensores instalados.</li>
+    </ul>
+  </div>`;
+}
+function tarjetaCamino(c) {
+  if (c.municipio !== "Madrid" || !c.atrop) return `
+  <div class="card"><p class="eyebrow">Camino escolar</p><h3 class="h3">Disponible en Madrid capital</h3>
+  <p class="lead" style="margin:4px 0 0">El análisis del camino escolar usa los accidentes y los aforos de tráfico que publica el Ayuntamiento de Madrid. En otros municipios se activaría con los datos de cada ayuntamiento.</p></div>`;
+  const [n, men, hor, gra] = c.atrop;
+  return `
+  <div class="card">
+    <p class="eyebrow">Camino escolar · 400 m alrededor del centro</p>
+    <h3 class="h3">${n} atropellos en 2023-2025${men ? `, ${men} con menores` : ""}</h3>
+    <div class="grid3">
+      <div class="kv"><div class="k">Atropellos con menores</div><div class="v big">${men}</div></div>
+      <div class="kv"><div class="k">En horario de entrada o salida</div><div class="v big">${hor}</div></div>
+      <div class="kv"><div class="k">Con heridos graves</div><div class="v big">${gra}</div></div>
+    </div>
+    <div id="caminoMapa" style="margin-top:10px"><p class="muted">Cargando el entorno…</p></div>
+  </div>`;
+}
+function dibujarCamino(c) {
+  const box = document.getElementById("caminoMapa");
+  if (!box) return;
+  const pintar = () => {
+    const k = window.RC_CAMINO?.[c.codigo];
+    if (!k) { box.innerHTML = `<p class="muted">Sin datos del entorno.</p>`; return; }
+    const S = 320, R = 400, sc = (S / 2 - 16) / R, cx = S / 2, cy = S / 2, z = st.zCamino || 1, lado = S / z;
+    let s = `<div class="row" style="justify-content:center;gap:6px;margin-bottom:6px"><button class="btn ghost sm" id="czMenos" aria-label="Alejar" ${z <= 1 ? "disabled" : ""}>−</button><span class="muted">Zoom</span><button class="btn ghost sm" id="czMas" aria-label="Acercar" ${z >= 4 ? "disabled" : ""}>+</button></div><svg class="chart" viewBox="${(S - lado) / 2} ${(S - lado) / 2} ${lado} ${lado}" style="max-width:360px;margin:auto" role="img" aria-label="Atropellos y calles con mucho tráfico alrededor del centro">`;
+    s += `<rect x="0" y="0" width="${S}" height="${S}" rx="12" fill="var(--surface-2)"/>`;
+    for (const rr of [200, 400]) s += `<circle cx="${cx}" cy="${cy}" r="${rr * sc}" fill="none" stroke="var(--line)" stroke-dasharray="3 4"/><text x="${cx + rr * sc * .71 + 4}" y="${cy - rr * sc * .71}" >${rr} m</text>`;
+    for (const [x, y, imd] of k.vias) s += `<circle cx="${cx + x * sc}" cy="${cy - y * sc}" r="${3 + Math.sqrt(imd) / 28}" fill="var(--warn)" fill-opacity=".35" stroke="var(--warn)"/>`;
+    for (const [x, y, m] of k.pts) s += `<circle cx="${cx + x * sc}" cy="${cy - y * sc}" r="${m ? 5 : 3.5}" fill="${m ? "var(--bad)" : "var(--ink-2)"}" ${m ? 'stroke="var(--surface)" stroke-width="1.5"' : 'fill-opacity=".7"'}/>`;
+    s += `<rect x="${cx - 7}" y="${cy - 7}" width="14" height="14" rx="3" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`;
+    s += `<text x="${S - 10}" y="18" text-anchor="end" style="font-weight:600">N ↑</text></svg>`;
+    const vias = [...k.vias].sort((a, b) => b[2] - a[2]).filter((v, i, arr) => arr.findIndex(z => z[3] === v[3]) === i).slice(0, 3);
+    box.innerHTML = s + `<div class="row muted" style="gap:14px;justify-content:center;margin-top:6px"><span><span class="dot" style="background:var(--accent);border-radius:3px"></span> Centro</span><span><span class="dot bad"></span> Atropello con menores</span><span><span class="dot" style="background:var(--ink-2)"></span> Otros atropellos</span><span><span class="dot" style="background:var(--warn);opacity:.6"></span> Calle con más de 10.000 veh./día</span></div>
+      ${k.lugares.length ? `<h3 style="font-size:15px;margin:14px 0 4px">Puntos con más atropellos</h3><ul class="recs">${k.lugares.map(([l, n]) => `<li>${esc(l)}: ${n} atropellos</li>`).join("")}</ul>` : ""}
+      ${vias.length ? `<h3 style="font-size:15px;margin:14px 0 4px">Calles con más tráfico</h3><ul class="recs">${vias.map(v => `<li>${esc(v[3])}: ${fmt(v[2], 0)} vehículos/día</li>`).join("")}</ul>` : ""}
+      <p class="muted" style="margin:10px 0 0">Fuente: Ayuntamiento de Madrid (accidentes de tráfico 2023-2025 y aforos de 2020). El trazado de rutas necesita la red de calles y aceras de cada ayuntamiento.</p>`;
+    document.getElementById("czMas").onclick = () => { st.zCamino = Math.min(4, (st.zCamino || 1) * 2); pintar(); };
+    document.getElementById("czMenos").onclick = () => { st.zCamino = Math.max(1, (st.zCamino || 1) / 2); pintar(); };
+  };
+  if (window.RC_CAMINO) return pintar();
+  const sc = document.createElement("script"); sc.src = "demo_camino.js"; sc.onload = pintar;
+  sc.onerror = () => box.innerHTML = `<p class="muted">No se ha podido cargar el entorno.</p>`;
+  document.head.appendChild(sc);
+}
+
+/* ---------- Vista: Mi red ---------- */
+const MUNIS = [...new Set(centros.map(c => c.municipio))].sort((a, b) => a.localeCompare(b, "es"));
+const DISTRITOS = [...new Set(centros.filter(c => c.municipio === "Madrid" && c.distrito).map(c => c.distrito))].sort((a, b) => a.localeCompare(b, "es"));
+const ETAPAS = [...new Set(centros.map(c => c.categoria))];
+function enZona(c, zona) {
+  if (!zona) return true;
+  const [t, v] = zona.split(":");
+  return t === "m" ? c.municipio === v : c.municipio === "Madrid" && c.distrito === v;
+}
+function opcionesZona(actual, todas = "Toda la Comunidad") {
+  return `<option value="">${todas}</option><optgroup label="Madrid capital, por distrito">${DISTRITOS.map(d => `<option value="d:${esc(d)}" ${actual === "d:" + d ? "selected" : ""}>${esc(d)}</option>`).join("")}</optgroup><optgroup label="Municipios">${MUNIS.map(m => `<option value="m:${esc(m)}" ${actual === "m:" + m ? "selected" : ""}>${esc(m)}</option>`).join("")}</optgroup>`;
+}
+function centrosRed() {
+  const r = st.red;
+  if (r.modo === "mis") return misCentros.map(c => porCodigo.get(c)).filter(Boolean);
+  return centros.filter(c => enZona(c, r.zona) && (!r.etapa || c.categoria === r.etapa) && (!r.tit || c.titularidad === r.tit));
+}
+function vistaRed() {
+  const r = st.red, lista = centrosRed();
+  redActual = lista; redSet = new Set(lista.map(c => c.codigo));
+  const tH = recuento(lista, st.dia, "hoy"), tP = recuento(lista, st.dia, "pred");
+  const med = (f) => { const v = lista.map(f).filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  const filas = lista.map(c => ({c, hoy: semaforo(c, st.dia, "hoy").color, man: semaforo(c, st.dia, "pred").color, no2: c.no2, rojo: c.ep?.[3]?.[1] ?? null, ambar: c.ep?.[3]?.[0] ?? null}));
+  const ordenes = {nombre: (a, b) => a.c.nombre.localeCompare(b.c.nombre, "es"), no2: (a, b) => (b.no2 ?? -1) - (a.no2 ?? -1), rojo: (a, b) => (b.rojo ?? -1) - (a.rojo ?? -1),
+    hoy: (a, b) => "okwarnbad".indexOf(b.hoy) - "okwarnbad".indexOf(a.hoy), man: (a, b) => "okwarnbad".indexOf(b.man) - "okwarnbad".indexOf(a.man)};
+  filas.sort(ordenes[r.orden] || ordenes.no2);
+  const mostrar = filas.slice(0, 200);
+  const th = (k, t, n) => `<th data-orden="${k}" ${r.orden === k ? 'aria-sort="descending"' : ""} ${n ? 'style="text-align:right"' : ""}>${t}</th>`;
+  return `
+  <div class="card">
+    <p class="eyebrow">Panel para redes de centros</p>
+    <h3 class="h3">Todos tus centros de un vistazo</h3>
+    <p class="lead" style="margin:4px 0 0">Para un grupo educativo, un ayuntamiento o un área territorial. Elige tus centros o filtra por zona, etapa y titularidad.</p>
+    <div class="row" style="margin-top:12px"><div class="seg" role="group" aria-label="Qué centros">
+      <button data-modo="mis" aria-pressed="${r.modo === "mis"}">Mis centros (${misCentros.length})</button><button data-modo="zona" aria-pressed="${r.modo === "zona"}">Por zona</button></div></div>
+    ${r.modo === "zona" ? `<div class="grid3">
+      <label class="f">Zona<select id="redZona">${opcionesZona(r.zona)}</select></label>
+      <label class="f">Etapa<select id="redEtapa"><option value="">Todas</option>${ETAPAS.map(e => `<option ${r.etapa === e ? "selected" : ""}>${esc(e)}</option>`).join("")}</select></label>
+      <label class="f">Titularidad<select id="redTit"><option value="">Todas</option>${["PÚBLICO", "PRIVADO CONCERTADO", "PRIVADO"].map(e => `<option value="${e}" ${r.tit === e ? "selected" : ""}>${e.charAt(0) + e.slice(1).toLowerCase()}</option>`).join("")}</select></label></div>` : ""}
+    <div class="grid3" style="margin-top:14px">
+      <div class="kv"><div class="k">Centros</div><div class="v big">${lista.length.toLocaleString("es-ES")}</div></div>
+      <div class="kv"><div class="k">NO₂ medio 2021-2025</div><div class="v big">${fmt(med(c => c.no2))} <span class="muted">µg/m³</span></div></div>
+      <div class="kv"><div class="k">Días rojos de media, 2024-25</div><div class="v big">${fmt(med(c => c.ep?.[3]?.[1]), 0)}</div></div>
+    </div>
+    <div class="grid2">
+      <div><p class="eyebrow" style="margin-top:10px">Hoy · ${fechaCorta(D.dias[st.dia].fecha)}</p><div class="counts small"><div class="count c-ok"><b>${tH.ok}</b><span>normal</span></div><div class="count c-warn"><b>${tH.warn}</b><span>precaución</span></div><div class="count c-bad"><b>${tH.bad}</b><span>interior</span></div></div></div>
+      <div><p class="eyebrow" style="margin-top:10px">Mañana, previsto</p><div class="counts small"><div class="count c-ok"><b>${tP.ok}</b><span>normal</span></div><div class="count c-warn"><b>${tP.warn}</b><span>precaución</span></div><div class="count c-bad"><b>${tP.bad}</b><span>interior</span></div></div></div>
+    </div>
+    <p class="muted" style="margin:8px 0 0">Día simulado: el que esté elegido en «Hoy y mañana» (${esc(D.dias[st.dia].nombre.toLowerCase())}).</p>
+    ${lista.length ? `<div class="tablewrap"><table><thead><tr><th scope="col" style="cursor:default">★</th>${th("nombre", "Centro")}${th("hoy", "Hoy")}${th("man", "Mañana")}${th("no2", "NO₂ medio", 1)}${th("rojo", "Días rojos 24-25", 1)}</tr></thead><tbody>
+      ${mostrar.map(f => `<tr data-cod="${esc(f.c.codigo)}"><td><button class="star" data-star="${esc(f.c.codigo)}" aria-pressed="${esMio(f.c)}" aria-label="Seguir este centro">${esMio(f.c) ? "★" : "☆"}</button></td><td><span class="nm" title="${esc(f.c.nombre)}">${esc(f.c.nombre)}</span><br><span class="muted">${esc(f.c.categoria)} · ${esc(f.c.distrito || f.c.municipio)}</span></td><td><span class="dot ${f.hoy}"></span> ${COLOR_TXT[f.hoy]}</td><td><span class="dot ${f.man}"></span> ${COLOR_TXT[f.man]}</td><td class="n">${fmt(f.no2)}</td><td class="n">${f.rojo ?? "—"}</td></tr>`).join("")}
+    </tbody></table></div>${filas.length > 200 ? `<p class="muted" style="margin:6px 0 0">Se muestran 200 de ${filas.length.toLocaleString("es-ES")} centros. La descarga los incluye todos.</p>` : ""}
+    <div class="row" style="margin-top:12px"><button class="btn ghost" id="btnCSV">Descargar la tabla (CSV)</button><span class="muted" id="csvMsg" aria-live="polite"></span></div>`
+    : `<p class="muted" style="margin-top:12px">Aún no sigues ningún centro. Búscalo arriba o márcalo con ☆ en «Por zona».</p>`}
+  </div>
+  ${tarjetaAlertas()}`;
+}
+function tarjetaAlertas() {
+  const cfg = alertCfg, mis = misCentros.map(c => porCodigo.get(c)).filter(Boolean);
+  const avisos = [];
+  D.dias.forEach((d, di) => {
+    for (const c of mis) {
+      const tipo = cfg.cuando === "vispera" ? "pred" : "hoy";
+      const s = semaforo(c, di, tipo);
+      const pasa = cfg.umbral === "rojo" ? s.color === "bad" : s.color !== "ok";
+      if (!pasa) continue;
+      const objetivo = cfg.cuando === "vispera" ? d.manana.fecha : d.fecha;
+      avisos.push({c, s, cuando: cfg.cuando === "vispera" ? `${fechaCorta(d.fecha)}, 18:00` : `${fechaCorta(d.fecha)}, 7:30`, objetivo, dia: d});
+    }
+  });
+  const canal = {correo: "Correo electrónico", movil: "Notificación en el móvil", grupo: "Mensaje al grupo de familias"}[cfg.canal];
+  return `
+  <div class="card sim">
+    <p class="eyebrow">Alertas <span class="tag-sim">Simulación</span></p>
+    <h3 class="h3">Avisos automáticos para tus centros</h3>
+    <p class="lead" style="margin:4px 0 0">Familias y equipos directivos reciben un aviso solo cuando hace falta. La demo no envía nada: muestra los avisos que se habrían enviado en los tres días simulados.</p>
+    <div class="grid3">
+      <label class="f">Canal<select id="alCanal"><option value="correo" ${cfg.canal === "correo" ? "selected" : ""}>Correo electrónico</option><option value="movil" ${cfg.canal === "movil" ? "selected" : ""}>Notificación en el móvil</option><option value="grupo" ${cfg.canal === "grupo" ? "selected" : ""}>Grupo de familias</option></select></label>
+      <label class="f">Cuándo<select id="alCuando"><option value="vispera" ${cfg.cuando === "vispera" ? "selected" : ""}>La víspera, con la previsión</option><option value="manana" ${cfg.cuando === "manana" ? "selected" : ""}>Esa mañana, con el dato</option></select></label>
+      <label class="f">Avisar si<select id="alUmbral"><option value="ambar" ${cfg.umbral === "ambar" ? "selected" : ""}>Ámbar o rojo</option><option value="rojo" ${cfg.umbral === "rojo" ? "selected" : ""}>Solo rojo</option></select></label>
+    </div>
+    <h3 style="font-size:15px;margin:16px 0 0">Bandeja de ejemplo · ${avisos.length} avisos para ${mis.length} centros</h3>
+    <div class="inbox">${avisos.length ? avisos.slice(0, 12).map(a => `<div class="msg"><div class="when">${esc(canal)} · ${esc(a.cuando)} · ${esc(a.dia.nombre)}</div>
+      <div><b class="${a.s.color}">${COLOR_TXT[a.s.color]}</b> ${cfg.cuando === "vispera" ? "previsto para mañana" : "hoy"} en <b>${esc(a.c.nombre)}</b>${a.s.dom ? `, por ${NOMBRE[a.s.dom]}` : ""}.</div>
+      <div class="muted">${a.s.color === "bad" ? "Recomendación: Educación Física y actividad intensa en interior." : "Recomendación: evitar la actividad física intensa al aire libre."}</div></div>`).join("")
+      : `<p class="muted">Con esta configuración no habría salido ningún aviso para tus centros en los días simulados.</p>`}</div>
+  </div>`;
+}
+
+/* ---------- Vista: Equidad y prioridades ---------- */
+function percentiles(vals) {
+  const ord = vals.map((v, i) => [v, i]).filter(x => x[0] != null).sort((a, b) => a[0] - b[0]);
+  const out = new Array(vals.length).fill(0), n = ord.length;
+  ord.forEach(([, i], k) => out[i] = n > 1 ? k / (n - 1) : 1);
+  return out;
+}
+const PESOS = [["no2", "Contaminación (NO₂ medio)"], ["renta", "Renta baja de la zona"], ["rojo", "Días rojos 2024-25"], ["trafico", "Tráfico en calles cercanas (capital)"], ["atrop", "Atropellos de menores (capital)"]];
+function prioridades() {
+  const lista = centros.filter(c => enZona(c, st.prio.zona) && c.categoria !== "Centro extranjero");
+  const w = st.prio.w;
+  const p = {no2: percentiles(lista.map(c => c.no2)), renta: percentiles(lista.map(c => c.renta == null ? null : -c.renta)),
+    rojo: percentiles(lista.map(c => c.ep?.[3]?.[1] ?? null)), trafico: percentiles(lista.map(c => c.trafico ?? (c.municipio === "Madrid" ? 0 : null))),
+    atrop: percentiles(lista.map(c => c.atrop ? c.atrop[1] : null))};
+  const tot = Object.values(w).reduce((a, b) => a + b, 0) || 1;
+  const filas = lista.map((c, i) => ({c, score: Object.keys(w).reduce((a, k) => a + w[k] * p[k][i], 0) / tot}));
+  filas.sort((a, b) => b.score - a.score);
+  return filas;
+}
+function vistaEquidad() {
+  const q = D.quintiles, ds = [...D.distritos].sort((a, b) => a.indice_renta - b.indice_renta);
+  const W = 560, H = 210, l = 40, r = 10, t = 16, b = 40, max = 26, bw = (W - l - r) / 5;
+  let g = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="NO₂ y PM10 por quintil de renta">`;
+  for (let v = 0; v <= 25; v += 5) { const y = t + (H - t - b) * (1 - v / max); g += `<line x1="${l}" x2="${W - r}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${l - 6}" y="${y + 4}" text-anchor="end">${v}</text>`; }
+  q.forEach((d, i) => {
+    const x0 = l + i * bw + 10, w = (bw - 28) / 2;
+    [["NO2_media", "var(--accent)"], ["PM10_media", "var(--ink-3)"]].forEach(([k, col], j) => {
+      const hh = (H - t - b) * d[k] / max, x = x0 + j * (w + 6);
+      g += `<rect x="${x}" y="${H - b - hh}" width="${w}" height="${hh}" rx="3" fill="${col}"/><text x="${x + w / 2}" y="${H - b - hh - 5}" text-anchor="middle" style="font-weight:600">${fmt(d[k], 1)}</text>`;
+    });
+    g += `<text x="${x0 + w + 3}" y="${H - b + 16}" text-anchor="middle" style="font-weight:600">Q${i + 1}</text><text x="${x0 + w + 3}" y="${H - b + 30}" text-anchor="middle">${i === 0 ? "renta baja" : i === 4 ? "renta alta" : ""}</text>`;
+  });
+  g += `<text x="${l - 6}" y="${t - 4}" text-anchor="end">µg/m³</text></svg>`;
+  const W2 = 560, H2 = 300, L2 = 44, R2 = 16, T2 = 16, B2 = 40, xr = [60, 185], yr = [18, 37];
+  const X = v => L2 + (W2 - L2 - R2) * (v - xr[0]) / (xr[1] - xr[0]), Y = v => T2 + (H2 - T2 - B2) * (1 - (v - yr[0]) / (yr[1] - yr[0]));
+  let s = `<svg class="chart" viewBox="0 0 ${W2} ${H2}" role="img" aria-label="Distritos de Madrid: renta y NO₂">`;
+  for (let v = 20; v <= 36; v += 4) s += `<line x1="${L2}" x2="${W2 - R2}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L2 - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`;
+  for (let v = 60; v <= 180; v += 20) s += `<text x="${X(v)}" y="${H2 - B2 + 16}" text-anchor="middle">${v}</text>`;
+  s += `<text x="${(L2 + W2 - R2) / 2}" y="${H2 - 6}" text-anchor="middle">Índice de renta (media de la Comunidad = 100)</text><line x1="${X(100)}" x2="${X(100)}" y1="${T2}" y2="${H2 - B2}" stroke="var(--ink-3)" stroke-dasharray="3 4"/>`;
+  const etiquetar = new Set(["Usera", "Villaverde", "Carabanchel", "Puente de Vallecas", "Salamanca", "Chamartín", "Retiro", "Moncloa-Aravaca", "Barajas"]);
+  ds.forEach(d => {
+    s += `<circle cx="${X(d.indice_renta)}" cy="${Y(d.NO2_media)}" r="${4 + Math.sqrt(d.centros) / 2.6}" fill="${d.indice_renta < 100 ? "var(--bad)" : "var(--accent)"}" fill-opacity=".75"/>`;
+    if (etiquetar.has(d.distrito)) s += `<text x="${X(d.indice_renta) + 9}" y="${Y(d.NO2_media) + 4}" style="font-weight:600;fill:var(--ink)">${esc(d.distrito)}</text>`;
+  });
+  s += `<text x="${L2 - 6}" y="${T2 - 4}" text-anchor="end">NO₂</text></svg>`;
+  const pr = prioridades(), top = pr.slice(0, 15);
+  prioTop = new Set(top.map(f => f.c.codigo));
+  const q1 = q[0], q5 = q[4];
+  return `
+  <div class="card">
+    <p class="eyebrow">¿Respiran igual todos los alumnos?</p>
+    <p class="headline">En Madrid, la contaminación sigue al tráfico y a la densidad urbana. Pero dentro de la ciudad, los colegios de los barrios con menos renta del sur soportan la peor exposición de toda la región.</p>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Para la Administración</p>
+    <h3 class="h3">Dónde intervenir primero</h3>
+    <p class="lead" style="margin:4px 0 0">Ordena los centros para priorizar calles escolares, pantallas vegetales o patios renaturalizados. Ajusta cuánto pesa cada criterio.</p>
+    <label class="f" style="margin-top:10px">Zona<select id="prioZona">${opcionesZona(st.prio.zona)}</select></label>
+    <div style="display:grid;gap:8px;margin-top:12px">${PESOS.map(([k, t]) => `<div class="slider"><label for="w_${k}">${t}</label><input type="range" id="w_${k}" min="0" max="5" step="1" value="${st.prio.w[k]}"><b class="num">${st.prio.w[k]}</b></div>`).join("")}</div>
+    <div class="tablewrap"><table><thead><tr><th style="cursor:default">#</th><th style="cursor:default">Centro</th><th style="cursor:default;text-align:right">NO₂</th><th style="cursor:default;text-align:right">Renta</th><th style="cursor:default;text-align:right">Días rojos</th><th style="cursor:default;text-align:right">Atropellos menores</th></tr></thead><tbody>
+      ${top.map((f, i) => `<tr data-cod="${esc(f.c.codigo)}"><td class="n">${i + 1}</td><td><span class="nm" title="${esc(f.c.nombre)}">${esc(f.c.nombre)}</span><br><span class="muted">${esc(f.c.categoria)} · ${esc(f.c.distrito || f.c.municipio)}</span></td><td class="n">${fmt(f.c.no2)}</td><td class="n">${fmt(f.c.renta, 0)}</td><td class="n">${f.c.ep?.[3]?.[1] ?? "—"}</td><td class="n">${f.c.atrop ? f.c.atrop[1] : "—"}</td></tr>`).join("")}
+    </tbody></table></div>
+    <p class="muted" style="margin:8px 0 0">Puntuación: media ponderada de la posición de cada centro en cada criterio dentro de la zona elegida. Los 15 primeros aparecen en negro en el mapa.</p>
+  </div>
+  <div class="card">
+    <h3 class="h3">Exposición media por quintil de renta</h3>
+    <p class="muted" style="margin:4px 0 8px">Todos los centros escolares de la Comunidad, divididos en cinco grupos iguales según la renta de su municipio o distrito.</p>
+    ${g}
+    <div class="row muted" style="gap:14px"><span style="color:var(--accent);font-weight:600">■ NO₂</span><span style="color:var(--ink-3);font-weight:600">■ PM10</span></div>
+    <ul class="find">
+      <li>A escala regional la brecha es pequeña: ${fmt(q1.NO2_media)} frente a ${fmt(q5.NO2_media)} µg/m³ de NO₂. Los distritos ricos del centro también tienen mucho tráfico, y los pueblos con menos renta tienen aire limpio.</li>
+      <li>Pero el ${fmt(q1.pct_centros_NO2_mas_del_doble_oms, 0)} % de los colegios del quintil más pobre supera el doble de la guía de la OMS, frente al ${fmt(q5.pct_centros_NO2_mas_del_doble_oms, 0)} % del más rico.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3 class="h3">Madrid capital: renta y NO₂ por distrito</h3>
+    <p class="muted" style="margin:4px 0 8px">Cada círculo es un distrito; su tamaño, el número de centros escolares.</p>
+    <div style="overflow-x:auto">${s}</div>
+    <ul class="find">
+      <li>Usera, Villaverde y Carabanchel, con una renta entre un 25 % y un 32 % por debajo de la media regional, tienen los colegios con más NO₂ de toda la Comunidad.</li>
+      <li>Salamanca y Chamartín, los distritos más ricos, también están altos por el tráfico del centro.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Cómo leer estos datos</p>
+    <ul class="find"><li>Cada centro cuenta igual: no hay datos públicos de alumnado por centro.</li><li>La renta es la de la zona, no la de las familias del centro.</li><li>La exposición es la de la estación más cercana, no una medición en el propio colegio.</li></ul>
+  </div>`;
+}
+
+/* ---------- Vista: Asistente ---------- */
+const chat = {turnos: [], ocupado: false, ctl: null};
+const SUGERENCIAS = () => [
+  `¿Cómo estuvo el aire en ${st.centro.nombre} el ${fechaCorta(D.dias[st.dia].fecha)} y qué se preveía para el día siguiente?`,
+  "¿Qué colegios públicos de Usera tienen más NO₂?",
+  "¿Cuántos días rojos tuvo mi centro el curso pasado y por qué?",
+  "¿Qué colegio de Getafe tiene peor aire y qué se puede hacer?",
+];
+function vistaAsistente() {
+  return `
+  <div class="card">
+    <p class="eyebrow">Asistente con IA</p>
+    <h3 class="h3">Pregunta a RespiraCole</h3>
+    <p class="lead" style="margin:4px 0 0">Claude consulta los datos de la demo con las mismas herramientas del servidor MCP de RespiraCole: busca centros, lee su ficha, su semáforo y la previsión. Las preguntas usan tu cuenta de Claude.</p>
+    <div class="chat" id="chatLog">${chat.turnos.map(t => `<div class="bub ${t.role === "user" ? "u" : "a"}">${esc(t.content)}</div>`).join("") || ""}</div>
+    ${chat.turnos.length ? "" : `<div class="sugs" id="sugs">${SUGERENCIAS().map(s => `<button data-sug="${esc(s)}">${esc(s)}</button>`).join("")}</div>`}
+    <form class="chatbox" id="chatForm"><input id="chatIn" placeholder="Escribe tu pregunta" aria-label="Pregunta" autocomplete="off"><button class="btn" id="chatBtn">Preguntar</button></form>
+    <div class="row" style="margin-top:8px"><span class="toolnote" id="chatTool" aria-live="polite"></span><button class="btn ghost" id="chatStop" hidden>Detener</button>${chat.turnos.length ? `<button class="btn ghost" id="chatReset">Nueva conversación</button>` : ""}</div>
+    <p class="muted" id="chatNo" hidden>El asistente solo funciona al abrir la demo dentro de Claude. Fuera de Claude, el mismo servicio se ofrece con el servidor MCP (pestaña API).</p>
+  </div>`;
+}
+function fichaBreve(c) {
+  return {codigo: c.codigo, nombre: c.nombre, etapa: c.categoria, titularidad: c.titularidad, municipio: c.municipio, distrito: c.distrito || null,
+    exposicion_media_2021_2025_ug_m3: {NO2: c.no2, PM10: c.pm10, PM25: c.pm25}, guia_oms_anual: OMS,
+    veces_guia_oms: {NO2: +(c.no2 / OMS.NO2).toFixed(1), PM10: +(c.pm10 / OMS.PM10).toFixed(1), PM25: +(c.pm25 / OMS.PM25).toFixed(1)},
+    fiabilidad: c.fiabilidad, indice_renta_zona_media100: c.renta,
+    dias_lectivos_ambar_rojo_por_curso: Object.fromEntries(D.cursos.map((k, i) => [k, c.ep?.[i] ? {ambar: c.ep[i][0], rojo: c.ep[i][1]} : null])),
+    calle_mas_trafico_200m: c.trafico != null ? {calle: c.calle, vehiculos_dia: c.trafico} : null,
+    atropellos_400m_2023_2025: c.atrop ? {total: c.atrop[0], con_menores: c.atrop[1], en_horario_escolar: c.atrop[2]} : null};
+}
+function semaforoBreve(c, di) {
+  const f = (s) => ({color: COLOR_TXT[s.color], nivel_peor: s.peor ? ICA[s.peor - 1] : null, contaminante_determinante: s.dom,
+    valores: Object.fromEntries(Object.entries(s.conts).map(([k, v]) => [k, Math.round(v.v)]))});
+  return {centro: c.nombre, dia: D.dias[di].fecha, escenario: D.dias[di].nombre, hoy: f(semaforo(c, di, "hoy")),
+    manana: D.dias[di].vivo
+      ? {fecha: D.dias[di].manana.fecha, prevision: D.dias[di].hayPrev ? f(semaforo(c, di, "pred")) : "aún no publicada (sale a las 17:00)", previsto_ayer_para_hoy: f(semaforo(c, di, "real"))}
+      : {fecha: D.dias[di].manana.fecha, prevision: f(semaforo(c, di, "pred")), lo_que_paso: f(semaforo(c, di, "real"))}};
+}
+const HERRAMIENTAS = () => [
+  {name: "buscar_centros", description: "Busca centros escolares de la Comunidad de Madrid por nombre, municipio o distrito. Devuelve hasta 8 con su código.",
+    inputSchema: {type: "object", properties: {texto: {type: "string"}}, required: ["texto"]},
+    execute: ({texto}) => { aviso("buscar_centros"); return buscar(String(texto), 8).map(c => ({codigo: c.codigo, nombre: c.nombre, etapa: c.categoria, titularidad: c.titularidad, municipio: c.municipio, distrito: c.distrito || null})); }},
+  {name: "ficha_centro", description: "Ficha de un centro por su código: exposición media 2021-2025, veces la guía OMS, días ámbar y rojo por curso, renta de la zona, tráfico y atropellos cercanos.",
+    inputSchema: {type: "object", properties: {codigo: {type: "string"}}, required: ["codigo"]},
+    execute: ({codigo}) => { aviso("ficha_centro"); const c = porCodigo.get(String(codigo)); if (!c) throw new Error("Código desconocido; usa buscar_centros"); return fichaBreve(c); }},
+  {name: "semaforo_centro", description: "Semáforo de un centro en uno de los días disponibles en la demo, con la previsión publicada para el día siguiente y lo que pasó. Días: " + D.dias.map(d => d.fecha + " (" + d.nombre + ")").join(", "),
+    inputSchema: {type: "object", properties: {codigo: {type: "string"}, fecha: {type: "string", description: "AAAA-MM-DD"}}, required: ["codigo", "fecha"]},
+    execute: ({codigo, fecha}) => { aviso("semaforo_centro"); const c = porCodigo.get(String(codigo)); const di = D.dias.findIndex(d => d.fecha === String(fecha)); if (!c) throw new Error("Código desconocido"); if (di < 0) throw new Error("Fecha no disponible en la demo"); return semaforoBreve(c, di); }},
+  {name: "centros_prioritarios", description: "Centros con más NO2 de un municipio o de un distrito de Madrid capital, de peor a mejor (hasta 10).",
+    inputSchema: {type: "object", properties: {zona: {type: "string"}, titularidad: {type: "string", description: "opcional: PÚBLICO, PRIVADO CONCERTADO o PRIVADO"}}, required: ["zona"]},
+    execute: ({zona, titularidad}) => { aviso("centros_prioritarios"); const z = norm(String(zona)); const t = titularidad ? norm(String(titularidad)) : null;
+      const l = centros.filter(c => (norm(c.municipio) === z || norm(c.distrito) === z) && (!t || norm(c.titularidad) === t)).sort((a, b) => b.no2 - a.no2).slice(0, 10);
+      if (!l.length) throw new Error("No encuentro esa zona"); return l.map(c => ({codigo: c.codigo, nombre: c.nombre, etapa: c.categoria, titularidad: c.titularidad, no2_media: c.no2, indice_renta: c.renta})); }},
+];
+function aviso(t) { const el = document.getElementById("chatTool"); if (el) el.textContent = "Consultando: " + t + "…"; }
+const REGLAS = () => `Eres el asistente de RespiraCole, un servicio que informa de la calidad del aire en los centros escolares de la Comunidad de Madrid. Responde siempre en español, de forma breve y clara para familias y docentes, sin formato Markdown (sin asteriscos ni almohadillas).
+Usa las herramientas para obtener los datos; no inventes cifras. Si citas valores, di la unidad (µg/m³) y compáralos con la guía de la OMS cuando ayude (NO2 10, PM10 15, PM2,5 5 µg/m³ de media anual).
+Hay un día en directo (escenario «Hoy, en directo», con datos provisionales de la última hora) y días históricos reales: solo hay semáforo para estos días: ${D.dias.map(d => d.fecha + " (" + d.nombre + ")").join(", ")}. Si preguntan por "hoy" o "mañana", usa el día ${D.dias[st.dia].fecha} y explica que es un día simulado.
+La exposición de cada centro es una estimación a partir de la estación más cercana. Las recomendaciones son orientativas y no sustituyen el consejo médico.
+El usuario está viendo ahora el centro ${st.centro.nombre} (código ${st.centro.codigo}).`;
+async function preguntar(texto) {
+  if (chat.ocupado || !texto.trim()) return;
+  const sample = await window.claude?.use?.("sample");
+  const log = document.getElementById("chatLog");
+  if (!sample) { document.getElementById("chatNo").hidden = false; return; }
+  chat.turnos.push({role: "user", content: texto.trim()});
+  chat.ocupado = true; render();
+  const logEl = document.getElementById("chatLog");
+  const bub = document.createElement("div"); bub.className = "bub a wait"; bub.textContent = "Pensando…"; logEl.appendChild(bub);
+  const stop = document.getElementById("chatStop"); stop.hidden = false;
+  chat.ctl = new AbortController(); stop.onclick = () => chat.ctl.abort();
+  let usaTools = false;
+  try { usaTools = !!(await sample.limits())?.tools; } catch (e) {}
+  const entrada = [{role: "user", content: REGLAS() + (usaTools ? "" : "\n\nDatos del centro seleccionado: " + JSON.stringify(fichaBreve(st.centro)) + "\nSemáforo: " + JSON.stringify(semaforoBreve(st.centro, st.dia)))}, ...chat.turnos.slice(-8)];
+  try {
+    const opts = {signal: chat.ctl.signal, modelTier: "quick", onText: ({text}) => { bub.classList.remove("wait"); bub.textContent = text; }};
+    if (usaTools) opts.tools = HERRAMIENTAS(); else opts.cache = false;
+    const {text} = await sample(entrada, opts);
+    chat.turnos.push({role: "assistant", content: text});
+  } catch (e) {
+    const msg = {not_granted: "No has permitido que la demo use Claude.", rate_limited: "Demasiadas preguntas seguidas. Prueba de nuevo en un momento.", cancelled: "Respuesta detenida.", refused: "No puedo responder a esa pregunta."}[e?.code] || "No se ha podido obtener respuesta. Prueba de nuevo.";
+    chat.turnos.push({role: "assistant", content: (e?.text ? e.text + "\n\n" : "") + msg});
+  } finally {
+    chat.ocupado = false; render();
+  }
+}
+
+/* ---------- Vista: API ---------- */
+const MCP_CFG = `{
+  "mcpServers": {
+    "respiracole": {
+      "command": "uv",
+      "args": ["run", "--with", "mcp", "--with", "pandas",
+               "python", "/ruta/a/respiracole/servidor_mcp.py"]
+    }
+  }
+}`;
+function vistaApi() {
+  return `
+  <div class="card">
+    <p class="eyebrow">Integraciones</p>
+    <h3 class="h3">Los datos de RespiraCole, dentro de otras aplicaciones</h3>
+    <p class="lead" style="margin:4px 0 0">Plataformas escolares, apps de comunicación con familias o la propia Administración pueden mostrar el semáforo sin trabajo adicional. Los datos se publican en formatos estándar, con licencia CC BY 4.0.</p>
+    <div class="ep" style="margin-top:14px">
+      <span class="method">GET</span><div><code>api/indice.json</code><div class="muted">Recursos, licencia y fuentes.</div></div>
+      <span class="method">GET</span><div><code>api/estaciones_airquality.json</code><div class="muted">51 estaciones en el modelo AirQualityObserved de Smart Data Models, validadas contra su esquema oficial.</div></div>
+      <span class="method">GET</span><div><code>api/centros.geojson</code><div class="muted">${centros.length.toLocaleString("es-ES")} centros en GeoJSON, con exposición, fiabilidad y episodios. Se abre en QGIS o en cualquier mapa web.</div></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" data-api="api/indice.json">Ver índice</button><button class="btn ghost" data-api="api/estaciones_airquality.json">Ver una estación</button><button class="btn ghost" data-api="api/centros.geojson">Ver un centro</button></div>
+    <pre class="code" id="apiOut" hidden></pre>
+  </div>
+  <div class="card">
+    <p class="eyebrow">Servidor MCP</p>
+    <h3 class="h3">RespiraCole en cualquier asistente de IA</h3>
+    <p class="lead" style="margin:4px 0 0">El servidor MCP de RespiraCole conecta los datos con Claude, ChatGPT, Gemini CLI o Cursor. Es lo que usa la pestaña Asistente.</p>
+    <table style="margin-top:10px"><thead><tr><th style="cursor:default">Herramienta</th><th style="cursor:default">Qué hace</th></tr></thead><tbody>
+      <tr style="cursor:default"><td class="mono">buscar_centros</td><td style="white-space:normal">Busca centros por nombre, municipio o distrito</td></tr>
+      <tr style="cursor:default"><td class="mono">ficha_centro</td><td style="white-space:normal">Exposición, fiabilidad, entorno y episodios</td></tr>
+      <tr style="cursor:default"><td class="mono">semaforo_centro</td><td style="white-space:normal">Semáforo medido de un día</td></tr>
+      <tr style="cursor:default"><td class="mono">prediccion_centro</td><td style="white-space:normal">Previsión para el día siguiente y lo que pasó</td></tr>
+      <tr style="cursor:default"><td class="mono">centros_prioritarios</td><td style="white-space:normal">Centros con más NO₂ de una zona</td></tr>
+    </tbody></table>
+    <p class="muted" style="margin:12px 0 0">Configuración en Claude Desktop (Ajustes → Desarrollador → Editar configuración):</p>
+    <pre class="code">${esc(MCP_CFG)}</pre>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" id="copiarMcp">Copiar configuración</button><span class="muted" id="mcpMsg" aria-live="polite"></span></div>
+  </div>`;
+}
+
+/* ---------- Informe PDF ---------- */
+async function descargas() {
+  // dentro de Claude se usa su permiso de descargas; en una web normal, la descarga del navegador
+  const dl = await window.claude?.use?.("downloads");
+  if (dl) return dl;
+  return {save: async ({filename, data}) => {
+    const a = document.createElement("a"), url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data]));
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }};
+}
+async function informePDF(c) {
+  const msg = document.getElementById("informeMsg");
+  const dl = await descargas();
+  if (!window.jspdf) { msg.textContent = "No se ha podido cargar el generador de PDF."; return; }
+  const {jsPDF} = window.jspdf, doc = new jsPDF({unit: "mm", format: "a4"});
+  const AZ = [31, 95, 139], GR = [74, 93, 102], NE = [19, 35, 43];
+  let y = 18;
+  const txt = (t, x, yy, o = {}) => { doc.setFont("helvetica", o.b ? "bold" : "normal"); doc.setFontSize(o.s || 10); doc.setTextColor(...(o.c || NE)); doc.text(t, x, yy, o.opt); };
+  const parrafo = (t, s = 10) => { doc.setFont("helvetica", "normal"); doc.setFontSize(s); doc.setTextColor(...NE); const l = doc.splitTextToSize(t, 180); doc.text(l, 15, y); y += l.length * s * .42 + 2; };
+  const seccion = t => { y += 4; if (y > 260) { doc.addPage(); y = 18; } txt(t, 15, y, {b: true, s: 13, c: AZ}); y += 6; };
+  txt("RespiraCole", 15, y, {b: true, s: 20, c: AZ}); txt("Informe anual de entorno saludable · curso 2024-25", 15, y + 7, {s: 11, c: GR});
+  y += 20; txt(c.nombre, 15, y, {b: true, s: 16}); y += 6;
+  txt(`${c.categoria} · ${c.titularidad.charAt(0) + c.titularidad.slice(1).toLowerCase()} · ${c.municipio}${c.distrito ? " (" + c.distrito + ")" : ""} · Código ${c.codigo}`, 15, y, {s: 10, c: GR}); y += 4;
+  seccion("1. Aire que respira el alumnado (media 2021-2025)");
+  [["NO2", c.no2], ["PM10", c.pm10], ["PM2,5", c.pm25]].forEach(([k, v], i) => {
+    const key = ["NO2", "PM10", "PM25"][i], max = 45, w = 110;
+    txt(k, 15, y + 4, {b: true}); doc.setFillColor(233, 238, 240); doc.rect(40, y, w, 5, "F");
+    const rat = v / OMS[key]; doc.setFillColor(...(rat > 3 ? [176, 42, 52] : rat > 2 ? [214, 120, 40] : [214, 160, 40])); doc.rect(40, y, Math.min(w, v / max * w), 5, "F");
+    doc.setDrawColor(...NE); doc.setLineWidth(.6); doc.line(40 + OMS[key] / max * w, y - 1.5, 40 + OMS[key] / max * w, y + 6.5);
+    doc.setDrawColor(...GR); doc.line(40 + UE[key] / max * w, y - 1.5, 40 + UE[key] / max * w, y + 6.5);
+    txt(`${fmt(v)} µg/m³ · ${fmt(rat, 1)} veces la guía OMS`, 155, y + 4, {s: 9});
+    y += 10;
+  });
+  parrafo("Línea negra: guía de salud de la OMS (2021). Línea gris: límite legal de la UE. Un valor por encima de 1 vez la guía significa que el aire supera la recomendación de salud de la OMS, aunque cumpla el límite legal.", 8.5);
+  seccion("2. Días lectivos con el semáforo en ámbar y rojo");
+  D.cursos.forEach((k, i) => { const e = c.ep?.[i]; txt(`Curso ${k}`, 15, y, {b: true}); txt(e ? `${e[0]} días en ámbar · ${e[1]} días en rojo` : "Sin datos", 55, y); y += 5.5; });
+  parrafo("En la Comunidad de Madrid, la mayoría de los días rojos se deben al ozono en mayo, junio y septiembre, a mediodía.", 9);
+  const e = c.est.NO2 ? est[c.est.NO2[0]] : null, ph = e?.ph?.NO2;
+  seccion("3. Cuándo es peor el aire");
+  if (ph) { const lect = ph.slice(7, 18).map((v, i) => [v, i + 7]).sort((a, b) => b[0] - a[0])[0]; parrafo(`El NO2 alcanza su máximo del horario escolar hacia las ${lect[1]}:00 (${Math.round(lect[0])} µg/m³ de media). Programar la Educación Física y los recreos lejos de esa hora reduce la exposición. El NO2 es mayor en invierno.`); }
+  seccion("4. Entorno del centro");
+  if (c.trafico != null) parrafo(`Calle con más tráfico a menos de 200 m: ${c.calle.replace(/^[-\s]+/, "")}, con ${fmt(c.trafico, 0)} vehículos al día.`);
+  if (c.atrop) parrafo(`Camino escolar (400 m): ${c.atrop[0]} atropellos en 2023-2025, ${c.atrop[1]} con menores y ${c.atrop[2]} en horario de entrada o salida.`);
+  if (c.renta != null) parrafo(`Índice de renta de la zona: ${fmt(c.renta, 0)} (media de la Comunidad = 100).`);
+  seccion("5. Recomendaciones");
+  ["Activar los avisos de RespiraCole para planificar la Educación Física y las salidas con un día de antelación.", "En mayo, junio y septiembre, concentrar la actividad física exterior a primera hora.", "En días de NO2 alto, ventilar fuera de las horas de entrada y salida.", c.atrop && c.atrop[1] ? "Estudiar con el ayuntamiento medidas de camino escolar seguro en los puntos con atropellos." : "Valorar con el ayuntamiento una calle escolar o pantalla vegetal si el tráfico cercano es intenso."].forEach(r => parrafo("· " + r, 9.5));
+  seccion("Metodología y fuentes");
+  parrafo(`Exposición estimada con la estación más cercana que mide cada contaminante (${e ? e.n + ", a " + fmt(c.est.NO2[1], 1) + " km" : "—"}; fiabilidad ${c.fiabilidad}). Semáforo según el Índice de Calidad del Aire. Datos abiertos de la Comunidad de Madrid y del Ayuntamiento de Madrid (CC BY 4.0). Informe de demostración generado por RespiraCole para DATAMAD 2026.`, 8.5);
+  try {
+    msg.textContent = "Preparando…";
+    await dl.save({filename: `RespiraCole_informe_${c.codigo}.pdf`, data: doc.output("blob")});
+    msg.textContent = "Informe descargado";
+  } catch (er) {
+    msg.textContent = er?.code === "declined" ? "Descarga cancelada" : "No se ha podido descargar";
+  }
+}
+
+/* ---------- Previsión a 5 días: AEMET (tiempo) y Copernicus CAMS (aire) ---------- */
+const PRON = window.RC_PRON || null;
+const CIELO = c => { const n = parseInt(c, 10); if (!n) return "·";
+  if (n === 11) return "☀️"; if (n === 12 || n === 17) return "🌤️"; if (n <= 14) return "⛅"; if (n <= 16) return "☁️";
+  if (n >= 81) return n === 83 ? "🌫️" : "🌫️"; if ((n >= 51 && n <= 54) || (n >= 61 && n <= 64)) return "⛈️";
+  if ((n >= 33 && n <= 36) || (n >= 71 && n <= 74)) return "🌨️"; if (n >= 43 && n <= 46) return "🌦️"; return "🌧️"; };
+function pronValores(k) {
+  const out = {NO2: {}, O3: {}, PM10: {}, PM25: {}};
+  if (!PRON) return out;
+  for (const i in PRON.estaciones) {
+    const v = PRON.estaciones[i][k]; if (!v) continue;
+    ["NO2", "O3", "PM10", "PM25"].forEach((c, j) => { if (v[j] != null) out[c][i] = v[j]; });
+  }
+  return out;
+}
+const pronTiempo = (c, k) => PRON?.municipios?.[c.municipio]?.[k] || null;
+const pronCompleto = k => PRON && Object.values(PRON.estaciones).some(v => v[k]?.[0] != null);
+const esFinde = f => [0, 6].includes(new Date(f + "T12:00").getDay());
+function polvo(c, k) {
+  if (!PRON) return null; let best = null, bd = Infinity;
+  for (const i in PRON.estaciones) { const e = est[i], d = dist(c.lat, c.lon, e.lat, e.lon); if (d < bd && PRON.estaciones[i][k]) { bd = d; best = PRON.estaciones[i][k][4]; } }
+  return best;
+}
+function recsPron(c, k) {
+  const f = PRON.dias[k], t = pronTiempo(c, k), out = [];
+  if (esFinde(f)) return ["Fin de semana: no hay clase."];
+  const s = semaforo(c, st.dia, "p" + k), completo = pronCompleto(k);
+  if (!completo) out.push("Copernicus aún no da NO₂ ni ozono en horario escolar para este día; el semáforo del aire se completará en los próximos días.");
+  else if (s.color === "bad") out.push(`Aire desfavorable previsto por ${NOMBRE[s.dom]}: prepara actividades de interior para el recreo y Educación Física.`);
+  else if (s.color === "warn") out.push(`Aire regular previsto por ${NOMBRE[s.dom]}: reduce la actividad física intensa al aire libre del alumnado sensible.`);
+  if (t) {
+    const [, , tmax, tmin, llm, llt, , vel, racha, uv] = t, ll = Math.max(llm ?? 0, llt ?? 0);
+    if (ll >= 60) out.push(`Lluvia probable (${fmt(ll, 0)} %${llm != null && llt != null ? `: ${fmt(llm, 0)} % por la mañana, ${fmt(llt, 0)} % por la tarde` : ""}): recreo en espacios cubiertos; para ir al cole, chubasquero.`);
+    else if (ll >= 30) out.push(`Posibles chubascos (${fmt(ll, 0)} %): conviene llevar chubasquero.`);
+    if (tmax != null && tmax >= 32) out.push(`Calor (${fmt(tmax, 0)} °C): agua, gorra y sombra; evita la actividad física intensa en las horas centrales.`);
+    else if (tmax != null && tmax >= 27) out.push(`Día cálido (${fmt(tmax, 0)} °C): busca sombra en el patio y lleva agua.`);
+    if (tmin != null && tmin <= 2) out.push(`Frío a primera hora (${fmt(tmin, 0)} °C): abrigo, y cuidado con posibles placas de hielo en el camino.`);
+    if ((racha ?? 0) >= 60 || (vel ?? 0) >= 40) out.push(`Viento fuerte${racha ? ` (rachas de ${fmt(racha, 0)} km/h)` : ""}: evita las zonas con árboles en el recreo y en el camino al cole.`);
+    if ((uv ?? 0) >= 6) out.push(`Índice UV alto (${fmt(uv, 0)}): protección solar en el patio.`);
+    if (completo && s.color === "ok" && (ll >= 60 || (vel ?? 0) >= 20)) out.push("La lluvia y el viento limpian el aire: buen día para ventilar bien las aulas.");
+  }
+  const p = polvo(c, k);
+  if (p != null && p >= 50) out.push(`Polvo en suspensión (calima, ${fmt(p, 0)} µg/m³): limita la actividad física al aire libre.`);
+  if (!out.length) out.push("Sin incidencias previstas: actividad normal.");
+  return out;
+}
+function vistaPronostico(c) {
+  if (!PRON) return "";
+  const k = st.pdia ?? 1, f = PRON.dias[k], t = pronTiempo(c, k), s = semaforo(c, st.dia, "p" + k);
+  const hoy = PRON.dias[0];
+  const etiqueta = (d, i) => i === 0 ? "Hoy" : i === 1 ? "Mañana" : new Date(d + "T12:00").toLocaleDateString("es-ES", {weekday: "short"}).replace(".", "");
+  return `
+  <div class="card">
+    <p class="eyebrow">Próximos 5 días · previsión real</p>
+    <h3 class="h3">${esc(c.municipio)}${c.distrito ? " · " + esc(c.distrito) : ""}</h3>
+    <div class="dias5" role="group" aria-label="Día de la previsión">
+      ${PRON.dias.map((d, i) => { const w = pronTiempo(c, i), si = semaforo(c, st.dia, "p" + i), comp = pronCompleto(i), ll = w ? Math.max(w[4] ?? 0, w[5] ?? 0) : null;
+        return `<button data-pdia="${i}" aria-pressed="${i === k}"><span class="d5d">${etiqueta(d, i)} ${new Date(d + "T12:00").getDate()}</span>
+          <span class="d5i" title="${esc(w?.[1] || "")}">${w ? CIELO(w[0]) : "·"}</span>
+          <span class="d5t"><b>${w?.[2] != null ? fmt(w[2], 0) + "°" : "—"}</b> ${w?.[3] != null ? fmt(w[3], 0) + "°" : ""}</span>
+          <span class="d5l">💧 ${ll != null ? fmt(ll, 0) + " %" : "—"}</span>
+          ${comp ? `<span class="lamp xs ${si.color}" title="Aire: ${COLOR_TXT[si.color]}"></span>` : `<span class="lamp xs na" title="Previsión del aire incompleta"></span>`}
+          ${esFinde(d) ? `<span class="d5f">Sin cole</span>` : ""}</button>`; }).join("")}
+    </div>
+    <h3 class="h3" style="margin-top:14px">${fechaLarga(f).replace(/ de \d{4}$/, "")}</h3>
+    ${t ? `<p class="muted" style="margin:2px 0 0">${esc(t[1] || "")}${t[7] != null ? ` · viento ${esc(t[6] || "")} ${fmt(t[7], 0)} km/h` : ""}${t[9] != null ? ` · UV ${fmt(t[9], 0)}` : ""}</p>` : ""}
+    ${pronCompleto(k) ? `<div class="polls">${["NO2", "PM10", "PM25", "O3"].map(x => { const v = s.conts[x]; if (!v) return ""; const col = colorDeNivel(v.n);
+      return `<div class="poll"><div class="k">${NOMBRE[x]}</div><div class="v">${fmt(v.v, 0)}</div><div class="q" style="color:var(--${col})">${ICA[v.n - 1]}</div></div>`; }).join("")}</div>` : ""}
+    <ul class="recs">${recsPron(c, k).map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-capa="p${k}" aria-pressed="${st.capa === "p" + k}">Ver el semáforo previsto de todos los centros en el mapa</button></div>
+    <p class="muted" style="margin:10px 0 0">Tiempo: predicción de AEMET para el municipio${PRON.aemet_elaborado ? `, elaborada el ${new Date(PRON.aemet_elaborado).toLocaleString("es-ES", {day: "numeric", month: "long", hour: "2-digit", minute: "2-digit"})}` : ""}. Aire: previsión europea de Copernicus (CAMS, unos 10 km de resolución)${PRON.vivo ? ", actualizada ahora mismo" : `, descargada el ${new Date(PRON.generado).toLocaleString("es-ES", {day: "numeric", month: "long", hour: "2-digit", minute: "2-digit"})}`}, con las mismas reglas del semáforo. Es orientativa: para mañana manda la previsión propia de RespiraCole, ajustada a cada estación. En producción se actualiza cada tarde.</p>
+  </div>`;
+}
+function avisoPronRuta(c) {
+  // aviso para el camino al cole: el próximo día lectivo
+  if (!PRON) return "";
+  const k = PRON.dias.findIndex((d, i) => i >= 1 && !esFinde(d)); if (k < 0) return "";
+  const t = pronTiempo(c, k), s = semaforo(c, st.dia, "p" + k), partes = [];
+  if (t) {
+    const ll = Math.max(t[4] ?? 0, t[5] ?? 0);
+    if (ll >= 60) partes.push(`lluvia probable (${fmt(ll, 0)} %)`);
+    if (t[2] != null && t[2] >= 30) partes.push(`calor (${fmt(t[2], 0)} °C): la ruta saludable pasa más por parques y sombra`);
+    if (t[3] != null && t[3] <= 2) partes.push(`frío a primera hora (${fmt(t[3], 0)} °C), posible hielo en aceras`);
+    if ((t[8] ?? 0) >= 60) partes.push(`rachas de viento de ${fmt(t[8], 0)} km/h: mejor evitar parques con arbolado`);
+  }
+  if (pronCompleto(k) && s.color !== "ok") partes.push(`aire ${s.color === "bad" ? "desfavorable" : "regular"} previsto por ${NOMBRE[s.dom]}`);
+  const cab = `${CIELO(t?.[0])} ${fechaCorta(PRON.dias[k]).replace(/^\w/, m => m.toUpperCase())}${t ? ` · ${fmt(t[3], 0)}°–${fmt(t[2], 0)}°` : ""}`;
+  return `<p class="callout" style="margin-top:12px"><b>${cab}.</b> ${partes.length ? partes.join("; ").replace(/^\w/, m => m.toUpperCase()) + "." : "Sin incidencias de tiempo ni de aire previstas para ir al cole."}</p>`;
+}
+const URL_VIVO_AYTO = "https://ciudadesabiertas.madrid.es/dynamicAPI/API/query/calair_tiemporeal.csv?pageSize=5000";
+const URL_VIVO = "https://datos.comunidad.madrid/dataset/3dacd589-ecca-485c-81b9-a61606b7199f/resource/ee75d31c-8042-4067-bbd7-739bb3eb8059/download/calidad_aire_datos_dia.csv";
+async function refrescarVivo() {
+  // pide a la Comunidad el fichero del día en curso y actualiza el semáforo de ahora de sus estaciones
+  const dia = D.dias.find(d => d.vivo); if (!dia) return;
+  try {
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 10000);
+    // las dos redes publican el mismo formato; si una falla, se sigue con la otra
+    const textos = await Promise.all([URL_VIVO, URL_VIVO_AYTO].map(u => fetch(u, {signal: ctl.signal, cache: "no-store"}).then(r => r.ok ? r.text() : "").catch(() => "")));
+    clearTimeout(to);
+    if (!textos[0]) return;
+    let cab = null; const filas = [];
+    for (const t of textos) { if (!t) continue; const ls = t.replace(/^\uFEFF/, "").trim().split(/\r?\n/).map(l => l.split(";")), c = ls.shift().map(x => x.trim().toLowerCase()); cab ||= c; if (c.join() === cab.join()) filas.push(...ls); }
+    const hayAyto = !!textos[1];
+    const col = n => cab.indexOf(n), MAG = {8: "NO2", 10: "PM10", 9: "PM25", 14: "O3"}, idx = new Map(est.map((e, i) => [e.c, i]));
+    let hora = 0, fecha = null; const nuevo = {};
+    for (const f of filas) {
+      const cont = MAG[+f[col("magnitud")]], i = idx.get(f[col("provincia")].padStart(2, "0") + f[col("municipio")].padStart(3, "0") + f[col("estacion")].padStart(3, "0"));
+      if (!cont || i == null) continue;
+      fecha = `${f[col("ano")]}-${f[col("mes")].padStart(2, "0")}-${f[col("dia")].padStart(2, "0")}`;
+      const vals = []; for (let h = 1; h <= 24; h++) { const ok = ["V", "T"].includes((f[col("v" + String(h).padStart(2, "0"))] || "").trim()), v = parseFloat((f[col("h" + String(h).padStart(2, "0"))] || "").replace(",", ".")); vals.push(ok && isFinite(v) ? v : null); }
+      const ult = vals.reduce((a, v, k) => v != null ? k : a, -1); if (ult < 0) continue;
+      hora = Math.max(hora, ult + 1);
+      (nuevo[cont] ||= {})[i] = vals;
+    }
+    if (!fecha || fecha < dia.fecha || (fecha === dia.fecha && hora <= dia.hora)) return; // nada más reciente que lo que ya hay
+    if (hayAyto) dia.redes.ayuntamiento = true;
+    if (fecha !== dia.fecha) return; // ha cambiado el día: hace falta el proceso completo (previsiones)
+    for (const cont in nuevo) for (const i in nuevo[cont]) {
+      const vals = nuevo[cont][i], dados = vals.filter(v => v != null);
+      dia.horas[cont] ||= {}; dia.horas[cont][i] = vals.map(v => v == null ? null : Math.round(v));
+      if (cont === "NO2" || cont === "O3") { const cole = vals.slice(9, 17).filter(v => v != null); dia.valores[cont][i] = cole.length ? Math.max(...cole) : dados[dados.length - 1]; }
+      else if (dados.length >= 12) dia.valores[cont][i] = dados.reduce((a, b) => a + b, 0) / dados.length; // con menos horas se deja la media de 24 h ya calculada
+    }
+    dia.hora = hora; dia.directo = true; cacheSem.clear();
+    if (st.vista === "hoy" && !panel.contains(document.activeElement)) { render(); dibujar(); } else dibujar();
+  } catch (e) { /* sin conexión o bloqueado: se usan los datos de la última actualización */ }
+}
+async function refrescarPronostico() {
+  // intenta traer la previsión de Copernicus al momento; si no se puede, se queda la descargada
+  if (!PRON) return;
+  try {
+    const q = new URLSearchParams({latitude: est.map(e => e.lat).join(","), longitude: est.map(e => e.lon).join(","), domains: "cams_europe",
+      timezone: "Europe/Madrid", hourly: "nitrogen_dioxide,ozone,pm10,pm2_5,dust", start_date: PRON.dias[0], end_date: PRON.dias[PRON.dias.length - 1]});
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 8000);
+    const r = await fetch("https://air-quality-api.open-meteo.com/v1/air-quality?" + q, {signal: ctl.signal}); clearTimeout(to);
+    if (!r.ok) return;
+    const res = [].concat(await r.json()), nuevo = {};
+    res.forEach((x, i) => {
+      const H = x.hourly; nuevo[i] = PRON.dias.map(d => {
+        const idx = H.time.map((t, j) => [t, j]).filter(([t]) => t.startsWith(d)), cole = idx.filter(([t]) => { const h = +t.slice(11, 13); return h >= 9 && h <= 16; });
+        const mx = (arr, kk) => { const v = arr.map(([, j]) => H[kk][j]).filter(v => v != null); return v.length ? Math.max(...v) : null; };
+        const md = (arr, kk) => { const v = arr.map(([, j]) => H[kk][j]).filter(v => v != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+        return [mx(cole, "nitrogen_dioxide"), mx(cole, "ozone"), md(idx, "pm10"), md(idx, "pm2_5"), mx(idx, "dust")];
+      });
+    });
+    if (Object.keys(nuevo).length !== est.length) return;
+    PRON.estaciones = nuevo; PRON.vivo = true; cacheSem.clear();
+    // solo se repinta donde se ve la previsión, y nunca mientras alguien escribe
+    if (st.vista === "hoy" && !panel.contains(document.activeElement)) { render(); dibujar(); }
+  } catch (e) { /* sin conexión o bloqueado: se usa la previsión descargada */ }
+}
+
+/* ---------- Vista: Camino al cole ---------- */
+// Red peatonal y ciclista de Madrid capital (datos del Ayuntamiento), en UTM 30N.
+// Se carga al abrir la pestaña (fichero demo_rutas.js).
+const VERDE_RED = "#4f9d6a";
+const ruta = {red: null, dirs: null, cargando: false, modo: "pie", origen: null, origenTxt: "", res: null, vista: null,
+  sug: [], ver: "sana", marcar: false, foco: null};
+const VEL = {pie: 75, bici: 230}; // metros por minuto (4,5 km/h y 14 km/h)
+function cargarRed() {
+  if (ruta.red || ruta.cargando) return;
+  ruta.cargando = true;
+  const s = document.createElement("script"); s.src = "demo_rutas.js";
+  s.onload = () => { prepararRed(window.RC_RUTAS); ruta.cargando = false; if (st.vista === "ruta") { render(); dibujar(); } };
+  s.onerror = () => { ruta.cargando = false; ruta.error = true; if (st.vista === "ruta") render(); };
+  document.head.appendChild(s);
+}
+function prepararRed(R) {
+  const n = R.nodos_x.length, T = R.tramos, m = T.length;
+  const X = Float64Array.from(R.nodos_x), Y = Float64Array.from(R.nodos_y);
+  const A = new Int32Array(m), B = new Int32Array(m), L = new Float32Array(m), V = new Float32Array(m),
+    BI = new Uint8Array(m), IMD = new Float32Array(m), AT = new Uint8Array(m), NOM = new Int32Array(m), G = new Array(m);
+  const grado = new Int32Array(n + 1);
+  T.forEach((t, i) => {
+    A[i] = t[0]; B[i] = t[1]; L[i] = t[2]; V[i] = t[3]; BI[i] = t[4]; IMD[i] = t[5]; AT[i] = Math.min(255, t[6]); NOM[i] = t[8];
+    const pts = [X[t[0]], Y[t[0]]]; let x = X[t[0]], y = Y[t[0]];
+    for (let k = 0; k < t[7].length; k += 2) { x += t[7][k]; y += t[7][k + 1]; pts.push(x, y); }
+    pts.push(X[t[1]], Y[t[1]]); G[i] = pts;
+    grado[t[0] + 1]++; grado[t[1] + 1]++;
+  });
+  for (let i = 0; i < n; i++) grado[i + 1] += grado[i];
+  const adj = new Int32Array(2 * m), pos = grado.slice(0, n);
+  for (let i = 0; i < m; i++) { adj[pos[A[i]]++] = i; adj[pos[B[i]]++] = i; }
+  const celda = 250, rej = new Map();
+  for (let i = 0; i < n; i++) { if (grado[i + 1] === grado[i]) continue; const k = Math.floor(X[i] / celda) + "," + Math.floor(Y[i] / celda); (rej.get(k) || rej.set(k, []).get(k)).push(i); }
+  // Atropellos con su posición, en una rejilla de 100 m
+  const acc = R.atropellos.map(([x, y, men, hor, grav]) => ({x, y, men, hor, grav})), rejA = new Map();
+  acc.forEach((a, i) => { const k = Math.floor(a.x / 100) + "," + Math.floor(a.y / 100); (rejA.get(k) || rejA.set(k, []).get(k)).push(i); });
+  // zonas ajardinadas como superficies, con su caja para pintar solo las visibles
+  const parques = (R.parques || []).map(d => { const pts = new Float64Array(d.length); let x = 0, y = 0, x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let k = 0; k < d.length; k += 2) { x += d[k]; y += d[k + 1]; pts[k] = x; pts[k + 1] = y; x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+    return {pts, b: [x0, y0, x1, y1]}; });
+  ruta.red = {parques, n, m, X, Y, A, B, L, V, BI, IMD, AT, NOM, G, ini: grado, adj, rej, celda, nombres: R.nombres, acc, rejA};
+  ruta.dirs = R.direcciones.map(([calle, cp, nums, xs, ys]) => ({calle, cp, nums, xs, ys, k: norm(calle)}));
+}
+function nodoCercano(x, y) {
+  const r = ruta.red; let best = -1, bd = Infinity;
+  for (let rad = 0; rad <= 4 && best < 0; rad++) {
+    const cx = Math.floor(x / r.celda), cy = Math.floor(y / r.celda);
+    for (let i = -rad; i <= rad; i++) for (let j = -rad; j <= rad; j++) {
+      for (const n of r.rej.get((cx + i) + "," + (cy + j)) || []) { const d = (r.X[n] - x) ** 2 + (r.Y[n] - y) ** 2; if (d < bd) { bd = d; best = n; } }
+    }
+  }
+  return best < 0 ? null : {n: best, d: Math.sqrt(bd)};
+}
+function costeTramo(i, modo, saludable) {
+  const r = ruta.red, l = r.L[i];
+  if (!saludable) return l;
+  const traf = Math.min(1, r.IMD[i] / 25000), atr = Math.min(1, r.AT[i] / 2), verde = r.V[i];
+  let f;
+  if (modo === "pie") f = 1 + 1.4 * traf + 0.7 * atr - 0.45 * verde;
+  else { const bici = r.BI[i], protegida = bici >= 2; f = 1 + 2 * traf * (protegida ? .35 : 1) + 0.6 * atr - 0.3 * verde - [0, .2, .4, .55][bici]; }
+  return l * Math.max(.45, f);
+}
+function dijkstra(o, d, modo, saludable) {
+  const r = ruta.red, dist = new Float64Array(r.n).fill(Infinity), prev = new Int32Array(r.n).fill(-1);
+  const heap = [[0, o]]; dist[o] = 0;
+  const push = (it) => { heap.push(it); let i = heap.length - 1; while (i > 0) { const p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; [heap[p], heap[i]] = [heap[i], heap[p]]; i = p; } };
+  const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, rr = l + 1; let s = i; if (l < heap.length && heap[l][0] < heap[s][0]) s = l; if (rr < heap.length && heap[rr][0] < heap[s][0]) s = rr; if (s === i) break; [heap[s], heap[i]] = [heap[i], heap[s]]; i = s; } } return top; };
+  while (heap.length) {
+    const [du, u] = pop();
+    if (du > dist[u]) continue;
+    if (u === d) break;
+    for (let k = r.ini[u]; k < r.ini[u + 1]; k++) {
+      const e = r.adj[k], v = r.A[e] === u ? r.B[e] : r.A[e], nd = du + costeTramo(e, modo, saludable);
+      if (nd < dist[v]) { dist[v] = nd; prev[v] = e; push([nd, v]); }
+    }
+  }
+  if (!isFinite(dist[d])) return null;
+  const tramos = [], nodos = [d]; let cur = d;
+  while (cur !== o) { const e = prev[cur]; tramos.push(e); cur = r.A[e] === cur ? r.B[e] : r.A[e]; nodos.push(cur); }
+  tramos.reverse(); nodos.reverse();
+  return analizarRuta(tramos, nodos);
+}
+/* --- Análisis del recorrido: geometría ordenada, pasos y puntos críticos --- */
+const rumbo = (x0, y0, x1, y1) => Math.atan2(x1 - x0, y1 - y0) * 180 / Math.PI; // 0 = norte, 90 = este
+function giro(d) {
+  d = ((d + 540) % 360) - 180;
+  const lado = d > 0 ? "derecha" : "izquierda", a = Math.abs(d);
+  if (a < 25) return {txt: "Sigue recto", ico: "↑"};
+  if (a < 60) return {txt: `Gira ligeramente a la ${lado}`, ico: d > 0 ? "↗" : "↖"};
+  if (a < 140) return {txt: `Gira a la ${lado}`, ico: d > 0 ? "↱" : "↰"};
+  return {txt: `Da la vuelta hacia la ${lado}`, ico: "↶"};
+}
+function puntoCardinal(b) { return ["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"][Math.round(((b + 360) % 360) / 45) % 8]; }
+function rumboFinal(pts, desdeFinal, metros = 25) {
+  // rumbo de los últimos (o primeros) metros de una polilínea [x,y,x,y…]
+  let acum = 0;
+  if (desdeFinal) {
+    const n = pts.length; let k = n - 4;
+    for (; k > 0; k -= 2) { acum += Math.hypot(pts[k + 2] - pts[k], pts[k + 3] - pts[k + 1]); if (acum >= metros) break; }
+    k = Math.max(0, k); return rumbo(pts[k], pts[k + 1], pts[n - 2], pts[n - 1]);
+  }
+  let k = 2;
+  for (; k < pts.length - 2; k += 2) { acum += Math.hypot(pts[k] - pts[k - 2], pts[k + 1] - pts[k - 1]); if (acum >= metros) break; }
+  k = Math.min(pts.length - 2, k); return rumbo(pts[0], pts[1], pts[k], pts[k + 1]);
+}
+function distPuntoPolilinea(x, y, pts) {
+  let best = Infinity;
+  for (let k = 0; k < pts.length - 2; k += 2) {
+    const ax = pts[k], ay = pts[k + 1], bx = pts[k + 2], by = pts[k + 3], dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l2)) : 0;
+    best = Math.min(best, Math.hypot(x - ax - t * dx, y - ay - t * dy));
+  }
+  return best;
+}
+function analizarRuta(tramos, nodos) {
+  const r = ruta.red;
+  // 1. Tramos orientados en el sentido de la marcha
+  const seg = tramos.map((e, i) => {
+    const g = r.G[e], alReves = r.A[e] !== nodos[i];
+    const pts = []; if (alReves) for (let k = g.length - 2; k >= 0; k -= 2) pts.push(g[k], g[k + 1]); else pts.push(...g);
+    return {e, pts, nombre: r.nombres[r.NOM[e]], long: r.L[e]};
+  });
+  // 2. Los tramos sin nombre cortos se integran en la calle contigua
+  for (let i = 0; i < seg.length; i++) if (seg[i].nombre === "camino peatonal" && seg[i].long < 60) {
+    const ant = seg[i - 1]?.nombre, sig = seg.slice(i + 1).find(s => s.nombre !== "camino peatonal" || s.long >= 60)?.nombre;
+    seg[i].nombre = ant && ant !== "camino peatonal" ? ant : sig || ant || seg[i].nombre;
+  }
+  // 3. Pasos: tramos consecutivos con el mismo nombre
+  const pasos = [];
+  for (const s of seg) {
+    const ult = pasos[pasos.length - 1];
+    if (ult && ult.nombre === s.nombre) { ult.pts.push(...s.pts.slice(2)); ult.long += s.long; ult.tramos.push(s.e); }
+    else pasos.push({nombre: s.nombre, pts: [...s.pts], long: s.long, tramos: [s.e]});
+  }
+  // pasos muy cortos (< 25 m) entre dos pasos se funden con el anterior
+  for (let i = pasos.length - 2; i > 0; i--) if (pasos[i].long < 40) { pasos[i - 1].pts.push(...pasos[i].pts.slice(2)); pasos[i - 1].long += pasos[i].long; pasos[i - 1].tramos.push(...pasos[i].tramos); pasos.splice(i, 1); }
+  for (let i = pasos.length - 1; i > 0; i--) if (pasos[i].nombre === pasos[i - 1].nombre) { pasos[i - 1].pts.push(...pasos[i].pts.slice(2)); pasos[i - 1].long += pasos[i].long; pasos[i - 1].tramos.push(...pasos[i].tramos); pasos.splice(i, 1); }
+  pasos.forEach((p, i) => {
+    const deEsta = p.tramos;
+    p.imd = Math.max(0, ...deEsta.map(e => r.IMD[e]));
+    p.verde = deEsta.reduce((a, e) => a + r.L[e] * r.V[e], 0) / Math.max(1, p.long);
+    p.bici = deEsta.reduce((a, e) => a + (r.BI[e] ? r.L[e] : 0), 0) / Math.max(1, p.long);
+    const nombre = p.nombre === "camino peatonal" ? "un camino peatonal" : p.nombre.startsWith("senda del ") ? "la " + p.nombre : p.nombre;
+    if (i === 0) { p.ico = "●"; p.txt = `Sal hacia el ${puntoCardinal(rumboFinal(p.pts, false))} por ${nombre}`; }
+    else { const g = giro(rumboFinal(p.pts, false) - rumboFinal(pasos[i - 1].pts, true)); p.ico = g.ico; p.txt = g.txt === "Sigue recto" ? `Continúa por ${nombre}` : `${g.txt} por ${nombre}`; }
+    p.criticos = [];
+  });
+  // 4. Puntos críticos: atropellos a menos de 20 m del recorrido, agrupados si están a menos de 40 m
+  const todos = pasos.flatMap(p => p.pts), cercanos = [];
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (let k = 0; k < todos.length; k += 2) { x0 = Math.min(x0, todos[k]); x1 = Math.max(x1, todos[k]); y0 = Math.min(y0, todos[k + 1]); y1 = Math.max(y1, todos[k + 1]); }
+  for (let cx = Math.floor((x0 - 20) / 100); cx <= Math.floor((x1 + 20) / 100); cx++)
+    for (let cy = Math.floor((y0 - 20) / 100); cy <= Math.floor((y1 + 20) / 100); cy++)
+      for (const i of r.rejA.get(cx + "," + cy) || []) { const a = r.acc[i]; if (distPuntoPolilinea(a.x, a.y, todos) <= 20) cercanos.push(a); }
+  const grupos = [];
+  for (const a of cercanos) {
+    const g = grupos.find(g => Math.hypot(g.x - a.x, g.y - a.y) < 40);
+    if (g) { g.n++; g.men += a.men; g.hor += a.hor; g.grav += a.grav; g.x = (g.x * (g.n - 1) + a.x) / g.n; g.y = (g.y * (g.n - 1) + a.y) / g.n; }
+    else grupos.push({tipo: "atropello", x: a.x, y: a.y, n: 1, men: a.men, hor: a.hor, grav: a.grav});
+  }
+  // Cruces de calles con mucho tráfico (> 10.000 vehículos/día) que el recorrido atraviesa
+  const enRuta = new Set(tramos), cruces = [];
+  nodos.forEach((n, i) => {
+    const prop = [tramos[i - 1], tramos[i]].filter(e => e != null);
+    if (prop.some(e => r.IMD[e] >= 10000)) return;
+    for (let k = r.ini[n]; k < r.ini[n + 1]; k++) {
+      const e = r.adj[k]; if (enRuta.has(e) || r.IMD[e] < 10000) continue;
+      const nom = r.nombres[r.NOM[e]];
+      if (!cruces.some(c => c.nombre === nom && Math.hypot(c.x - r.X[n], c.y - r.Y[n]) < 80)) cruces.push({tipo: "cruce", x: r.X[n], y: r.Y[n], nombre: nom, imd: r.IMD[e]});
+    }
+  });
+  const criticos = [...grupos, ...cruces];
+  // cada punto crítico, al paso más cercano y en orden de recorrido
+  criticos.forEach(c => {
+    let bp = 0, bd = Infinity;
+    pasos.forEach((p, i) => { const d = distPuntoPolilinea(c.x, c.y, p.pts); if (d < bd) { bd = d; bp = i; } });
+    c.paso = bp; pasos[bp].criticos.push(c);
+  });
+  criticos.sort((a, b) => a.paso - b.paso || (b.n || 0) - (a.n || 0));
+  criticos.forEach((c, i) => c.num = i + 1);
+  // Resumen
+  let long = 0, verde = 0, bici = 0, trafico = 0;
+  for (const e of tramos) { long += r.L[e]; verde += r.L[e] * r.V[e]; if (r.BI[e]) bici += r.L[e]; if (r.IMD[e] >= 10000) trafico += r.L[e]; }
+  const atr = grupos.reduce((a, g) => a + g.n, 0);
+  return {tramos, nodos, pasos, criticos, long, verde, bici, trafico, atr, bbox: [x0, y0, x1, y1]};
+}
+function utmDe(c) {
+  // lat/lon (ETRS89) a UTM 30N; error inferior a 1 m en Madrid
+  const a = 6378137, f = 1 / 298.257222101, k0 = .9996, e2 = f * (2 - f), ep2 = e2 / (1 - e2);
+  const lat = c.lat * Math.PI / 180, lon = c.lon * Math.PI / 180, lon0 = -3 * Math.PI / 180;
+  const N = a / Math.sqrt(1 - e2 * Math.sin(lat) ** 2), T = Math.tan(lat) ** 2, C = ep2 * Math.cos(lat) ** 2, A = Math.cos(lat) * (lon - lon0);
+  const M = a * ((1 - e2 / 4 - 3 * e2 ** 2 / 64 - 5 * e2 ** 3 / 256) * lat - (3 * e2 / 8 + 3 * e2 ** 2 / 32 + 45 * e2 ** 3 / 1024) * Math.sin(2 * lat) + (15 * e2 ** 2 / 256 + 45 * e2 ** 3 / 1024) * Math.sin(4 * lat) - (35 * e2 ** 3 / 3072) * Math.sin(6 * lat));
+  const x = k0 * N * (A + (1 - T + C) * A ** 3 / 6 + (5 - 18 * T + T ** 2 + 72 * C - 58 * ep2) * A ** 5 / 120) + 500000;
+  const y = k0 * (M + N * Math.tan(lat) * (A ** 2 / 2 + (5 - T + 9 * C + 4 * C ** 2) * A ** 4 / 24 + (61 - 58 * T + T ** 2 + 600 * C - 330 * ep2) * A ** 6 / 720));
+  return [x, y];
+}
+function calcularRuta() {
+  const c = st.centro;
+  if (!ruta.red || !ruta.origen || c.municipio !== "Madrid") return;
+  const [dx, dy] = utmDe(c);
+  const o = nodoCercano(ruta.origen[0], ruta.origen[1]), d = nodoCercano(dx, dy);
+  if (!o || !d) { ruta.res = {error: "No encuentro calles cerca de ese punto."}; return; }
+  ruta.vista = null; ruta.foco = null;
+  const corta = dijkstra(o.n, d.n, ruta.modo, false), sana = dijkstra(o.n, d.n, ruta.modo, true);
+  if (!corta || !sana) { ruta.res = {error: "No hay un camino continuo entre esos dos puntos en la red."}; return; }
+  ruta.res = {corta, sana, destino: [dx, dy]};
+  ruta.vista = null; ruta.foco = null;
+}
+function buscarDireccion(q) {
+  if (!ruta.dirs) return [];
+  const m = norm(q).match(/^(.*?)[\s,]*(\d+)\s*$/);
+  const texto = (m ? m[1] : norm(q)).replace(/\b(calle|c\/|avenida|avda|av|plaza|pza|paseo|de|del|la|las|los|el)\b\.?/g, " ").trim();
+  const num = m ? +m[2] : null, ts = texto.split(/\s+/).filter(Boolean);
+  if (!ts.length) return [];
+  const cand = [];
+  const nucleo = k => k.replace(/\b(calle|avenida|plaza|paseo|ronda|glorieta|camino|carretera|travesia|costanilla|cuesta|de|del|la|las|los|el)\b/g, " ").replace(/\s+/g, " ").trim();
+  for (const d of ruta.dirs) {
+    if (!ts.every(t => d.k.includes(t))) continue;
+    const nk = nucleo(d.k), tx = ts.join(" ");
+    const rango = nk === tx ? 0 : nk.startsWith(tx) ? 1 : ts.every(t => nk.split(" ").includes(t)) ? 2 : 3;
+    let i = 0, bd = 0;
+    if (num != null) { bd = Infinity; d.nums.forEach((n, k) => { const dd = Math.abs(n - num); if (dd < bd) { bd = dd; i = k; } }); }
+    cand.push([rango, nk.length, bd, d, i]);
+  }
+  // misma calle en varios códigos postales: primero el tramo con el número más cercano
+  cand.sort((a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2]);
+  const out = [];
+  for (const [, , , d, i] of cand.slice(0, 7)) {
+    out.push({txt: `${d.calle}, ${d.nums[i]} (${d.cp})`, x: d.xs[i], y: d.ys[i], exacto: num == null || d.nums[i] === num});
+  }
+  return out;
+}
+function resumenComparacion(corta, sana, extra, v) {
+  const lista = xs => xs.filter(Boolean).join(", ").replace(/, ([^,]*)$/, " y $1");
+  const bici = ruta.modo === "bici";
+  const gana = lista([
+    corta.trafico - sana.trafico > 30 ? `evita ${fmt(corta.trafico - sana.trafico, 0)} m por calles con mucho tráfico` : "",
+    sana.verde - corta.verde > 30 ? `suma ${fmt(sana.verde - corta.verde, 0)} m por parques y sendas` : "",
+    bici && sana.bici - corta.bici > 30 ? `va ${fmt(sana.bici - corta.bici, 0)} m más por vías ciclistas` : "",
+    corta.atr - sana.atr > 0 ? `pasa junto a ${corta.atr - sana.atr} ${corta.atr - sana.atr === 1 ? "atropello registrado" : "atropellos registrados"} menos` : "",
+  ]);
+  const pierde = lista([
+    sana.trafico - corta.trafico > 30 ? `recorre ${fmt(sana.trafico - corta.trafico, 0)} m más por calles con mucho tráfico` : "",
+    bici && corta.bici - sana.bici > 100 ? `va ${fmt(corta.bici - sana.bici, 0)} m menos por vías ciclistas` : "",
+    sana.atr - corta.atr > 0 ? `pasa junto a ${sana.atr - corta.atr} ${sana.atr - corta.atr === 1 ? "atropello registrado" : "atropellos registrados"} más` : "",
+  ]);
+  const coste = extra > 0 ? `añade ${fmt(extra, 0)} m (unos ${fmt(Math.max(1, extra / v), 0)} min)` : "es incluso más corta";
+  return `La ruta saludable ${coste}${gana ? ` y a cambio ${gana}` : ""}.${pierde ? ` En contra, ${pierde}.` : ""}`;
+}
+function textoCritico(c) {
+  if (c.tipo === "cruce") return `Cruce de ${c.nombre === "camino peatonal" ? "una calle" : c.nombre} (${fmt(c.imd, 0)} vehículos/día)`;
+  return `${c.n} ${c.n === 1 ? "atropello" : "atropellos"} en 2023-2025${c.men ? `, ${c.men} con menores` : ""}${c.hor ? `, ${c.hor} en horario escolar` : ""}`;
+}
+function vistaRuta() {
+  const c = st.centro;
+  if (!ruta.red) cargarRed();
+  const capital = c.municipio === "Madrid", res = ruta.res;
+  let comp = "", pasosHtml = "";
+  if (res?.error) comp = `<p class="callout">${esc(res.error)}</p>`;
+  else if (res) {
+    const {corta, sana} = res, v = VEL[ruta.modo];
+    const extra = sana.long - corta.long, misma = Math.abs(extra) < 15 && Math.abs(sana.trafico - corta.trafico) < 15;
+    const fila = (t, a, b, u = "m", mejorMenor = true) => {
+      const mejor = mejorMenor ? b < a - 1 : b > a + 1;
+      return `<tr style="cursor:default"><td style="white-space:normal">${t}</td><td class="n">${fmt(a, 0)} ${u}</td><td class="n" style="${mejor ? "color:var(--ok);font-weight:700" : ""}">${fmt(b, 0)} ${u}</td></tr>`;
+    };
+    const nCrit = r => r.criticos.length;
+    comp = `
+    <div class="grid2" style="margin-top:14px">
+      <div class="kv"><div class="k">Ruta más saludable</div><div class="v big" style="color:var(--ok)">${fmt(sana.long / v, 0)} min</div><div class="muted">${fmt(sana.long / 1000, 2)} km ${ruta.modo === "pie" ? "a pie" : "en bici"} · ${nCrit(sana)} puntos críticos</div></div>
+      <div class="kv"><div class="k">Ruta más corta</div><div class="v big">${fmt(corta.long / v, 0)} min</div><div class="muted">${fmt(corta.long / 1000, 2)} km · ${nCrit(corta)} puntos críticos</div></div>
+    </div>
+    <p class="callout">${misma ? "Aquí la ruta más corta ya es la más saludable: no hay una alternativa mejor." : resumenComparacion(corta, sana, extra, v)}</p>
+    <div class="tablewrap" style="max-height:none"><table><thead><tr><th style="cursor:default">Comparación</th><th style="cursor:default;text-align:right">Más corta</th><th style="cursor:default;text-align:right">Más saludable</th></tr></thead><tbody>
+      ${fila("Distancia", corta.long, sana.long)}
+      ${fila("Por calles con más de 10.000 vehículos/día", corta.trafico, sana.trafico)}
+      ${fila("Por parques, sendas y zonas ajardinadas", corta.verde, sana.verde, "m", false)}
+      ${ruta.modo === "bici" ? fila("Por carril bici o vía ciclista", corta.bici, sana.bici, "m", false) : ""}
+      ${fila("Atropellos registrados junto al recorrido (2023-2025)", corta.atr, sana.atr, "")}
+      ${fila("Cruces de calles con mucho tráfico", corta.criticos.filter(x => x.tipo === "cruce").length, sana.criticos.filter(x => x.tipo === "cruce").length, "")}
+    </tbody></table></div>`;
+    const R = ruta.ver === "sana" ? sana : corta;
+    pasosHtml = `
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><p class="eyebrow">Paso a paso</p>
+      <div class="seg" role="group" aria-label="Qué ruta"><button data-ver="sana" aria-pressed="${ruta.ver === "sana"}">Más saludable</button><button data-ver="corta" aria-pressed="${ruta.ver === "corta"}">Más corta</button></div></div>
+    ${R.criticos.length ? `<h3 class="h3" style="margin-top:16px">Puntos críticos del recorrido</h3>
+      <ol class="crit">${R.criticos.map(x => `<li><button data-crit="${x.num}"><span class="cnum ${x.tipo}">${x.num}</span><span>${esc(textoCritico(x))}</span></button></li>`).join("")}</ol>
+      <p class="muted" style="margin:6px 0 0">En estos puntos conviene extremar la atención y cruzar siempre por pasos regulados.</p>` : `<p class="muted" style="margin-top:10px">Sin puntos críticos registrados en este recorrido.</p>`}
+    <h3 class="h3" style="margin-top:16px">Indicaciones · ${fmt(R.long / VEL[ruta.modo], 0)} min, ${fmt(R.long / 1000, 2)} km</h3>
+    <ol class="pasos">
+      ${R.pasos.map((p, i) => `<li><button data-paso="${i}" ${ruta.foco?.paso === i ? 'aria-current="step"' : ""}><span class="pico">${p.ico}</span><span class="ptxt"><b>${esc(p.txt)}</b>
+        <span class="muted">${fmt(p.long, 0)} m${p.verde > .5 ? " · por zona verde" : ""}${ruta.modo === "bici" && p.bici > .5 ? " · con vía ciclista" : ""}${p.imd >= 10000 ? ` · calle con mucho tráfico` : ""}</span>
+        ${p.criticos.map(x => `<span class="pcrit ${x.tipo}"><span class="cnum ${x.tipo}">${x.num}</span>${esc(textoCritico(x))}</span>`).join("")}</span></button></li>`).join("")}
+      <li><button data-paso="fin"><span class="pico">■</span><span class="ptxt"><b>Llegas a ${esc(c.nombre)}</b></span></button></li>
+    </ol>
+    <p class="muted" style="margin:8px 0 0">Tiempos orientativos: a pie a 4,5 km/h, en bici a 14 km/h. Pulsa un paso o un punto crítico para verlo en el mapa. La ruta no sustituye la supervisión de un adulto en los cruces.</p>
+  </div>`;
+  }
+  return `
+  <div class="card">
+    <p class="eyebrow">Para familias · Madrid capital</p>
+    <h3 class="h3">El camino más saludable al colegio</h3>
+    <p class="lead" style="margin:4px 0 0">Escribe tu dirección y RespiraCole compara la ruta más corta con la más saludable: la que evita calles con mucho tráfico y puntos con atropellos, y aprovecha parques, sendas y carriles bici.</p>
+    <div class="school" style="margin-top:12px">${cabeceraCentro(c)}</div>
+    ${avisoPronRuta(c)}
+    ${!capital ? `<p class="callout">Este centro está en ${esc(c.municipio)}. El camino al cole funciona por ahora en Madrid capital, donde el Ayuntamiento publica su callejero, sus aceras y sendas, y los accidentes. Busca arriba un centro de la capital.</p>` : `
+    <div class="row" style="margin-top:14px"><div class="seg" role="group" aria-label="Cómo vais">
+      <button data-modo-ruta="pie" aria-pressed="${ruta.modo === "pie"}">A pie</button><button data-modo-ruta="bici" aria-pressed="${ruta.modo === "bici"}">En bici</button></div></div>
+    <label class="f" style="margin-top:12px;position:relative">Salís desde
+      <input id="rutaDir" type="search" autocomplete="off" placeholder="Calle y número, por ejemplo: Marcelo Usera 52" value="${esc(ruta.origenTxt)}" style="padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)" ${ruta.red ? "" : "disabled"}>
+      <div class="results" id="rutaSug" hidden role="listbox" style="top:100%"></div>
+    </label>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" id="rutaMarcar" aria-pressed="${ruta.marcar}" ${ruta.red ? "" : "disabled"}>${ruta.marcar ? "Haz clic en el mapa…" : "Marcar la salida en el mapa"}</button>
+      <span class="muted">${ruta.red ? "" : ruta.error ? "No se ha podido cargar la red de calles." : "Cargando la red de calles de Madrid…"}</span></div>
+    ${comp}`}
+  </div>
+  ${pasosHtml}
+  <div class="card">
+    <p class="eyebrow">Cómo se construye</p>
+    <ul class="find">
+      <li>Red de calles reconstruida a partir del callejero oficial del Ayuntamiento, más las sendas, caminos y pasarelas peatonales de la cartografía municipal y la red ciclista oficial. Los nombres de calle salen de las direcciones oficiales.</li>
+      <li>Tráfico de los aforos municipales, los 4.631 atropellos de peatones de 2023-2025 con su posición, y zonas ajardinadas, asignados a cada tramo.</li>
+      <li>Nada sale de tu navegador: la ruta se calcula en la propia página.</li>
+    </ul>
+  </div>`;
+}
+/* --- Mapa de la ruta: zoom, desplazamiento y capas --- */
+function encuadreRuta() {
+  if (ruta.vista) return ruta.vista;
+  const [dx, dy] = utmDe(st.centro);
+  let b = [dx - 900, dy - 900, dx + 900, dy + 900];
+  const ext = (x0, y0, x1, y1, m = 150) => { b = [Math.min(b[0], x0 - m), Math.min(b[1], y0 - m), Math.max(b[2], x1 + m), Math.max(b[3], y1 + m)]; };
+  const rs = ruta.res && !ruta.res.error ? [ruta.res.sana, ruta.res.corta].filter(R => R && isFinite(R.bbox[0])) : [];
+  if (rs.length) { b = [Infinity, Infinity, -Infinity, -Infinity]; for (const R of rs) ext(...R.bbox); }
+  if (ruta.origen) ext(ruta.origen[0], ruta.origen[1], ruta.origen[0], ruta.origen[1]);
+  return ruta.vista = b;
+}
+let projRuta = null, invRuta = null, escalaRuta = 1;
+const hitRuta = {acc: [], crit: [], marcas: [], visibles: []};
+function infoRuta(mx, my) {
+  // qué hay bajo el cursor en el mapa de la ruta: punto crítico, colegio o salida, atropello o calle
+  const cerca = (lista, radio) => { let best = null, bd = radio * radio; for (const q of lista) { const d = (q[0] - mx) ** 2 + (q[1] - my) ** 2; if (d <= bd) { bd = d; best = q; } } return best; };
+  let q = cerca(hitRuta.crit, 13);
+  if (q) return [q[0], q[1], `<b>Punto crítico ${q[2].num}</b><br>${esc(textoCritico(q[2]))}`];
+  q = cerca(hitRuta.marcas, 11); if (q) return q;
+  q = cerca(hitRuta.acc, 7);
+  if (q) {
+    const juntos = hitRuta.acc.filter(a => (a[0] - q[0]) ** 2 + (a[1] - q[1]) ** 2 <= 36).map(a => a[2]);
+    const n = juntos.length, men = juntos.filter(a => a.men).length, hor = juntos.filter(a => a.hor).length, grav = juntos.filter(a => a.grav).length;
+    const det = [men ? `${men} con menores implicados` : "", hor ? `${hor} en horario escolar` : "", grav ? `${grav} con heridos graves o fallecidos` : ""].filter(Boolean);
+    return [q[0], q[1], `<b>${n === 1 ? "Atropello a un peatón" : n + " atropellos a peatones"}</b><br>2023-2025${det.length ? " · " + det.join(" · ") : ""}`];
+  }
+  if (!invRuta || !ruta.red) return null;
+  const r = ruta.red, [x, y] = invRuta(mx, my), tol = 8 / escalaRuta; let be = -1, bd = tol;
+  for (const e of hitRuta.visibles) { const g = r.G[e]; if (Math.abs(g[0] - x) > r.L[e] + tol || Math.abs(g[1] - y) > r.L[e] + tol) continue; const d = distPuntoPolilinea(x, y, g); if (d < bd) { bd = d; be = e; } }
+  if (be < 0) return null;
+  const nom = r.nombres[r.NOM[be]], det = [];
+  if (r.IMD[be] >= 10000) det.push(`mucho tráfico: ${fmt(r.IMD[be], 0)} vehículos/día`); else if (r.IMD[be] > 0) det.push(`${fmt(r.IMD[be], 0)} vehículos/día`);
+  if (r.V[be] > .5) det.push("zona verde"); if (r.BI[be]) det.push("con vía ciclista"); if (r.AT[be]) det.push(`${r.AT[be]} ${r.AT[be] === 1 ? "atropello" : "atropellos"} en este tramo`);
+  return [mx, my, `<b>${esc(nom[0].toUpperCase() + nom.slice(1))}</b>${det.length ? "<br>" + esc(det.join(" · ")) : ""}`];
+}
+function tipRuta(mx, my) { const q = infoRuta(mx, my); if (!q) { tip.hidden = true; return; } tip.hidden = false; tip.style.left = q[0] + "px"; tip.style.top = q[1] + "px"; tip.innerHTML = q[2]; }
+function dibujarRuta() {
+  const rr = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(rr.width * dpr); cv.height = Math.round(rr.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const w = rr.width, h = rr.height;
+  ctx.clearRect(0, 0, w, h);
+  leyenda();
+  if (!ruta.red || st.centro.municipio !== "Madrid") {
+    ctx.fillStyle = css("--ink-2"); ctx.font = "600 14px " + css("--f-body"); ctx.textAlign = "center";
+    ctx.fillText(st.centro.municipio !== "Madrid" ? "Elige un centro de Madrid capital" : "Cargando la red de calles…", w / 2, h / 2); ctx.textAlign = "start";
+    return;
+  }
+  const r = ruta.red, [x0, y0, x1, y1] = encuadreRuta();
+  const s = Math.min(w / (x1 - x0), h / (y1 - y0)), cxm = (x0 + x1) / 2, cym = (y0 + y1) / 2;
+  escalaRuta = s;
+  projRuta = (x, y) => [w / 2 + (x - cxm) * s, h / 2 - (y - cym) * s];
+  invRuta = (px, py) => [cxm + (px - w / 2) / s, cym - (py - h / 2) / s];
+  const vx0 = cxm - w / 2 / s, vx1 = cxm + w / 2 / s, vy0 = cym - h / 2 / s, vy1 = cym + h / 2 / s;
+  ruta.vista = [vx0, vy0, vx1, vy1];
+  const dentro = g => { for (let k = 0; k < g.length; k += 2) if (g[k] >= vx0 && g[k] <= vx1 && g[k + 1] >= vy0 && g[k + 1] <= vy1) return true; return false; };
+  const linea = pts => { ctx.beginPath(); for (let k = 0; k < pts.length; k += 2) { const [px, py] = projRuta(pts[k], pts[k + 1]); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke(); };
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  const visibles = [];
+  for (let e = 0; e < r.m; e++) if (dentro(r.G[e])) visibles.push(e);
+  // --- Mapa base con aspecto de callejero: fondo, parques, calles blancas con borde y vías principales en amarillo
+  ctx.fillStyle = css("--gm-bg"); ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = css("--gm-parque");
+  for (const p of r.parques) {
+    if (p.b[2] < vx0 || p.b[0] > vx1 || p.b[3] < vy0 || p.b[1] > vy1) continue;
+    ctx.beginPath(); for (let k = 0; k < p.pts.length; k += 2) { const [px, py] = projRuta(p.pts[k], p.pts[k + 1]); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.closePath(); ctx.fill();
+  }
+  const esSenda = e => r.V[e] > .5 || r.nombres[r.NOM[e]] === "camino peatonal" || r.nombres[r.NOM[e]].startsWith("senda del ");
+  const clase = e => r.IMD[e] >= 10000 ? 2 : esSenda(e) ? 0 : 1; // 2 principal · 1 calle · 0 senda
+  const porClase = [[], [], []]; visibles.forEach(e => porClase[clase(e)].push(e));
+  const ancho = m => Math.max(1.2, Math.min(22, m * s));
+  const wCalle = ancho(9), wPpal = ancho(15), conBorde = wCalle >= 3;
+  if (conBorde) { ctx.strokeStyle = css("--gm-borde"); ctx.lineWidth = wCalle + 2; porClase[1].forEach(e => linea(r.G[e])); }
+  ctx.strokeStyle = css("--gm-ppal-borde"); ctx.lineWidth = wPpal + 2; porClase[2].forEach(e => linea(r.G[e]));
+  ctx.strokeStyle = css("--gm-via"); ctx.lineWidth = wCalle; porClase[1].forEach(e => linea(r.G[e]));
+  ctx.strokeStyle = css("--gm-ppal"); ctx.lineWidth = wPpal; porClase[2].forEach(e => linea(r.G[e]));
+  ctx.strokeStyle = css("--gm-senda"); ctx.lineWidth = Math.max(1, Math.min(3, s * 2.5)); ctx.setLineDash(s > .6 ? [5, 4] : []); porClase[0].forEach(e => linea(r.G[e])); ctx.setLineDash([]);
+  // Nombres de calle, siguiendo la dirección de la calle
+  if (s > .55) {
+    ctx.font = `${s > 1.6 ? 12 : 11}px ` + css("--f-body"); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.lineWidth = 3; ctx.strokeStyle = css("--gm-halo"); ctx.fillStyle = css("--gm-rotulo");
+    const puestos = [];
+    for (const cl of [2, 1]) for (const e of porClase[cl]) {
+      const nom = r.nombres[r.NOM[e]], txt = nom.replace(/^Calle (de |del |de la |de los |de las )?/, "");
+      const an = ctx.measureText(txt).width; if (r.L[e] * s < an + 14) continue;
+      const g = r.G[e], mid = (g.length >> 2) << 1, i0 = Math.max(0, mid - 2), i1 = Math.min(g.length - 2, mid + 2);
+      const [px, py] = projRuta(g[mid], g[mid + 1]), [ax, ay] = projRuta(g[i0], g[i0 + 1]), [bx, by] = projRuta(g[i1], g[i1 + 1]);
+      if (px < 20 || py < 12 || px > w - 20 || py > h - 12) continue;
+      if (puestos.some(([qx, qy, qn]) => Math.hypot(qx - px, qy - py) < 70 || (qn === nom && Math.hypot(qx - px, qy - py) < 260))) continue;
+      let ang = Math.atan2(by - ay, bx - ax); if (ang > Math.PI / 2) ang -= Math.PI; if (ang < -Math.PI / 2) ang += Math.PI;
+      puestos.push([px, py, nom]);
+      ctx.save(); ctx.translate(px, py); ctx.rotate(ang); ctx.strokeText(txt, 0, 0); ctx.fillText(txt, 0, 0); ctx.restore();
+    }
+    ctx.textAlign = "start"; ctx.textBaseline = "alphabetic";
+  }
+  // Atropellos (posición exacta)
+  hitRuta.acc = []; hitRuta.visibles = visibles; hitRuta.crit = []; hitRuta.marcas = [];
+  for (const a of r.acc) {
+    if (a.x < vx0 || a.x > vx1 || a.y < vy0 || a.y > vy1) continue;
+    const [px, py] = projRuta(a.x, a.y), rad = (a.men ? 4 : 2.8) * Math.min(1.6, Math.max(1, s));
+    ctx.fillStyle = css("--bad"); ctx.globalAlpha = a.men ? 1 : .7; ctx.strokeStyle = css("--gm-halo"); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(px, py, rad, 0, 7); ctx.fill(); if (s > .5) ctx.stroke();
+    hitRuta.acc.push([px, py, a]);
+  }
+  ctx.globalAlpha = 1;
+  if (ruta.res?.sana) {
+    const otra = ruta.ver === "sana" ? ruta.res.corta : ruta.res.sana, act = ruta.ver === "sana" ? ruta.res.sana : ruta.res.corta;
+    const colAct = ruta.ver === "sana" ? css("--ok") : css("--accent");
+    ctx.setLineDash([6, 5]); ctx.lineWidth = 4; ctx.strokeStyle = css("--ink-3"); otra.pasos.forEach(p => linea(p.pts)); ctx.setLineDash([]);
+    ctx.lineWidth = 8; ctx.strokeStyle = css("--surface"); act.pasos.forEach(p => linea(p.pts));
+    ctx.lineWidth = 5; ctx.strokeStyle = colAct; act.pasos.forEach(p => linea(p.pts));
+    if (ruta.foco?.paso != null && act.pasos[ruta.foco.paso]) { ctx.lineWidth = 9; ctx.strokeStyle = css("--ink"); ctx.globalAlpha = .35; linea(act.pasos[ruta.foco.paso].pts); ctx.globalAlpha = 1; }
+    // puntos críticos numerados
+    for (const c of act.criticos) {
+      const [px, py] = projRuta(c.x, c.y), rad = 10;
+      hitRuta.crit.push([px, py, c]);
+      ctx.fillStyle = c.tipo === "cruce" ? css("--warn") : css("--bad"); ctx.strokeStyle = css("--surface"); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(px, py - rad - 2); ctx.lineTo(px + rad + 1, py + rad - 2); ctx.lineTo(px - rad - 1, py + rad - 2); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "#fff"; ctx.font = "700 11px " + css("--f-body"); ctx.textAlign = "center"; ctx.fillText(String(c.num), px, py + 5); ctx.textAlign = "start";
+      if (ruta.foco?.crit === c.num) { ctx.strokeStyle = css("--ink"); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(px, py, 18, 0, 7); ctx.stroke(); }
+    }
+  }
+  const [dx, dy] = utmDe(st.centro), [cx, cy] = projRuta(dx, dy);
+  ctx.fillStyle = css("--accent"); ctx.strokeStyle = css("--surface"); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.rect(cx - 8, cy - 8, 16, 16); ctx.fill(); ctx.stroke();
+  hitRuta.marcas.push([cx, cy, `<b>${esc(st.centro.nombre)}</b><br>${esc(st.centro.categoria)} · destino`]);
+  ctx.font = "700 12px " + css("--f-body"); ctx.lineWidth = 3; ctx.strokeStyle = css("--gm-halo"); ctx.strokeText(st.centro.nombre, cx + 12, cy + 4);
+  ctx.fillStyle = css("--ink"); ctx.fillText(st.centro.nombre, cx + 12, cy + 4);
+  if (ruta.origen) {
+    const [px, py] = projRuta(ruta.origen[0], ruta.origen[1]);
+    ctx.lineWidth = 2; ctx.strokeStyle = css("--surface"); ctx.fillStyle = css("--ink"); ctx.beginPath(); ctx.arc(px, py, 8, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.lineWidth = 3; ctx.strokeStyle = css("--gm-halo"); ctx.strokeText("Salida", px + 11, py + 4); ctx.fillText("Salida", px + 11, py + 4);
+    hitRuta.marcas.push([px, py, `<b>Salida</b><br>${esc(ruta.origenTxt)}`]);
+  }
+  // Escala
+  const opciones = [50, 100, 200, 500, 1000, 2000], m = opciones.find(v => v * s >= 60) || 2000;
+  ctx.fillStyle = css("--ink-2"); ctx.font = "11px " + css("--f-body");
+  ctx.fillRect(12, h - 16, m * s, 3); ctx.fillText(m >= 1000 ? `${m / 1000} km` : `${m} m`, 12, h - 22);
+}
+function zoomRuta(factor, px, py) {
+  if (!invRuta) return;
+  const [x0, y0, x1, y1] = encuadreRuta();
+  const nw = Math.min(30000, Math.max(150, (x1 - x0) / factor)), f = (x1 - x0) / nw;
+  const [mx, my] = px == null ? [(x0 + x1) / 2, (y0 + y1) / 2] : invRuta(px, py);
+  // el punto bajo el cursor no se mueve
+  ruta.vista = [mx + (x0 - mx) / f, my + (y0 - my) / f, mx + (x1 - mx) / f, my + (y1 - my) / f];
+  dibujarRuta();
+}
+function moverRuta(dpx, dpy) {
+  const [x0, y0, x1, y1] = encuadreRuta(), dx = dpx / escalaRuta, dy = dpy / escalaRuta;
+  ruta.vista = [x0 - dx, y0 + dy, x1 - dx, y1 + dy];
+  dibujarRuta();
+}
+function enfocar(b, margen = 60) {
+  ruta.vista = [b[0] - margen, b[1] - margen, b[2] + margen, b[3] + margen];
+  dibujarRuta();
+  if (matchMedia("(max-width:980px)").matches) cv.scrollIntoView({behavior: "smooth", block: "center"});
+}
+// Gestos: arrastrar para mover, rueda o pellizco para acercar, clic para marcar la salida (si está activado)
+const gesto = {ptr: new Map(), movido: false, dist0: 0};
+cv.addEventListener("pointerdown", ev => {
+  cv.setPointerCapture(ev.pointerId); gesto.ptr.set(ev.pointerId, [ev.clientX, ev.clientY]); gesto.movido = false;
+  if (gesto.ptr.size === 2) { const [a, b] = [...gesto.ptr.values()]; gesto.dist0 = Math.hypot(a[0] - b[0], a[1] - b[1]); }
+});
+cv.addEventListener("pointermove", ev => {
+  if (!gesto.ptr.has(ev.pointerId)) return;
+  const enRuta = st.vista === "ruta";
+  const prev = gesto.ptr.get(ev.pointerId), dx = ev.clientX - prev[0], dy = ev.clientY - prev[1];
+  if (Math.abs(dx) + Math.abs(dy) > 2) gesto.movido = true;
+  gesto.ptr.set(ev.pointerId, [ev.clientX, ev.clientY]);
+  if (gesto.ptr.size === 2) {
+    const [a, b] = [...gesto.ptr.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]), rc = cv.getBoundingClientRect();
+    if (gesto.dist0) (enRuta ? zoomRuta : zoomMapa)(d / gesto.dist0, (a[0] + b[0]) / 2 - rc.left, (a[1] + b[1]) / 2 - rc.top);
+    gesto.dist0 = d;
+  } else if (gesto.movido) (enRuta ? moverRuta : moverMapa)(dx, dy);
+});
+const finGesto = ev => {
+  if (!gesto.ptr.has(ev.pointerId)) return;
+  gesto.ptr.delete(ev.pointerId); gesto.dist0 = 0;
+  if (st.vista !== "ruta") { leyenda(); return; }
+  if (!gesto.movido && ev.type === "pointerup" && !ruta.marcar) { const rc = cv.getBoundingClientRect(); tipRuta(ev.clientX - rc.left, ev.clientY - rc.top); }
+  if (!gesto.movido && ev.type === "pointerup" && ruta.marcar && invRuta) {
+    const rc = cv.getBoundingClientRect(), [x, y] = invRuta(ev.clientX - rc.left, ev.clientY - rc.top);
+    ruta.origen = [x, y]; ruta.origenTxt = "Punto marcado en el mapa"; ruta.marcar = false;
+    calcularRuta(); render(); dibujar();
+  }
+};
+cv.addEventListener("pointerup", finGesto); cv.addEventListener("pointercancel", finGesto);
+cv.addEventListener("wheel", ev => {
+  ev.preventDefault();
+  const rc = cv.getBoundingClientRect();
+  (st.vista === "ruta" ? zoomRuta : zoomMapa)(ev.deltaY < 0 ? 1.25 : 0.8, ev.clientX - rc.left, ev.clientY - rc.top);
+}, {passive: false});
+function clicRuta() { /* el clic se gestiona con los eventos de puntero */ }
+function eventosRuta() {
+  panel.querySelectorAll("[data-modo-ruta]").forEach(b => b.onclick = () => { ruta.modo = b.dataset.modoRuta; calcularRuta(); render(); dibujar(); });
+  panel.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => { ruta.ver = b.dataset.ver; ruta.foco = null; render(); dibujar(); });
+  const act = ruta.res?.sana ? (ruta.ver === "sana" ? ruta.res.sana : ruta.res.corta) : null;
+  panel.querySelectorAll("[data-paso]").forEach(b => b.onclick = () => {
+    if (!act) return;
+    if (b.dataset.paso === "fin") { const [dx, dy] = utmDe(st.centro); ruta.foco = null; enfocar([dx - 120, dy - 120, dx + 120, dy + 120], 0); return; }
+    const p = act.pasos[+b.dataset.paso]; ruta.foco = {paso: +b.dataset.paso};
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let k = 0; k < p.pts.length; k += 2) { x0 = Math.min(x0, p.pts[k]); x1 = Math.max(x1, p.pts[k]); y0 = Math.min(y0, p.pts[k + 1]); y1 = Math.max(y1, p.pts[k + 1]); }
+    if (x1 - x0 < 150) { x0 -= 100; x1 += 100; y0 -= 100; y1 += 100; }
+    panel.querySelectorAll("[data-paso]").forEach(x => x.removeAttribute("aria-current")); b.setAttribute("aria-current", "step");
+    enfocar([x0, y0, x1, y1], 80);
+  });
+  panel.querySelectorAll("[data-crit]").forEach(b => b.onclick = () => {
+    if (!act) return;
+    const c = act.criticos.find(x => x.num === +b.dataset.crit); ruta.foco = {crit: c.num};
+    enfocar([c.x - 90, c.y - 90, c.x + 90, c.y + 90], 0);
+  });
+  const mk = document.getElementById("rutaMarcar");
+  if (mk) mk.onclick = () => { ruta.marcar = !ruta.marcar; render(); };
+  const inp2 = document.getElementById("rutaDir"), sug = document.getElementById("rutaSug");
+  if (!inp2) return;
+  let selR = -1;
+  inp2.oninput = () => {
+    ruta.sug = norm(inp2.value).trim().length < 3 ? [] : buscarDireccion(inp2.value); selR = -1;
+    sug.innerHTML = ruta.sug.length ? ruta.sug.map((d, i) => `<button role="option" data-r="${i}" aria-selected="false">${esc(d.txt)}${d.exacto ? "" : "<small>Número más cercano</small>"}</button>`).join("")
+      : `<div class="muted" style="padding:10px 12px">No encuentro esa dirección en Madrid capital.</div>`;
+    sug.hidden = norm(inp2.value).trim().length < 3;
+  };
+  const elegirDir = d => { ruta.origen = [d.x, d.y]; ruta.origenTxt = d.txt; sug.hidden = true; calcularRuta(); render(); dibujar(); };
+  inp2.onkeydown = e => {
+    if (sug.hidden || !ruta.sug.length) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); selR = (selR + (e.key === "ArrowDown" ? 1 : -1) + ruta.sug.length) % ruta.sug.length; [...sug.children].forEach((b, i) => b.setAttribute("aria-selected", i === selR)); }
+    else if (e.key === "Enter") { e.preventDefault(); elegirDir(ruta.sug[Math.max(selR, 0)]); }
+    else if (e.key === "Escape") sug.hidden = true;
+  };
+  sug.onclick = e => { const b = e.target.closest("button[data-r]"); if (b) elegirDir(ruta.sug[+b.dataset.r]); };
+}
+
+document.getElementById("zMas").onclick = () => st.vista === "ruta" ? zoomRuta(1.6) : (zoomMapa(1.6), leyenda());
+document.getElementById("zMenos").onclick = () => st.vista === "ruta" ? zoomRuta(1 / 1.6) : (zoomMapa(1 / 1.6), leyenda());
+document.getElementById("zAjustar").onclick = () => { if (st.vista === "ruta") { ruta.vista = null; ruta.foco = null; dibujarRuta(); } else { mv.k = 1; mv.dx = 0; mv.dy = 0; dibujar(); leyenda(); } };
+
+/* ---------- Render y eventos ---------- */
+async function descargarCSV() {
+  const msg = document.getElementById("csvMsg"), dl = await descargas();
+  const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const filas = [["codigo", "centro", "etapa", "titularidad", "municipio", "distrito", "semaforo_hoy", "semaforo_manana_previsto", "no2_media", "pm10_media", "pm25_media", "dias_ambar_2024_25", "dias_rojo_2024_25", "fiabilidad"].join(";")];
+  for (const c of redActual) filas.push([c.codigo, c.nombre, c.categoria, c.titularidad, c.municipio, c.distrito, COLOR_TXT[semaforo(c, st.dia, "hoy").color], COLOR_TXT[semaforo(c, st.dia, "pred").color], c.no2, c.pm10, c.pm25, c.ep?.[3]?.[0], c.ep?.[3]?.[1], c.fiabilidad].map(q).join(";"));
+  try { await dl.save({filename: "RespiraCole_red.csv", data: "﻿" + filas.join("\n")}); msg.textContent = "Tabla descargada"; }
+  catch (er) { msg.textContent = er?.code === "declined" ? "Descarga cancelada" : "No se ha podido descargar"; }
+}
+function copiar(texto, el, ta) {
+  navigator.clipboard.writeText(texto).then(() => el.textContent = "Copiado").catch(() => { if (ta) ta.select(); el.textContent = "Selecciona el texto y cópialo"; });
+}
+function render() {
+  const v = st.vista;
+  panel.innerHTML = v === "hoy" ? vistaHoy() : v === "ruta" ? vistaRuta() : v === "centro" ? vistaCentro() : v === "red" ? vistaRed() : v === "equidad" ? vistaEquidad() : v === "asistente" ? vistaAsistente() : vistaApi();
+  if (v !== "red") redSet = new Set();
+  if (v !== "equidad") prioTop = new Set();
+  leyenda();
+  const $ = id => document.getElementById(id);
+  panel.querySelectorAll("[data-dia]").forEach(b => b.onclick = () => { st.dia = +b.dataset.dia; render(); dibujar(); });
+  panel.querySelectorAll("[data-capa]").forEach(b => b.onclick = () => { st.capa = b.dataset.capa; render(); dibujar(); });
+  panel.querySelectorAll("[data-pdia]").forEach(b => b.onclick = () => { st.pdia = +b.dataset.pdia; st.capa = "p" + st.pdia; render(); dibujar(); });
+  panel.querySelectorAll("[data-mio]").forEach(b => b.onclick = () => alternarMio(porCodigo.get(b.dataset.mio)));
+  panel.querySelectorAll("[data-star]").forEach(b => b.onclick = ev => { ev.stopPropagation(); alternarMio(porCodigo.get(b.dataset.star)); });
+  panel.querySelectorAll("tr[data-cod]").forEach(tr => tr.onclick = () => { st.centro = porCodigo.get(tr.dataset.cod); if (st.vista === "equidad") { render(); dibujar(); } else setVista("centro"); });
+  panel.querySelectorAll("[data-modo]").forEach(b => b.onclick = () => { st.red.modo = b.dataset.modo; render(); dibujar(); });
+  panel.querySelectorAll("th[data-orden]").forEach(th => th.onclick = () => { st.red.orden = th.dataset.orden; render(); });
+  [["redZona", "zona"], ["redEtapa", "etapa"], ["redTit", "tit"]].forEach(([id, k]) => { const el = $(id); if (el) el.onchange = () => { st.red[k] = el.value; render(); dibujar(); }; });
+  [["alCanal", "canal"], ["alCuando", "cuando"], ["alUmbral", "umbral"]].forEach(([id, k]) => { const el = $(id); if (el) el.onchange = () => { alertCfg[k] = el.value; store.set("alertas", alertCfg); render(); }; });
+  if ($("prioZona")) $("prioZona").onchange = e => { st.prio.zona = e.target.value; render(); dibujar(); };
+  PESOS.forEach(([k]) => { const el = $("w_" + k); if (!el) return;
+    el.oninput = () => { el.nextElementSibling.textContent = el.value; };
+    el.onchange = () => { st.prio.w[k] = +el.value; render(); dibujar(); document.getElementById("w_" + k)?.focus(); }; });
+  if ($("btnCSV")) $("btnCSV").onclick = descargarCSV;
+  if ($("btnInforme")) $("btnInforme").onclick = () => informePDF(st.centro);
+  if (v === "centro") dibujarCamino(st.centro);
+  if (v === "ruta") eventosRuta();
+  if ($("btnAviso")) $("btnAviso").onclick = async () => {
+    $("avisoBox").hidden = false; $("aviso").value = textoAviso(st.centro, semaforo(st.centro, st.dia));
+    const sample = await window.claude?.use?.("sample"); if (sample) $("btnAvisoIA").hidden = false;
+  };
+  if ($("btnCopiar")) $("btnCopiar").onclick = () => copiar($("aviso").value, $("copiado"), $("aviso"));
+  if ($("btnAvisoIA")) $("btnAvisoIA").onclick = async () => {
+    const sample = await window.claude?.use?.("sample"); if (!sample) return;
+    const c = st.centro, s = semaforo(c, st.dia), out = $("copiado"), ta = $("aviso"), btn = $("btnAvisoIA");
+    btn.disabled = true; out.textContent = "Redactando…";
+    try {
+      const {text} = await sample(`Redacta en español un aviso breve y tranquilizador para las familias de un centro escolar sobre la calidad del aire de hoy. Adapta el tono a la etapa del centro (${c.categoria}). No uses Markdown. Firma como «Equipo directivo de ${c.nombre}». Datos: semáforo ${COLOR_TXT[s.color]}, contaminante determinante ${s.dom ? NOMBRE[s.dom] : "ninguno"}, valores ${JSON.stringify(Object.fromEntries(Object.entries(s.conts).map(([k, v]) => [k, Math.round(v.v) + " µg/m³ (" + ICA[v.n - 1] + ")"])))}, fecha ${fechaCorta(D.dias[st.dia].fecha)}. Recomendaciones del centro: ${RECS[s.color].join(" ")}. No des consejos médicos más allá de llevar la medicación habitual.`, {onText: ({text}) => ta.value = text});
+      ta.value = text; out.textContent = "Redactado con IA. Revísalo antes de enviarlo.";
+    } catch (e) { out.textContent = e?.code === "not_granted" ? "No has permitido que la demo use Claude." : "No se ha podido redactar."; }
+    finally { btn.disabled = false; }
+  };
+  panel.querySelectorAll("[data-api]").forEach(b => b.onclick = async () => {
+    const out = $("apiOut"); out.hidden = false; out.textContent = "Cargando…";
+    try {
+      const j = await (await fetch(b.dataset.api)).json();
+      const muestra = Array.isArray(j) ? j[0] : j.type === "FeatureCollection" ? {type: j.type, total_centros: j.features.length, features: [j.features.find(f => f.properties.codigo === st.centro.codigo) || j.features[0]]} : j;
+      out.textContent = `GET ${b.dataset.api}\n\n` + JSON.stringify(muestra, null, 2);
+    } catch (e) { out.textContent = "No se ha podido cargar el recurso."; }
+  });
+  if ($("copiarMcp")) $("copiarMcp").onclick = () => copiar(MCP_CFG, $("mcpMsg"));
+  if ($("chatForm")) {
+    $("chatForm").onsubmit = e => { e.preventDefault(); const t = $("chatIn").value; $("chatIn").value = ""; preguntar(t); };
+    panel.querySelectorAll("[data-sug]").forEach(b => b.onclick = () => preguntar(b.dataset.sug));
+    if ($("chatReset")) $("chatReset").onclick = () => { chat.turnos = []; render(); };
+    if (chat.ocupado) { $("chatBtn").disabled = true; }
+    const log = $("chatLog"); if (log) log.scrollTop = log.scrollHeight;
+  }
+}
+document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.vista === st.vista));
+render(); dibujar();
+refrescarPronostico();
+refrescarVivo();
+})();
+</script>
+
+</body>
+</html>

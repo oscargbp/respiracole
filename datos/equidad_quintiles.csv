@@ -1,0 +1,6 @@
+quintil,centros,indice_renta_min,indice_renta_max,NO2_media,NO2_veces_oms,PM10_media,PM10_veces_oms,PM25_media,PM25_veces_oms,NO2_dias_supera_oms,PM10_dias_supera_oms,pct_centros_NO2_mas_del_doble_oms
+Q1 (renta más baja),667,56.8,74.2,23.1,2.31,18.2,1.22,10.3,2.06,131.0,13.0,76.3
+Q2,667,74.2,82.3,23.7,2.37,19.2,1.28,10.4,2.07,138.0,14.0,85.8
+Q3,667,82.3,101.3,22.9,2.29,18.3,1.22,9.6,1.92,129.0,14.0,81.1
+Q4,667,101.3,130.4,22.8,2.28,17.8,1.19,9.0,1.8,129.0,13.0,87.0
+Q5 (renta más alta),667,130.4,190.1,22.2,2.22,16.9,1.13,9.2,1.84,123.0,11.0,53.7

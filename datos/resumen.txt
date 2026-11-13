@@ -1,0 +1,50 @@
+RESPIRACOLE · RESUMEN DE LA PREPARACIÓN DE DATOS
+==================================================
+
+CENTROS EDUCATIVOS
+  En el directorio:                   7,757
+  En alta:                            3,906
+  Excluidos (música, idiomas, adultos, orientación, oficinas…): 536
+  Centros escolares (0-18 años y FP): 3,370
+  … con coordenadas válidas:          3,335
+  Municipios:                           155
+  Por etapa:
+    Escuela infantil (0-3)            1,227
+    Infantil y Primaria                 763
+    Infantil a Secundaria               569
+    Secundaria                          375
+    Formación Profesional               228
+    Centro extranjero                    95
+    Educación especial                   78
+  Por titularidad:
+    PÚBLICO                           1,667
+    PRIVADO                           1,095
+    PRIVADO CONCERTADO                  551
+    PÚBLICO-TITULARIDAD PRIVADA          22
+
+REDES DE CALIDAD DEL AIRE
+  Estaciones Comunidad / Ayuntamiento: 28 / 24
+  Horas de datos válidos (2021-2025):  6,177,290
+  Centros según la red de su estación de NO2 más cercana:
+    comunidad       1,937
+    ayuntamiento    1,398
+  Fiabilidad (distancia a la estación de NO2 más cercana):
+    alta    2,459  (74%)
+    media     573  (17%)
+    baja      303  (9%)
+    (alta < 3 km · media 3-8 km · baja > 8 km)
+
+MEDIAS DEL PERIODO 2021-2025 EN LAS ESTACIONES (µg/m³)
+                    mín  mediana    máx  guía OMS  límite UE
+  NO2 comun.        1.9     17.7   30.7        10         40
+  NO2 ayunt.       12.6     27.1   35.8        10         40
+  PM10 comun.       9.5     15.9   20.9        15         40
+  PM10 ayunt.      16.1     19.7   23.6        15         40
+  PM25 comun.       6.2      9.9   11.6         5         25
+  PM25 ayunt.       7.8      9.2   10.9         5         25
+  O3: días/año con máx. 8h > 100 µg/m³ (OMS): mediana 91, máx. 141
+
+CENTROS POR ENCIMA DE LA GUÍA ANUAL DE LA OMS / DEL LÍMITE DE LA UE
+  NO2    OMS  3,147 (94%)   UE     0
+  PM10   OMS  2,757 (83%)   UE     0
+  PM25   OMS  3,335 (100%)   UE     0

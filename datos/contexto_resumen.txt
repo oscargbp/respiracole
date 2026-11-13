@@ -1,0 +1,25 @@
+RESPIRACOLE · CAPAS DE CONTEXTO
+==================================================
+
+COBERTURA
+  Centros con densidad del municipio: 3,335 de 3,335
+  Centros con datos de vehículos del municipio: 3,130 de 3,335
+  Centros de la capital con densidad y zonas verdes de distrito: 1,437 de 1,442
+  Centros de la capital con un punto de aforo a < 200 m: 1,009 de 1,442
+  … junto a una calle de más de 20,000 vehículos/día: 63
+  Municipios sin dato de vehículos por flotas domiciliadas (>1.500 veh./1.000 hab.): 21
+
+RELACIÓN CON EL NO2 (correlación de Spearman; + = más de esto, más NO2)
+  Densidad del municipio (fuera de la capital)                +0.64
+  Vehículos por 1.000 hab. (fuera de la capital)              -0.43
+  % vehículos sin distintivo (fuera de la capital)            -0.25
+  Densidad del distrito (capital)                             +0.25
+  Zonas verdes por habitante (capital)                        -0.14
+  Tráfico en calles cercanas (capital)                        -0.01
+
+NOTAS
+  · La exposición al NO2 viene de la estación más cercana; la densidad y el
+    tráfico se miden en el entorno, así que sirven para explicar y contextualizar,
+    no para recalcular la exposición.
+  · El tráfico de calles cercanas no incluye autovías ni circunvalaciones estatales.
+  · El parque de vehículos se cuenta por municipio de domicilio, no de circulación.

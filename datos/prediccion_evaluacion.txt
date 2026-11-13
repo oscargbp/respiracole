@@ -1,0 +1,21 @@
+RESPIRACOLE · EVALUACIÓN DE LA PREDICCIÓN PARA MAÑANA (2025, días lectivos)
+==============================================================================
+
+Estación-días evaluados: 10,692
+  verde 78.8% · ámbar 16.4% · rojo 4.8%
+
+                              acierto     detecta   precisión     detecta
+                                color  ámbar/rojo      avisos        rojo
+  Persistencia (= hoy)          84.5%       68.6%       73.8%       52.1%
+  Modelo RespiraCole            86.0%       80.4%       72.4%       65.0%
+
+Error medio absoluto (µg/m³), días lectivos:
+  NO2    modelo    9.7   persistencia   12.2
+  O3     modelo   11.7   persistencia   13.0
+  PM10   modelo    4.3   persistencia    4.6
+  PM25   modelo    2.3   persistencia    2.5
+
+Notas:
+  · 'Detecta ámbar/rojo': de los días que acabaron en ámbar o rojo, cuántos se avisaron.
+  · 'Precisión avisos': de los avisos dados, cuántos acertaron.
+  · Sin predicción meteorológica ni de polvo: una calima repentina no se anticipa.

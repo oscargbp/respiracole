@@ -1,0 +1,21 @@
+{
+ "nombre": "RespiraCole · datos abiertos",
+ "licencia": "CC BY 4.0. Cita: RespiraCole, a partir de datos de la Comunidad de Madrid y del Ayuntamiento de Madrid.",
+ "recursos": [
+  {
+   "ruta": "api/estaciones_airquality.json",
+   "formato": "JSON (NGSI-LD key-values)",
+   "modelo": "Smart Data Models · AirQualityObserved",
+   "entidades": 51
+  },
+  {
+   "ruta": "api/centros.geojson",
+   "formato": "GeoJSON",
+   "entidades": 3335
+  }
+ ],
+ "fuentes": [
+  "https://datos.comunidad.madrid",
+  "https://datos.madrid.es"
+ ]
+}

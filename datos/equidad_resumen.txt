@@ -1,0 +1,49 @@
+RESPIRACOLE · ANÁLISIS DE EQUIDAD
+==================================================
+
+Renta: índice con la media de la Comunidad de Madrid = 100 (año 2023).
+Centros con índice de renta: 3,335 de 3,335
+  (capital por distrito: 1,437; resto por municipio)
+
+EXPOSICIÓN MEDIA POR QUINTIL DE RENTA (µg/m³; entre paréntesis, veces la guía OMS)
+                                índice           NO2          PM10         PM2,5  centros
+  Q1 (renta más baja)            57-74    23.1 (2.3x)    18.2 (1.2x)    10.3 (2.1x)      667
+  Q2                             74-82    23.7 (2.4x)    19.2 (1.3x)    10.4 (2.1x)      667
+  Q3                            82-101    22.9 (2.3x)    18.3 (1.2x)     9.6 (1.9x)      667
+  Q4                           101-130    22.8 (2.3x)    17.8 (1.2x)     9.0 (1.8x)      667
+  Q5 (renta más alta)          130-190    22.2 (2.2x)    16.9 (1.1x)     9.2 (1.8x)      667
+
+Brecha NO2 Q1 vs Q5: 23.1 vs 22.2 µg/m³ (+4%)
+Brecha PM10 Q1 vs Q5: 18.2 vs 16.9 µg/m³ (+8%)
+Centros con NO2 > doble de la guía OMS: Q1 76 % · Q5 54 %
+
+CORRELACIÓN DE SPEARMAN ENTRE RENTA Y EXPOSICIÓN (negativa = menos renta, más contaminación)
+  Toda la Comunidad           NO2 -0.09  PM10 -0.23  PM25 -0.53
+  Madrid capital (distritos)  NO2 -0.30  PM10 -0.50  PM25 -0.37
+  Resto de municipios         NO2 -0.31  PM10 -0.38  PM25 -0.53
+
+MADRID CAPITAL: LOS 5 DISTRITOS CON MENOS Y MÁS RENTA
+  distrito                índice     NO2    PM10  centros
+  Puente de Vallecas          67    28.5    20.0       90
+  Usera                       68    34.8    19.6       57
+  Villaverde                  68    32.7    20.4       64
+  Carabanchel                 75    29.8    20.9       92
+  Latina                      84    24.2    20.6       93
+  Retiro                     150    21.3    18.6       46
+  Moncloa-Aravaca            155    22.4    17.9       93
+  Chamberí                   163    26.7    19.4       64
+  Salamanca                  166    29.7    19.5       40
+  Chamartín                  179    28.2    19.1      100
+
+NO2 MEDIO POR TITULARIDAD DENTRO DE CADA QUINTIL
+                                     PRIVADO  PRIVADO CONCERTADO             PÚBLICO
+  Q1 (renta más baja)                   23.1                27.7                22.1
+  Q2                                    23.9                24.4                23.5
+  Q3                                    23.6                24.0                22.2
+  Q4                                    22.6                24.5                22.1
+  Q5 (renta más alta)                   22.1                24.5                20.6
+
+LIMITACIONES
+  · Cada centro cuenta igual: no hay datos públicos de alumnado por centro.
+  · La renta es la del municipio o distrito, no la de las familias del centro.
+  · La exposición es la de la estación más cercana, no una medición en el centro.

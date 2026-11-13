@@ -1,0 +1,53 @@
+codigo,municipio,zona,tipo_area,tipo_estacion,direccion,utm_x,utm_y,lat,lon,altitud,mide_NO2,mide_PM10,mide_PM25,mide_O3,red
+28005002,Alcalá de Henares,2.Aglomeración Corredor del Henares,Urbana,Tráfico,Avda del Ejército,467965.058623168,4481028.73857262,40.479328,-3.377949,595,True,True,True,True,comunidad
+28006004,Alcobendas,2.Aglomeración Corredor del Henares,Urbana,Tráfico,"C/ Pintor Murillo, Parque de Andalucía",445357.815748701,4487933.69635792,40.540351,-3.645253,688,True,True,False,True,comunidad
+28007004,Alcorcón,3.Aglomeración Urbana Sur,Urbana,Fondo,"Avda del Oeste, Colegio Blas de Otero",429018.574399195,4466042.02832162,40.341909,-3.835735,693,True,False,True,True,comunidad
+28009001,Algete,2.Aglomeración Corredor del Henares,Suburbana,Fondo,c/Humilladero con c/ Francisco Quevedo,457417.815238287,4494456.47969294,40.599819444,-3.503286111,800,True,False,True,True,comunidad
+28013002,Aranjuez,3.Aglomeración Urbana Sur,Suburbana,Fondo,C/ Moreras,449541.688520274,4431617.60790873,40.033272,-3.591411,501,True,True,False,True,comunidad
+28014002,Arganda del Rey,2.Aglomeración Corredor del Henares,Urbana,Industrial,C/Rio Tajuña,461006.627319225,4461233.21674137,40.300694444,-3.458830556,586,True,True,False,False,comunidad
+28047002,Collado-Villalba,4.Aglomeración Urbana Noroeste,Urbana,Tráfico,C/Santa Teresa de Jesús 12 (CP. Rosa Chacel),414228.06548281,4498522.16746154,40.633089,-4.01425,873,True,False,True,True,comunidad
+28045002,Colmenar Viejo,4.Aglomeración Urbana Noroeste,Urbana,Tráfico,C/ Molino de Viento,434587.714655815,4501818.86970001,40.664649,-3.773865,905,True,True,False,True,comunidad
+28049003,Coslada,2.Aglomeración Corredor del Henares,Urbana,Tráfico,Avda. José Gárate (Polideportivo Mun),453987.793598699,4475699.33319179,40.4306602,-3.5424609,621,True,True,True,True,comunidad
+28016001,El Atazar,5.Zona Rural Sierra Norte,Rural,Fondo,Instalaciones Canal Isabel II,460594.535691865,4528762.80615414,40.909019444,-3.467902778,995,True,True,True,True,comunidad
+28058004,Fuenlabrada,3.Aglomeración Urbana Sur,Urbana,Industrial,"C/ Grecia, Nº 3   (trasera)",431912.698719572,4459309.98360696,40.281505,-3.800946,699,True,True,False,True,comunidad
+28065014,Getafe,3.Aglomeración Urbana Sur,Urbana,Tráfico,C.E.I:P. Mariana Pineda ubicado en Avda,439088.890056246,4462919.68451432,40.314577,-3.716879,667,True,True,True,True,comunidad
+28067001,Guadalix de la Sierra,5.Zona Rural Sierra Norte,Rural,Fondo,Camino de Chozas S/N,440752.773189535,4514642.87103148,40.780633333,-3.702147222,853,True,True,False,True,comunidad
+28127004,Las Rozas,4.Aglomeración Urbana Noroeste,Suburbana,Tráfico,"Centro de Juventud. Av. Ntra. Señora del Retamar, 8",424961.375272987,4483702.30416666,40.500639,-3.885583,718,True,True,False,True,comunidad
+28074007,Leganés,3.Aglomeración Urbana Sur,Urbana,Tráfico,C/ Roncal,435915.459173287,4465741.73403295,40.339762,-3.754508,676,True,True,True,True,comunidad
+28080003,Majadahonda,4.Aglomeración Urbana Noroeste,Suburbana,Fondo,C/ Isaac Albéniz (campo de golf),426307.39998834,4477634.73029546,40.446102778,-3.868994444,360,True,True,False,True,comunidad
+28092005,Móstoles,3.Aglomeración Urbana Sur,Suburbana,Fondo,Parque Liana,425513.695342802,4464112.84774782,40.324225,-3.876772,660,True,True,False,True,comunidad
+28102001,Orusco del Tajuña,7.Zona Rural Cuenca del Tajuña,Rural,Fondo,Repetidor de Telefonía,481206.839628338,4459697.31401655,40.287555556,-3.221094444,800,True,True,False,True,comunidad
+28106001,Parla,3.Aglomeración Urbana Sur,Suburbana,Tráfico,"Calle Villafranca de los Caballeros, 25 (recinto de la Policía Local de Parla).",434390.949705013,4455337.53173641,40.245917,-3.771389,648,True,False,True,True,comunidad
+28115003,Pozuelo de Alarcón,4.Aglomeración Urbana Noroeste,Suburbana,Tráfico,"Avenida de Juan XXIII, 6-8.",431480.433421585,4477642.03233645,40.446611,-3.808,690,True,False,True,True,comunidad
+28120001,Rascafría,5.Zona Rural Sierra Norte,Rural,Fondo,"Centro de Visitantes de Peñalara Ctra. M-604 Km. 42 28740 Rascafría, Madrid",418947.736909365,4519786.28765355,40.8251,-3.9612,1870,True,True,True,True,comunidad
+28123002,Rivas Vaciamadrid,2.Aglomeración Corredor del Henares,Suburbana,Fondo,"C/ Juncal (Polideportivo ""Cerro del Telégrafo"")",453901.94864822,4467823.69527969,40.359705556,-3.542902778,608,True,True,False,True,comunidad
+28133002,San Martín de Valdeiglesias,6.Zona Rural Cuenca del Alberche,Rural,Fondo,c/ Depósito s/n,381297.953242837,4469514.22860083,40.367758333,-4.398116667,549,True,True,False,True,comunidad
+28134002,San Sebastián de los Reyes,2.Aglomeración Corredor del Henares,Suburbana,Fondo,"Polideportivo Municipal Dehesa Boyal (junto al Centro de Naturaleza); Avda. Navarrondan, s/n.",446193.113944251,4491188.03690253,40.569722,-3.635667,672,True,True,False,True,comunidad
+28148004,Torrejón de Ardoz,2.Aglomeración Corredor del Henares,Suburbana,Fondo,Parque del Ocio,459496.913558231,4477763.34787471,40.449541,-3.477645,597,True,True,True,True,comunidad
+28161001,Valdemoro,3.Aglomeración Urbana Sur,Suburbana,Fondo,Colegio Publico Pedro Antonio de Alarcón,442089.765825126,4448539.32118255,40.185241,-3.680265,615,True,False,True,True,comunidad
+28171001,Villa del Prado,6.Zona Rural Cuenca del Alberche,Rural,Fondo,"Hospital ""Virgen de la Poveda""",391546.773316603,4456056.19924181,40.247937,-4.27515,510,True,True,True,True,comunidad
+28180001,Villarejo de Salvanés,7.Zona Rural Cuenca del Tajuña,Suburbana,Tráfico,C/Luis de Requesens Nº1-3,476449.790090476,4446354.79760062,40.167227778,-3.276569444,764,True,False,True,True,comunidad
+28079004,Madrid,MADRID,Urbana,Urbana tráfico,Plaza de España (Plaza de España),439579.3291,4475049.263,40.4238823,-3.7122567,637,True,False,False,False,ayuntamiento
+28079008,Madrid,MADRID,Urbana,Urbana tráfico,Escuelas Aguirre (Entre C/ Alcalá y C/ O’ Donell),442117.2366,4474770.696,40.4215533,-3.6823158,672,True,True,True,True,ayuntamiento
+28079011,Madrid,MADRID,Urbana,Urbana tráfico,Ramón y Cajal (Avda. Ramón y Cajal  esq. C/ Príncipe de Vergara),442564.0457,4478088.595,40.4514734,-3.6773491,709,True,False,False,False,ayuntamiento
+28079016,Madrid,MADRID,Urbana,Urbana fondo,Arturo Soria (C/ Arturo Soria  esq. C/  Vizconde de los Asilos),445786.1729,4476796.019,40.4400457,-3.6392422,695,True,False,False,True,ayuntamiento
+28079017,Madrid,MADRID,Urbana,Urbana fondo,Villaverde (C/ Juan Peñalver),439420.7015,4466532.455,40.347147,-3.7133167,601,True,False,False,True,ayuntamiento
+28079018,Madrid,MADRID,Urbana,Urbana fondo,Farolillo (C/ Farolillo - C/ Ervigio),437891.6961,4471832.769,40.3947825,-3.7318356,625,True,True,False,True,ayuntamiento
+28079024,Madrid,MADRID,Urbana,Suburbana,Casa de Campo (Casa de Campo  (Terminal del Teleférico)),436598.5637,4474571.618,40.4193577,-3.7473445,645,True,True,True,True,ayuntamiento
+28079027,Madrid,MADRID,Urbana,Urbana fondo,"Barajas Pueblo (C/ Júpiter, 21)",450835.2026,4480854.172,40.4769179,-3.5800258,619,True,False,False,True,ayuntamiento
+28079035,Madrid,MADRID,Urbana,Urbana fondo,Plaza del Carmen (Plaza del Carmen esq. Tres Cruces),440346.3619,4474524.357,40.4192091,-3.7031662,660,True,False,False,True,ayuntamiento
+28079036,Madrid,MADRID,Urbana,Urbana tráfico,Moratalaz (Avda. Moratalaz  esq. Camino de los Vinateros),445245.513,4473237.349,40.4079517,-3.6453104,671,True,True,False,False,ayuntamiento
+28079038,Madrid,MADRID,Urbana,Urbana tráfico,Cuatro Caminos (Avda. Pablo Iglesias esq. C/ Marqués de Lema),440033.4632,4477450.211,40.4455439,-3.7071303,699,True,True,True,False,ayuntamiento
+28079039,Madrid,MADRID,Urbana,Urbana tráfico,Barrio del Pilar (Avda. Betanzos esq. C/  Monforte de Lemos),439689.0496,4481081.619,40.4782322,-3.7115364,675,True,False,False,True,ayuntamiento
+28079040,Madrid,MADRID,Urbana,Urbana fondo,Vallecas (C/ Arroyo del Olivar  esq. C/  Río Grande.),444701.6871,4471043.01,40.3881478,-3.6515286,678,True,True,False,False,ayuntamiento
+28079047,Madrid,MADRID,Urbana,Urbana fondo,Méndez Álvaro (C/ Juan de Mariana / Plaza Amanecer Méndez Álvaro),441715.4303,4472170.249,40.3980991,-3.6868138,600,True,True,True,False,ayuntamiento
+28079048,Madrid,MADRID,Urbana,Urbana tráfico,Castellana (C/ José Gutiérrez Abascal),441449.6341,4476811.42,40.4398904,-3.6903729,678,True,True,True,False,ayuntamiento
+28079049,Madrid,MADRID,Urbana,Urbana fondo,Parque del Retiro (Paseo Venezuela- Palacio de Velázquez),442095.52,4473981.74,40.4144444,-3.6824999,658,True,False,False,True,ayuntamiento
+28079050,Madrid,MADRID,Urbana,Urbana tráfico,Plaza Castilla (Plaza Castilla (Canal)),441609.9474,4479662.346,40.4655841,-3.6887449,730,True,True,True,False,ayuntamiento
+28079054,Madrid,MADRID,Urbana,Urbana fondo,Ensanche de Vallecas (Avda. La Gavia / Avda. Las Suertes),448033.2263,4469339.044,40.3730118,-3.6121394,628,True,False,False,True,ayuntamiento
+28079055,Madrid,MADRID,Urbana,Urbana fondo,Urb. Embajada (C/ Riaño (Barajas)),450778.8839,4479238.863,40.4623628,-3.5805649,614,True,True,False,False,ayuntamiento
+28079056,Madrid,MADRID,Urbana,Urbana tráfico,Plaza Elíptica (Plaza Elíptica - Avda. Oporto),438991.9161,4470741.548,40.3850336,-3.7187679,605,True,True,True,False,ayuntamiento
+28079057,Madrid,MADRID,Urbana,Urbana fondo,Sanchinarro (C/ Princesa de Éboli esq. C/ María Tudor),444026.808,4482820.581,40.4942012,-3.6605173,700,True,True,True,False,ayuntamiento
+28079058,Madrid,MADRID,Urbana,Suburbana,El Pardo (Avda. La Guardia),434381.6,4485548.7,40.5180701,-3.7746101,611,True,False,False,True,ayuntamiento
+28079059,Madrid,MADRID,Urbana,Suburbana,Juan Carlos I (Parque Juan Carlos I (frente oficinas mantenimiento)),448367.6,4479563.83,40.465144,-3.609031,660,True,False,False,True,ayuntamiento
+28079060,Madrid,MADRID,Urbana,Urbana fondo,Tres Olivos (Plaza Tres Olivos),441556.7005,4483543.994,40.5005477,-3.6897308,709,True,True,False,True,ayuntamiento
