@@ -127,6 +127,9 @@ extras/    Funciones desarrolladas y retiradas para mantener el foco del proyect
 - **El camino al cole solo cubre Madrid capital**, donde el Ayuntamiento publica callejero, cartografía y accidentes. El tráfico solo se conoce en las calles con punto de aforo.
 - **No es un consejo médico.** Las recomendaciones siguen las pautas generales del Índice de Calidad del Aire.
 
+- <img width="1952" height="979" alt="image" src="https://github.com/user-attachments/assets/1543cf6f-06d0-4054-8cc9-08e1514f8e43" />
+
+
 ## Licencia
 
 Código bajo licencia [MIT](LICENSE). Los datos pertenecen a sus fuentes y se reutilizan según las condiciones de cada portal, citando su origen.
